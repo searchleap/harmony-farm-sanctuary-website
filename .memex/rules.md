@@ -331,44 +331,230 @@ This setup works seamlessly with:
 
 ## CRITICAL: Non-Interactive Environment Guidelines
 
-### IMPORTANT: Commands in Non-Interactive Environments
+### ⚠️ ABSOLUTELY FORBIDDEN COMMANDS ⚠️
 
-You can ONLY execute non-interactive terminal commands given the constraints of the environment you are in. You MUST follow these strict guidelines:
+**YOU MUST NEVER USE THESE INTERACTIVE COMMANDS IN ANY CIRCUMSTANCE:**
 
-1. **NEVER use interactive commands** that prompt for user input:
-   - ❌ `npm create vite@latest .` (with or without flags)
-   - ❌ `npx create-react-app my-app`
-   - ❌ Any command that presents choices or confirmations
+```bash
+# ❌ FORBIDDEN - These will fail in non-interactive environments
+npm create vite@latest .
+npm create vite@latest . -- --template react-ts
+npx create-react-app .
+npx create-next-app@latest .
+yarn create vite
+pnpm create vite
+npm init
+yarn init
+```
 
-2. **ALWAYS provide all command flags upfront**:
-   - ✅ `npm init -y` (instead of `npm init`)
-   - ✅ Use `--yes`, `-y`, `--force`, or equivalent flags to skip prompts
+### ✅ MANDATORY: Manual React/TypeScript Project Bootstrap
 
-3. **Use manual setup approaches instead of generators**:
-   - Create project structure manually when generators require interaction
-   - Set up configuration files directly via file editing rather than through interactive CLI tools
-   - Install packages explicitly with exact version numbers
+**When setting up a React/TypeScript project, you MUST follow this EXACT sequence:**
 
-4. **Script creation sequence for web projects**:
-   1. First, initialize a basic package with `npm init -y`
-   2. Install core dependencies manually
-   3. Create directory structure with `mkdir -p`
-   4. Create configuration files via editor tools
-   5. Build components one by one
-   6. Start the server with background process (`&`) when ready
+#### Step 1: Initialize Package Manually
+```bash
+# Create package.json with non-interactive flag
+npm init -y
 
-5. **Handling build/run commands**:
-   - Start development servers as background processes: `npm run dev &`
-   - When opening browsers: `npm run dev & sleep 5 && open http://localhost:XXXX`
-   - Use `sleep` to allow server startup time before further commands
+# Create directory structure
+mkdir -p src/components src/types public
+```
 
-6. **Error prevention and recovery**:
-   - Check if files/directories exist before creating them
-   - Use conditional execution (`&&`, `||`) to handle failures
-   - Implement proper cleanup in case of failure
+#### Step 2: Install Dependencies Manually
+```bash
+# Install React and TypeScript dependencies
+npm install react@^18.2.0 react-dom@^18.2.0
 
-7. **Documentation requirements**:
-   - Document all manual setup steps clearly in README
-   - Include explicit instructions for common development tasks
+# Install development dependencies
+npm install -D @types/react@^18.2.0 @types/react-dom@^18.2.0 typescript@~5.0.0 @vitejs/plugin-react@^4.0.0 vite@^4.4.0
 
-**Remember**: In non-interactive environments, commands MUST be completely autonomous without requiring any user input during execution.
+# Install styling dependencies
+npm install -D tailwindcss@^3.4.17 postcss@^8.4.0 autoprefixer@^10.4.0
+
+# Install UI/utility dependencies
+npm install lucide-react@latest @tanstack/react-query@latest framer-motion@latest
+```
+
+#### Step 3: Create Configuration Files Manually
+
+**You MUST create these files using the file editor, NOT interactive commands:**
+
+1. **tsconfig.json**:
+```json
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true
+  },
+  "include": ["src"],
+  "references": [{ "path": "./tsconfig.node.json" }]
+}
+```
+
+2. **tsconfig.node.json**:
+```json
+{
+  "compilerOptions": {
+    "composite": true,
+    "skipLibCheck": true,
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "allowSyntheticDefaultImports": true
+  },
+  "include": ["vite.config.ts"]
+}
+```
+
+3. **vite.config.ts**:
+```typescript
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+
+export default defineConfig({
+  plugins: [react()],
+})
+```
+
+4. **tailwind.config.js**:
+```javascript
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
+  ],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+}
+```
+
+5. **postcss.config.js**:
+```javascript
+export default {
+  plugins: {
+    tailwindcss: {},
+    autoprefixer: {},
+  },
+}
+```
+
+6. **index.html**:
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite + React + TS</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+```
+
+#### Step 4: Create Source Files Manually
+
+1. **src/main.tsx**:
+```typescript
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import App from './App.tsx'
+import './index.css'
+
+ReactDOM.createRoot(document.getElementById('root')!).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+)
+```
+
+2. **src/App.tsx**:
+```typescript
+import React from 'react'
+
+function App() {
+  return (
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+      <h1 className="text-4xl font-bold text-gray-900">Hello World</h1>
+    </div>
+  )
+}
+
+export default App
+```
+
+3. **src/index.css**:
+```css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  margin: 0;
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+```
+
+#### Step 5: Update package.json Scripts
+
+**Manually edit package.json to add these scripts:**
+```json
+{
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview"
+  }
+}
+```
+
+#### Step 6: Start Development Server
+
+```bash
+# Start server in background to avoid blocking
+npm run dev &
+
+# Wait for server to start, then open browser
+sleep 3 && open http://localhost:5173
+```
+
+### 🚨 ENFORCEMENT RULES 🚨
+
+1. **NEVER EVER** use `npm create`, `npx create`, `yarn create`, or `pnpm create` commands
+2. **ALWAYS** use `npm init -y` instead of `npm init`
+3. **ALWAYS** create configuration files manually using the file editor
+4. **ALWAYS** install packages with explicit version numbers when possible
+5. **ALWAYS** start development servers with `&` to run in background
+6. **VERIFY** setup works by running `npm run build` before considering setup complete
+
+### Error Prevention
+
+- Check if files exist before creating them: `[ -f filename ] || touch filename`
+- Use conditional execution: `npm install || echo "Install failed"`
+- Create directories safely: `mkdir -p src/components`
+- Handle background processes: `npm run dev & sleep 3`
+
+**REMEMBER: In non-interactive environments, ALL commands must run without ANY user input or confirmation prompts.**
