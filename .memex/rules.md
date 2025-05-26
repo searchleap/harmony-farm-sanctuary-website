@@ -328,3 +328,47 @@ This setup works seamlessly with:
 - React Query for state management
 - Responsive design patterns
 - TypeScript strict mode
+
+## CRITICAL: Non-Interactive Environment Guidelines
+
+### IMPORTANT: Commands in Non-Interactive Environments
+
+You can ONLY execute non-interactive terminal commands given the constraints of the environment you are in. You MUST follow these strict guidelines:
+
+1. **NEVER use interactive commands** that prompt for user input:
+   - ❌ `npm create vite@latest .` (with or without flags)
+   - ❌ `npx create-react-app my-app`
+   - ❌ Any command that presents choices or confirmations
+
+2. **ALWAYS provide all command flags upfront**:
+   - ✅ `npm init -y` (instead of `npm init`)
+   - ✅ Use `--yes`, `-y`, `--force`, or equivalent flags to skip prompts
+
+3. **Use manual setup approaches instead of generators**:
+   - Create project structure manually when generators require interaction
+   - Set up configuration files directly via file editing rather than through interactive CLI tools
+   - Install packages explicitly with exact version numbers
+
+4. **Script creation sequence for web projects**:
+   1. First, initialize a basic package with `npm init -y`
+   2. Install core dependencies manually
+   3. Create directory structure with `mkdir -p`
+   4. Create configuration files via editor tools
+   5. Build components one by one
+   6. Start the server with background process (`&`) when ready
+
+5. **Handling build/run commands**:
+   - Start development servers as background processes: `npm run dev &`
+   - When opening browsers: `npm run dev & sleep 5 && open http://localhost:XXXX`
+   - Use `sleep` to allow server startup time before further commands
+
+6. **Error prevention and recovery**:
+   - Check if files/directories exist before creating them
+   - Use conditional execution (`&&`, `||`) to handle failures
+   - Implement proper cleanup in case of failure
+
+7. **Documentation requirements**:
+   - Document all manual setup steps clearly in README
+   - Include explicit instructions for common development tasks
+
+**Remember**: In non-interactive environments, commands MUST be completely autonomous without requiring any user input during execution.
