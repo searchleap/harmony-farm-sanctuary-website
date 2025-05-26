@@ -1,12 +1,6 @@
-# Lovable Memex Template
+# Beautiful React Website Template
 
 A template repository containing comprehensive guidelines and prompts for building modern React/TypeScript web applications with Memex AI assistant.
-
-## Contents
-
-- **lovable_original_prompt.txt** - Original Lovable AI prompt template
-- **lovable_project_prompt.md** - Enhanced project guidelines for React/TypeScript development with Memex
-- **acmf-propulsion/** - Example project demonstrating the guidelines in action
 
 ## Features
 
