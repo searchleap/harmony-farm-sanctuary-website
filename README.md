@@ -41,9 +41,6 @@ This template is optimized for use with Memex AI assistant. The guidelines help 
 - Efficient debugging with extensive logging
 - Beautiful, responsive designs by default
 
-## Example Project
-
-See the `acmf-propulsion/` directory for a complete example application built following these guidelines.
 
 ---
 
