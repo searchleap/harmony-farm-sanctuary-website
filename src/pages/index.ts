@@ -1,0 +1,10 @@
+// Pages Export
+export { HomePage } from './Home'
+export { AboutPage } from './About'
+export { AnimalsPage } from './Animals'
+export { VolunteerPage } from './Volunteer'
+export { EventsPage } from './Events'
+export { ShopPage } from './Shop'
+export { LearnPage } from './Learn'
+export { ContactPage } from './Contact'
+export { DonatePage } from './Donate'
