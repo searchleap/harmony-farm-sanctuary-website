@@ -1,0 +1,317 @@
+# Harmony Farm Sanctuary Website Development PRD
+
+## Overview
+Harmony Farm Sanctuary requires a complete website revamp to create a best-in-class online presence that rivals top-tier nonprofit and agency websites. The new site will showcase the sanctuary's mission and animals with a modern, engaging design while providing comprehensive functionality for donations, animal sponsorship, volunteer recruitment, merchandise sales, and educational content.
+
+The project aims to:
+- Emotionally engage visitors through storytelling and rich media
+- Provide comprehensive functionality for donations, sponsorships, and volunteer recruitment
+- Deliver a visually stunning, accessible, and mobile-responsive design
+- Optimize for SEO and AI-driven search engines
+- Implement a modern, scalable React/TypeScript architecture
+
+Target audience includes local community members, donors nationwide, educators/parents, and general animal lovers/advocates.
+
+## Core Features
+
+### 1. Animal Profiles System
+Individual profile pages for each animal under the sanctuary's care, featuring:
+- Personal stories and rescue narratives
+- Photo galleries and potentially video content
+- Categorization by species (cows, pigs, goats, etc.)
+- Integrated sponsorship calls-to-action
+- Updates and timeline features for ongoing care
+
+### 2. Donation & Sponsorship Platform
+Secure, user-friendly donation system supporting:
+- One-time and recurring donations
+- Animal-specific sponsorship programs
+- Multiple payment methods (credit cards, PayPal, Apple Pay, Google Pay)
+- Campaign progress indicators and goal tracking
+- Automated thank-you emails and receipts
+- Transparency features showing donation impact
+
+### 3. Volunteer Management System
+Comprehensive volunteer recruitment and engagement features:
+- Volunteer opportunity descriptions and requirements
+- Online application forms with data collection
+- Volunteer resource center and handbook access
+- Event calendar integration for volunteer activities
+- Testimonials and volunteer spotlights
+
+### 4. Events Calendar & Tours
+Event management system featuring:
+- Upcoming events listing with filtering capabilities
+- Detailed event pages with RSVP/registration
+- Recurring event support (regular tours, volunteer days)
+- Calendar integration (iCal/Google Calendar)
+- Past event galleries and highlights
+
+### 5. E-commerce Integration (Merchandise Store)
+Print-on-demand merchandise store with:
+- Product catalog with high-quality images
+- Shopping cart and secure checkout
+- Printful integration for fulfillment
+- Inventory management and order tracking
+- Product customization options
+
+### 6. Content Management System
+Robust content platform including:
+- Educational resource library
+- Blog/news system with categorization
+- FAQ section with search functionality
+- Success stories and rescue narratives
+- About Us section with team profiles
+
+## User Experience
+
+### User Personas
+1. **Local Community Members**: Interested in visiting, volunteering, or attending events
+2. **National Donors**: Support the sanctuary financially from anywhere
+3. **Educators/Parents**: Seeking educational content about animal welfare
+4. **Animal Advocates**: Passionate about animal rights and sanctuary work
+
+### Key User Flows
+1. **Visitor Discovery**: Homepage → Animal Profiles → Donation/Sponsorship
+2. **Volunteer Journey**: Volunteer Page → Application Form → Confirmation
+3. **Donor Path**: Donation Page → Payment Processing → Thank You/Receipt
+4. **Shopper Experience**: Shop → Product Selection → Cart → Checkout
+5. **Educational Journey**: Learn Section → Resource Content → Newsletter Signup
+
+### UI/UX Considerations
+- Mobile-first responsive design
+- Accessibility compliance (WCAG 2.1 AA)
+- Fast loading times and optimized images
+- Intuitive navigation with clear calls-to-action
+- Emotional storytelling through visual design
+- Interactive elements and micro-animations
+
+## Technical Architecture
+
+### Frontend
+- **Framework**: React 18+ with TypeScript
+- **Build Tool**: Vite for fast development and optimized builds
+- **Styling**: Tailwind CSS for responsive, utility-first design
+- **State Management**: React Query for server state, Context API for global state
+- **Animation**: Framer Motion for smooth animations
+- **Icons**: Lucide React for consistent iconography
+
+### Backend (Future Phase)
+- **API Framework**: FastAPI (Python) for high-performance API endpoints
+- **Database**: PostgreSQL for relational data storage
+- **Authentication**: JWT-based authentication for admin features
+- **File Storage**: Cloud storage for images and media
+- **Payment Processing**: Stripe integration for secure payments
+
+### Third-Party Integrations
+- **Donations**: Donorbox or Stripe for payment processing
+- **Merchandise**: Printful API for print-on-demand fulfillment
+- **Email**: Email service provider for automated communications
+- **Analytics**: Google Analytics 4 for user behavior tracking
+- **Maps**: Google Maps for location services
+
+### SEO & Performance
+- Server-side rendering considerations
+- Schema markup implementation
+- Image optimization and lazy loading
+- Core Web Vitals optimization
+- Semantic HTML structure
+
+## Development Roadmap
+
+### Phase 1: Foundation & Basic Frontend (MVP)
+**Objective**: Establish project structure and create a functional, beautiful homepage
+
+Core Components:
+- Project setup with React/TypeScript/Vite
+- Basic navigation and routing
+- Responsive homepage with hero section
+- Navigation menu with mobile hamburger
+- Footer with essential links and contact info
+- Basic color scheme and typography system
+
+Deliverables:
+- Fully configured development environment
+- Working homepage with modern design
+- Mobile-responsive navigation
+- Git repository with proper commit history
+
+### Phase 2: Core Content Pages
+**Objective**: Implement essential informational pages
+
+Features:
+- About Us section with mission and team
+- Meet the Animals landing page with grid layout
+- Individual animal profile template
+- Contact page with embedded map
+- Basic FAQ section
+- 404 error page
+
+Deliverables:
+- Complete site navigation structure
+- All core informational content
+- Consistent design system across pages
+- Search engine optimized content
+
+### Phase 3: Interactive Features
+**Objective**: Add dynamic functionality and user engagement
+
+Features:
+- Volunteer application form
+- Newsletter signup integration
+- Contact form with validation
+- Social media integration
+- Basic blog/news system
+- Search functionality
+
+Deliverables:
+- Functional forms with validation
+- Newsletter integration
+- Social media embeds
+- Content management foundation
+
+### Phase 4: E-commerce & Donations
+**Objective**: Implement revenue-generating features
+
+Features:
+- Donation page with multiple options
+- Merchandise store with product catalog
+- Shopping cart functionality
+- Printful integration
+- Payment processing setup
+- Order confirmation system
+
+Deliverables:
+- Secure donation processing
+- Functional e-commerce store
+- Integrated payment systems
+- Automated email confirmations
+
+### Phase 5: Advanced Features & Optimization
+**Objective**: Complete advanced features and optimize performance
+
+Features:
+- Events calendar system
+- Animal sponsorship programs
+- Admin dashboard for content management
+- Performance optimization
+- SEO enhancements
+- Analytics implementation
+
+Deliverables:
+- Full-featured website
+- Content management capabilities
+- Performance optimizations
+- SEO compliance
+
+### Phase 6: Testing & Launch
+**Objective**: Ensure quality and prepare for production
+
+Activities:
+- Comprehensive testing across devices
+- Accessibility compliance verification
+- Performance optimization
+- Security audit
+- Content migration from old site
+- Deployment setup
+
+Deliverables:
+- Production-ready website
+- Deployment pipeline
+- Documentation
+- Training materials
+
+## Logical Dependency Chain
+
+### Foundation First
+1. **Development Environment Setup**: React/TypeScript/Vite configuration
+2. **Design System**: Colors, typography, spacing, component library
+3. **Navigation Framework**: Routing and menu structure
+4. **Homepage**: Primary landing page with hero and key CTAs
+
+### Content Structure
+1. **Static Pages**: About, Contact, FAQ (builds content foundation)
+2. **Animal Profiles**: Template system for individual animal pages
+3. **Blog System**: Foundation for dynamic content
+4. **Search**: Site-wide search functionality
+
+### Interactive Features
+1. **Forms**: Contact, volunteer, newsletter (establishes form handling)
+2. **User Feedback**: Toast notifications, form validation
+3. **Social Integration**: Social media embeds and sharing
+
+### Revenue Features
+1. **Donation System**: Secure payment processing foundation
+2. **E-commerce**: Product catalog and shopping cart
+3. **Sponsorship**: Animal-specific donation programs
+
+### Advanced Features
+1. **Events Calendar**: Dynamic event management
+2. **Admin Panel**: Content management interface
+3. **Analytics**: User behavior tracking and insights
+
+### Optimization & Launch
+1. **Performance**: Image optimization, lazy loading, caching
+2. **SEO**: Schema markup, meta tags, sitemap
+3. **Testing**: Cross-browser, accessibility, security
+4. **Deployment**: Production environment setup
+
+## Risks and Mitigations
+
+### Technical Challenges
+**Risk**: Complex integrations with third-party services (Printful, payment processors)
+**Mitigation**: Start with simpler integrations, implement comprehensive error handling, maintain fallback options
+
+**Risk**: Performance issues with large image galleries
+**Mitigation**: Implement lazy loading, image optimization, and CDN integration from the start
+
+### MVP Scope Management
+**Risk**: Feature creep leading to delayed launch
+**Mitigation**: Clearly define MVP scope, prioritize core functionality, implement phased rollout
+
+**Risk**: Over-engineering initial features
+**Mitigation**: Focus on functional MVP, iterate based on user feedback, maintain simple initial implementations
+
+### Resource Constraints
+**Risk**: Timeline pressure affecting code quality
+**Mitigation**: Maintain code review process, prioritize testing, use established patterns and libraries
+
+**Risk**: Complexity of full-stack implementation
+**Mitigation**: Start with frontend-only approach, integrate backend features incrementally
+
+### User Experience
+**Risk**: Poor mobile experience affecting engagement
+**Mitigation**: Mobile-first design approach, extensive cross-device testing
+
+**Risk**: Accessibility compliance issues
+**Mitigation**: Implement accessibility features from the start, use semantic HTML, regular accessibility audits
+
+## Appendix
+
+### Design Inspiration
+- Modern agency websites (Adchitects, ANIMAL, Buzzworthy)
+- High-quality nonprofit sites
+- Interactive storytelling platforms
+- E-commerce best practices
+
+### Technical Specifications
+- Node.js 18+ for development environment
+- Modern browser support (Chrome, Firefox, Safari, Edge)
+- Mobile-first responsive breakpoints
+- WCAG 2.1 AA accessibility compliance
+- Google PageSpeed Insights score > 90
+
+### Content Strategy
+- Emotional storytelling focused on animal rescue narratives
+- Educational content about animal welfare and veganism
+- Regular blog updates with rescue stories and sanctuary news
+- Social media integration for community building
+- Newsletter content for donor engagement
+
+### SEO Strategy
+- Local SEO for Oregon/Bend area visibility
+- Schema markup for rich snippets
+- Semantic HTML structure
+- Meta tag optimization
+- Site speed optimization
+- Mobile-first indexing compliance

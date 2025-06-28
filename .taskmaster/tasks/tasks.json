@@ -1,0 +1,296 @@
+{
+  "projectInfo": {
+    "name": "Harmony Farm Sanctuary Website",
+    "description": "Complete website revamp for Harmony Farm Sanctuary",
+    "version": "1.0.0",
+    "tags": {
+      "master": {
+        "description": "Main development branch",
+        "created": "2025-01-27T19:00:00Z",
+        "metadata": {
+          "gitBranch": "main"
+        }
+      }
+    },
+    "currentTag": "master"
+  },
+  "tasks": {
+    "master": [
+      {
+        "id": 1,
+        "title": "Project Setup and Development Environment",
+        "description": "Initialize the React/TypeScript project with proper tooling configuration",
+        "status": "pending",
+        "priority": "high",
+        "dependencies": [],
+        "testStrategy": "Verify project builds successfully and development server starts without errors",
+        "details": "Set up the foundational React/TypeScript project structure using Vite, configure Tailwind CSS, and establish the proper development environment according to project guidelines.",
+        "subtasks": []
+      },
+      {
+        "id": 2,
+        "title": "Design System and Component Library Foundation",
+        "description": "Establish the core design system, typography, colors, and base component library",
+        "status": "pending",
+        "priority": "high",
+        "dependencies": [1],
+        "testStrategy": "Verify all design tokens are properly configured and base components render correctly",
+        "details": "Create the sanctuary-specific color palette, typography scale, spacing system, and foundational UI components that will be used throughout the site.",
+        "subtasks": []
+      },
+      {
+        "id": 3,
+        "title": "Navigation and Routing System",
+        "description": "Implement the site navigation structure with mobile-responsive menu",
+        "status": "pending",
+        "priority": "high",
+        "dependencies": [2],
+        "testStrategy": "Test navigation on mobile and desktop, verify all routes work correctly",
+        "details": "Build the main navigation component with mobile hamburger menu, set up React Router, and create the overall site structure.",
+        "subtasks": []
+      },
+      {
+        "id": 4,
+        "title": "Homepage Hero and Landing Sections",
+        "description": "Create the compelling homepage with hero section and key calls-to-action",
+        "status": "pending",
+        "priority": "high",
+        "dependencies": [3],
+        "testStrategy": "Verify homepage loads quickly, hero section is engaging, and CTAs are prominent",
+        "details": "Design and implement the homepage hero section with sanctuary imagery, mission statement, and primary calls-to-action for donations, volunteering, and animal profiles.",
+        "subtasks": []
+      },
+      {
+        "id": 5,
+        "title": "About Us and Mission Pages",
+        "description": "Build comprehensive About section including mission, team, and sanctuary story",
+        "status": "pending",
+        "priority": "medium",
+        "dependencies": [3],
+        "testStrategy": "Verify content is well-organized, images load properly, and text is readable",
+        "details": "Create pages for the sanctuary's story, mission statement, team member profiles, and organizational information.",
+        "subtasks": []
+      },
+      {
+        "id": 6,
+        "title": "Animal Profiles System Foundation",
+        "description": "Create the structure for individual animal profile pages",
+        "status": "pending",
+        "priority": "high",
+        "dependencies": [4],
+        "testStrategy": "Test animal profile template with sample data, verify image galleries work",
+        "details": "Build the template system for individual animal profiles including photo galleries, rescue stories, and sponsorship call-to-actions.",
+        "subtasks": []
+      },
+      {
+        "id": 7,
+        "title": "Meet the Animals Landing Page",
+        "description": "Create the main animals page with category filtering and grid display",
+        "status": "pending",
+        "priority": "high",
+        "dependencies": [6],
+        "testStrategy": "Test filtering functionality, verify grid layout is responsive",
+        "details": "Build the animals overview page with category filters (cows, pigs, goats, etc.) and attractive grid layout linking to individual profiles.",
+        "subtasks": []
+      },
+      {
+        "id": 8,
+        "title": "Contact and Visit Information Page",
+        "description": "Build contact page with location details, map integration, and contact forms",
+        "status": "pending",
+        "priority": "medium",
+        "dependencies": [3],
+        "testStrategy": "Verify map displays correctly, contact forms validate and submit properly",
+        "details": "Create contact page with embedded Google Map, sanctuary address, hours, and contact form functionality.",
+        "subtasks": []
+      },
+      {
+        "id": 9,
+        "title": "Volunteer Information and Application System",
+        "description": "Build volunteer pages with opportunity listings and application forms",
+        "status": "pending",
+        "priority": "medium",
+        "dependencies": [8],
+        "testStrategy": "Test volunteer application form submission and validation",
+        "details": "Create volunteer opportunity descriptions, requirements, and online application form with proper data collection and submission handling.",
+        "subtasks": []
+      },
+      {
+        "id": 10,
+        "title": "Donation Page and Payment Integration",
+        "description": "Implement secure donation functionality with multiple payment options",
+        "status": "pending",
+        "priority": "high",
+        "dependencies": [4],
+        "testStrategy": "Test donation flow, verify payment processing works securely",
+        "details": "Build donation page with one-time and recurring options, integrate with secure payment processor, and implement thank-you flow.",
+        "subtasks": []
+      },
+      {
+        "id": 11,
+        "title": "Blog and News System",
+        "description": "Create content management system for blog posts and sanctuary news",
+        "status": "pending",
+        "priority": "medium",
+        "dependencies": [5],
+        "testStrategy": "Verify blog posts display correctly, test categorization and search",
+        "details": "Build blog system with post creation, categorization, and display functionality for sharing rescue stories and sanctuary updates.",
+        "subtasks": []
+      },
+      {
+        "id": 12,
+        "title": "FAQ and Educational Resources",
+        "description": "Build comprehensive FAQ section and educational content pages",
+        "status": "pending",
+        "priority": "medium",
+        "dependencies": [5],
+        "testStrategy": "Test FAQ search functionality, verify educational content is well-organized",
+        "details": "Create FAQ section with search functionality and educational resources about animal welfare, veganism, and sanctuary practices.",
+        "subtasks": []
+      },
+      {
+        "id": 13,
+        "title": "Merchandise Store Foundation",
+        "description": "Build e-commerce functionality for sanctuary merchandise",
+        "status": "pending",
+        "priority": "medium",
+        "dependencies": [10],
+        "testStrategy": "Test product catalog, shopping cart, and checkout process",
+        "details": "Create merchandise store with product catalog, shopping cart functionality, and prepare for Printful integration.",
+        "subtasks": []
+      },
+      {
+        "id": 14,
+        "title": "Events Calendar System",
+        "description": "Implement events calendar with registration and management features",
+        "status": "pending",
+        "priority": "medium",
+        "dependencies": [11],
+        "testStrategy": "Test event creation, calendar display, and RSVP functionality",
+        "details": "Build events calendar system with event listing, detailed event pages, and RSVP/registration capabilities.",
+        "subtasks": []
+      },
+      {
+        "id": 15,
+        "title": "Newsletter and Social Media Integration",
+        "description": "Integrate newsletter signup and social media feeds",
+        "status": "pending",
+        "priority": "low",
+        "dependencies": [12],
+        "testStrategy": "Test newsletter signup, verify social media embeds work properly",
+        "details": "Implement newsletter subscription functionality and integrate social media feeds to keep content fresh and encourage engagement.",
+        "subtasks": []
+      },
+      {
+        "id": 16,
+        "title": "Search Functionality",
+        "description": "Implement site-wide search for animals, content, and resources",
+        "status": "pending",
+        "priority": "medium",
+        "dependencies": [7, 11],
+        "testStrategy": "Test search across different content types, verify results are relevant",
+        "details": "Build search functionality that can find animals, blog posts, FAQ items, and other site content.",
+        "subtasks": []
+      },
+      {
+        "id": 17,
+        "title": "Animal Sponsorship Program",
+        "description": "Implement dedicated sponsorship features for individual animals",
+        "status": "pending",
+        "priority": "medium",
+        "dependencies": [6, 10],
+        "testStrategy": "Test sponsorship signup, verify recurring payment setup",
+        "details": "Create animal-specific sponsorship programs with recurring donations and sponsor recognition features.",
+        "subtasks": []
+      },
+      {
+        "id": 18,
+        "title": "Printful E-commerce Integration",
+        "description": "Integrate Printful API for print-on-demand merchandise fulfillment",
+        "status": "pending",
+        "priority": "low",
+        "dependencies": [13],
+        "testStrategy": "Test end-to-end order process with Printful integration",
+        "details": "Integrate Printful API for automated merchandise fulfillment, including product sync and order management.",
+        "subtasks": []
+      },
+      {
+        "id": 19,
+        "title": "SEO Optimization and Schema Markup",
+        "description": "Implement comprehensive SEO features and structured data",
+        "status": "pending",
+        "priority": "medium",
+        "dependencies": [16],
+        "testStrategy": "Verify SEO meta tags, test schema markup validation",
+        "details": "Implement SEO best practices including meta tags, schema markup, sitemap generation, and local SEO optimization.",
+        "subtasks": []
+      },
+      {
+        "id": 20,
+        "title": "Performance Optimization",
+        "description": "Optimize site performance including image loading and caching",
+        "status": "pending",
+        "priority": "medium",
+        "dependencies": [19],
+        "testStrategy": "Test Core Web Vitals, verify images load efficiently",
+        "details": "Implement performance optimizations including image lazy loading, code splitting, and caching strategies.",
+        "subtasks": []
+      },
+      {
+        "id": 21,
+        "title": "Accessibility Compliance",
+        "description": "Ensure WCAG 2.1 AA accessibility compliance across the site",
+        "status": "pending",
+        "priority": "high",
+        "dependencies": [20],
+        "testStrategy": "Run accessibility audits, test with screen readers",
+        "details": "Implement accessibility features including proper ARIA labels, keyboard navigation, and screen reader compatibility.",
+        "subtasks": []
+      },
+      {
+        "id": 22,
+        "title": "Analytics and Tracking Setup",
+        "description": "Implement Google Analytics and other tracking tools",
+        "status": "pending",
+        "priority": "low",
+        "dependencies": [21],
+        "testStrategy": "Verify analytics tracking is working correctly",
+        "details": "Set up Google Analytics 4, conversion tracking, and other analytics tools to monitor site performance and user behavior.",
+        "subtasks": []
+      },
+      {
+        "id": 23,
+        "title": "Content Management System",
+        "description": "Build admin interface for content updates and management",
+        "status": "pending",
+        "priority": "low",
+        "dependencies": [17],
+        "testStrategy": "Test content editing interface, verify permissions work correctly",
+        "details": "Create admin interface for sanctuary staff to update animal profiles, blog posts, and other content without developer assistance.",
+        "subtasks": []
+      },
+      {
+        "id": 24,
+        "title": "Cross-Browser Testing and Bug Fixes",
+        "description": "Comprehensive testing across browsers and devices",
+        "status": "pending",
+        "priority": "high",
+        "dependencies": [22],
+        "testStrategy": "Test on multiple browsers, verify mobile responsiveness",
+        "details": "Conduct thorough testing across different browsers, devices, and screen sizes, fixing any compatibility issues.",
+        "subtasks": []
+      },
+      {
+        "id": 25,
+        "title": "Deployment and Launch Preparation",
+        "description": "Set up production deployment and launch the new website",
+        "status": "pending",
+        "priority": "high",
+        "dependencies": [23, 24],
+        "testStrategy": "Verify production deployment works correctly, test all functionality in production",
+        "details": "Configure production deployment, set up CI/CD pipeline, and coordinate the launch of the new website.",
+        "subtasks": []
+      }
+    ]
+  }
+}

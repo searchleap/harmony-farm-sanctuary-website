@@ -51,3 +51,10 @@ venv.bak/
 # Memex specific
 .memex/secrets
 .memex/temp
+
+# Added by Task Master AI
+dev-debug.log
+# Dependency directories
+node_modules/
+.vscode
+# OS specific
