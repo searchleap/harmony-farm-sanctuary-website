@@ -1,0 +1,41 @@
+{
+  "name": "harmony_farm_website",
+  "version": "1.0.0",
+  "description": "A modern, compassionate website for Harmony Farm Sanctuary built with React/TypeScript, showcasing their mission of animal rescue and providing comprehensive functionality for donations, volunteering, and community engagement.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/memextech/a-lovable-memex-template.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/memextech/a-lovable-memex-template/issues"
+  },
+  "homepage": "https://github.com/memextech/a-lovable-memex-template#readme",
+  "dependencies": {
+    "@tanstack/react-query": "^5.81.5",
+    "framer-motion": "^12.19.2",
+    "lucide-react": "^0.525.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.23",
+    "@types/react-dom": "^18.3.7",
+    "@vitejs/plugin-react": "^4.6.0",
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^3.4.17",
+    "typescript": "~5.0.0",
+    "vite": "^4.5.14"
+  }
+}
