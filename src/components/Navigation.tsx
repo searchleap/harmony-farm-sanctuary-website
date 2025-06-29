@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { Menu, X, Heart, Home, Users, HandHeart, Calendar, ShoppingBag, BookOpen, Phone } from 'lucide-react'
+import { Menu, X, Heart, Home, Users, HandHeart, Calendar, ShoppingBag, BookOpen, Phone, Target } from 'lucide-react'
 import { Button } from './ui'
 import { cn } from '../utils/cn'
 
@@ -23,6 +23,12 @@ const navigationItems: NavItem[] = [
     href: '/about', 
     icon: Heart,
     description: 'Our mission and story'
+  },
+  { 
+    label: 'Mission', 
+    href: '/mission', 
+    icon: Target,
+    description: 'Our values and commitments'
   },
   { 
     label: 'Meet the Animals', 

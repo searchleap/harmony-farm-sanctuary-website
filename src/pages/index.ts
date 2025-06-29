@@ -1,6 +1,7 @@
 // Pages Export
 export { HomePage } from './Home'
 export { AboutPage } from './About'
+export { MissionPage } from './Mission'
 export { AnimalsPage } from './Animals'
 export { VolunteerPage } from './Volunteer'
 export { EventsPage } from './Events'

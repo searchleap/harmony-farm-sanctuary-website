@@ -3,6 +3,7 @@ import { Navigation } from './components/Navigation'
 import { 
   HomePage, 
   AboutPage, 
+  MissionPage,
   AnimalsPage, 
   VolunteerPage, 
   EventsPage, 
@@ -23,6 +24,7 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/about" element={<AboutPage />} />
+            <Route path="/mission" element={<MissionPage />} />
             <Route path="/animals" element={<AnimalsPage />} />
             <Route path="/volunteer" element={<VolunteerPage />} />
             <Route path="/events" element={<EventsPage />} />
