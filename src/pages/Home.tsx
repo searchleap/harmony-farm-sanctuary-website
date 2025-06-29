@@ -1,7 +1,22 @@
 import { useState } from 'react'
 import { DesignSystem } from '../components/DesignSystem'
-import { Button, H1, BodyLarge } from '../components/ui'
-import { Palette, Eye } from 'lucide-react'
+import { Button, H1, H2, BodyLarge, BodyText, Card, CardHeader, CardTitle, CardContent } from '../components/ui'
+import { 
+  Palette, 
+  Eye, 
+  Heart, 
+  Shield, 
+  Users, 
+  MapPin, 
+  ArrowRight, 
+  DollarSign,
+  UserPlus,
+  Star,
+  Mail,
+  Facebook,
+  Instagram,
+  Twitter
+} from 'lucide-react'
 
 export function HomePage() {
   const [showDesignSystem, setShowDesignSystem] = useState(false)
@@ -30,65 +45,376 @@ export function HomePage() {
   }
   
   return (
-    <div className="min-h-screen bg-gradient-to-br from-sanctuary-50 to-earth-50">
-      <div className="container mx-auto px-4 py-16">
-        <div className="text-center max-w-4xl mx-auto">
-          <div className="flex items-center justify-center gap-3 mb-8">
-            <div className="w-12 h-12 bg-sanctuary-600 rounded-full flex items-center justify-center animate-gentle-bounce">
-              <span className="text-white text-2xl">🏡</span>
+    <div className="min-h-screen">
+      {/* Hero Section */}
+      <section className="relative h-screen flex items-center justify-center overflow-hidden">
+        {/* Background with overlay */}
+        <div className="absolute inset-0 bg-gradient-to-br from-sanctuary-600/80 via-sanctuary-500/70 to-earth-600/80 z-10" />
+        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1500595046743-cd271d694d30?ixlib=rb-4.0.3&auto=format&fit=crop&w=2074&q=80')] bg-cover bg-center" />
+        
+        {/* Hero Content */}
+        <div className="relative z-20 text-center text-white max-w-5xl mx-auto px-4">
+          <div className="flex items-center justify-center gap-4 mb-8 animate-float">
+            <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
+              <span className="text-4xl">🏡</span>
             </div>
-            <div className="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center animate-pulse">
-              <span className="text-white text-lg">❤️</span>
+            <div className="w-12 h-12 bg-red-500/90 rounded-full flex items-center justify-center animate-pulse">
+              <Heart className="w-6 h-6 text-white fill-current" />
             </div>
           </div>
           
-          <H1 variant="sanctuary" className="mb-6">
+          <H1 className="text-5xl md:text-7xl font-bold mb-6 text-white drop-shadow-lg">
             Harmony Farm Sanctuary
           </H1>
           
-          <BodyLarge variant="sanctuary" className="mb-8">
-            A safe haven for rescued farm animals in the heart of Central Oregon
+          <BodyLarge className="text-xl md:text-2xl mb-8 text-white/90 max-w-3xl mx-auto leading-relaxed">
+            Where rescued farm animals find peace, love, and their forever home in the beautiful landscapes of Central Oregon
           </BodyLarge>
           
-          <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-8 shadow-lg mb-8">
-            <h2 className="text-2xl font-semibold text-sanctuary-800 mb-4">
-              ✅ Task 3: Navigation & Routing Complete
-            </h2>
-            <BodyLarge variant="sanctuary" className="mb-6">
-              React Router setup with responsive navigation and 8 main routes
-            </BodyLarge>
-            
-            <div className="grid md:grid-cols-3 gap-4 text-sm mb-6">
-              <div className="bg-sanctuary-100 rounded-lg p-4">
-                <div className="font-semibold text-sanctuary-800">React Router</div>
-                <div className="text-sanctuary-600">8 Routes Configured</div>
-              </div>
-              <div className="bg-earth-100 rounded-lg p-4">
-                <div className="font-semibold text-earth-800">Navigation</div>
-                <div className="text-earth-600">Mobile Responsive</div>
-              </div>
-              <div className="bg-green-100 rounded-lg p-4">
-                <div className="font-semibold text-green-800">Active States</div>
-                <div className="text-green-600">URL-based Highlighting</div>
-              </div>
-            </div>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <Button 
+              variant="donate" 
+              size="lg"
+              className="text-lg px-8 py-4 flex items-center gap-3 shadow-xl"
+            >
+              <Heart className="w-5 h-5" />
+              Sponsor an Animal
+              <ArrowRight className="w-5 h-5" />
+            </Button>
             
             <Button 
-              variant="primary" 
+              variant="secondary" 
               size="lg"
-              onClick={() => setShowDesignSystem(true)}
-              className="flex items-center gap-2"
+              className="text-lg px-8 py-4 flex items-center gap-3 bg-white/20 backdrop-blur-sm border-white/30 text-white hover:bg-white/30"
             >
-              <Palette className="w-5 h-5" />
-              View Design System
+              <Users className="w-5 h-5" />
+              Become a Volunteer
             </Button>
           </div>
           
-          <div className="text-sanctuary-600">
-            <p>Next: Homepage Hero & Landing Sections</p>
+          {/* Scroll indicator */}
+          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+            <div className="w-6 h-10 border-2 border-white/60 rounded-full flex justify-center">
+              <div className="w-1 h-3 bg-white/60 rounded-full mt-2 animate-pulse" />
+            </div>
           </div>
         </div>
-      </div>
+      </section>
+
+      {/* Mission Impact Section */}
+      <section className="py-20 bg-gradient-to-br from-sanctuary-50 to-earth-50">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <H2 className="text-sanctuary-800 mb-6">Our Impact in Numbers</H2>
+            <BodyLarge className="text-sanctuary-600 max-w-2xl mx-auto">
+              Every rescue tells a story. Every life saved creates ripples of compassion that extend far beyond our farm.
+            </BodyLarge>
+          </div>
+          
+          <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+            <Card className="text-center p-8 bg-white/60 backdrop-blur-sm border-sanctuary-200 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+              <CardContent className="pt-0">
+                <div className="w-16 h-16 bg-sanctuary-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <Shield className="w-8 h-8 text-white" />
+                </div>
+                <div className="text-4xl font-bold text-sanctuary-800 mb-2">150+</div>
+                <div className="text-sanctuary-600 font-medium mb-2">Animals Rescued</div>
+                <BodyText className="text-sanctuary-500">
+                  Farm animals saved from neglect, abuse, or slaughter since 2018
+                </BodyText>
+              </CardContent>
+            </Card>
+            
+            <Card className="text-center p-8 bg-white/60 backdrop-blur-sm border-earth-200 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+              <CardContent className="pt-0">
+                <div className="w-16 h-16 bg-earth-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <Users className="w-8 h-8 text-white" />
+                </div>
+                <div className="text-4xl font-bold text-earth-800 mb-2">500+</div>
+                <div className="text-earth-600 font-medium mb-2">Volunteers Engaged</div>
+                <BodyText className="text-earth-500">
+                  Dedicated individuals who help care for our animals daily
+                </BodyText>
+              </CardContent>
+            </Card>
+            
+            <Card className="text-center p-8 bg-white/60 backdrop-blur-sm border-green-200 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+              <CardContent className="pt-0">
+                <div className="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <Heart className="w-8 h-8 text-white fill-current" />
+                </div>
+                <div className="text-4xl font-bold text-green-800 mb-2">45</div>
+                <div className="text-green-600 font-medium mb-2">Acres of Peace</div>
+                <BodyText className="text-green-500">
+                  Open pastures and shelter where animals roam freely and safely
+                </BodyText>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Animals Preview */}
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <H2 className="text-sanctuary-800 mb-6">Meet Some of Our Residents</H2>
+            <BodyLarge className="text-sanctuary-600 max-w-2xl mx-auto">
+              Each animal at Harmony Farm has a unique story of resilience. Here are just a few of the incredible souls you'll meet.
+            </BodyLarge>
+          </div>
+          
+          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto mb-12">
+            <Card className="overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+              <div className="h-64 bg-gradient-to-br from-sanctuary-200 to-earth-200 flex items-center justify-center">
+                <span className="text-6xl">🐄</span>
+              </div>
+              <CardHeader>
+                <CardTitle className="text-sanctuary-800">Bella the Cow</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <BodyText className="text-sanctuary-600 mb-4">
+                  Rescued from a dairy farm, Bella now spends her days grazing peacefully and enjoying belly rubs from visitors.
+                </BodyText>
+                <Button variant="outline" size="sm" className="w-full">
+                  Read Bella's Story
+                </Button>
+              </CardContent>
+            </Card>
+            
+            <Card className="overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+              <div className="h-64 bg-gradient-to-br from-earth-200 to-sanctuary-200 flex items-center justify-center">
+                <span className="text-6xl">🐷</span>
+              </div>
+              <CardHeader>
+                <CardTitle className="text-earth-800">Wilbur & Friends</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <BodyText className="text-earth-600 mb-4">
+                  This trio of pigs loves mud baths, treats, and showing off their surprising intelligence to amazed guests.
+                </BodyText>
+                <Button variant="outline" size="sm" className="w-full">
+                  Meet the Pigs
+                </Button>
+              </CardContent>
+            </Card>
+            
+            <Card className="overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+              <div className="h-64 bg-gradient-to-br from-green-200 to-sanctuary-200 flex items-center justify-center">
+                <span className="text-6xl">🐐</span>
+              </div>
+              <CardHeader>
+                <CardTitle className="text-green-800">Luna the Goat</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <BodyText className="text-green-600 mb-4">
+                  Once shy and scared, Luna is now the sanctuary's unofficial greeter, charming everyone with her gentle spirit.
+                </BodyText>
+                <Button variant="outline" size="sm" className="w-full">
+                  Luna's Journey
+                </Button>
+              </CardContent>
+            </Card>
+          </div>
+          
+          <div className="text-center">
+            <Button variant="primary" size="lg" className="flex items-center gap-2 mx-auto">
+              Meet All Our Animals
+              <ArrowRight className="w-5 h-5" />
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Call-to-Action Sections */}
+      <section className="py-20 bg-gradient-to-br from-sanctuary-600 to-earth-600 text-white">
+        <div className="container mx-auto px-4">
+          <div className="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
+            {/* Donation CTA */}
+            <Card className="bg-white/10 backdrop-blur-sm border-white/20 p-8">
+              <CardHeader>
+                <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mb-6">
+                  <DollarSign className="w-8 h-8 text-white" />
+                </div>
+                <CardTitle className="text-white text-2xl mb-4">Support Our Mission</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <BodyText className="text-white/90 mb-6 leading-relaxed">
+                  Your donation directly supports animal care, medical treatment, feed, and facility maintenance. 
+                  Every dollar makes a difference in an animal's life.
+                </BodyText>
+                <div className="space-y-3 mb-6">
+                  <div className="flex items-center justify-between text-white/80">
+                    <span>$25/month</span>
+                    <span>Feeds one animal</span>
+                  </div>
+                  <div className="flex items-center justify-between text-white/80">
+                    <span>$50/month</span>
+                    <span>Medical care fund</span>
+                  </div>
+                  <div className="flex items-center justify-between text-white/80">
+                    <span>$100/month</span>
+                    <span>Full animal sponsorship</span>
+                  </div>
+                </div>
+                <Button variant="donate" size="lg" className="w-full bg-white text-sanctuary-800 hover:bg-white/90">
+                  <Heart className="w-5 h-5 mr-2" />
+                  Make a Donation
+                </Button>
+              </CardContent>
+            </Card>
+            
+            {/* Volunteer CTA */}
+            <Card className="bg-white/10 backdrop-blur-sm border-white/20 p-8">
+              <CardHeader>
+                <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mb-6">
+                  <UserPlus className="w-8 h-8 text-white" />
+                </div>
+                <CardTitle className="text-white text-2xl mb-4">Join Our Community</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <BodyText className="text-white/90 mb-6 leading-relaxed">
+                  Become part of our volunteer family and experience the joy of working directly with rescued animals. 
+                  No experience necessary—just a love for animals!
+                </BodyText>
+                <div className="space-y-3 mb-6">
+                  <div className="flex items-center gap-3 text-white/80">
+                    <Star className="w-4 h-4" />
+                    <span>Animal care and feeding</span>
+                  </div>
+                  <div className="flex items-center gap-3 text-white/80">
+                    <Star className="w-4 h-4" />
+                    <span>Facility maintenance</span>
+                  </div>
+                  <div className="flex items-center gap-3 text-white/80">
+                    <Star className="w-4 h-4" />
+                    <span>Educational programs</span>
+                  </div>
+                </div>
+                <Button variant="secondary" size="lg" className="w-full bg-white text-earth-800 hover:bg-white/90">
+                  <Users className="w-5 h-5 mr-2" />
+                  Become a Volunteer
+                </Button>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Newsletter & Social */}
+      <section className="py-20 bg-sanctuary-50">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-12">
+              <H2 className="text-sanctuary-800 mb-6">Stay Connected</H2>
+              <BodyLarge className="text-sanctuary-600">
+                Get updates on our animals, upcoming events, and ways to help. Join our community of animal lovers!
+              </BodyLarge>
+            </div>
+            
+            <Card className="bg-white/60 backdrop-blur-sm border-sanctuary-200 p-8">
+              <CardContent>
+                <div className="flex flex-col md:flex-row gap-6 items-center">
+                  <div className="flex-1">
+                    <H2 className="text-xl text-sanctuary-800 mb-2">Newsletter Signup</H2>
+                    <BodyText className="text-sanctuary-600 mb-4">
+                      Monthly updates and heartwarming animal stories delivered to your inbox.
+                    </BodyText>
+                    <div className="flex gap-3">
+                      <input 
+                        type="email" 
+                        placeholder="Enter your email"
+                        className="flex-1 px-4 py-3 border border-sanctuary-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sanctuary-500"
+                      />
+                      <Button variant="primary" className="px-6">
+                        <Mail className="w-4 h-4 mr-2" />
+                        Subscribe
+                      </Button>
+                    </div>
+                  </div>
+                  
+                  <div className="flex flex-col items-center gap-4">
+                    <BodyText className="text-sanctuary-600 font-medium">Follow Us</BodyText>
+                    <div className="flex gap-3">
+                      <Button variant="outline" size="sm" className="p-3">
+                        <Facebook className="w-5 h-5" />
+                      </Button>
+                      <Button variant="outline" size="sm" className="p-3">
+                        <Instagram className="w-5 h-5" />
+                      </Button>
+                      <Button variant="outline" size="sm" className="p-3">
+                        <Twitter className="w-5 h-5" />
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Visit Information */}
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto text-center">
+            <H2 className="text-sanctuary-800 mb-6">Visit Harmony Farm</H2>
+            <BodyLarge className="text-sanctuary-600 mb-8">
+              Experience the magic of our sanctuary in person. Tours available by appointment.
+            </BodyLarge>
+            
+            <div className="grid md:grid-cols-2 gap-8 mb-8">
+              <Card className="p-6">
+                <CardContent className="pt-0">
+                  <div className="w-12 h-12 bg-sanctuary-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <MapPin className="w-6 h-6 text-white" />
+                  </div>
+                  <H2 className="text-lg text-sanctuary-800 mb-2">Location</H2>
+                  <BodyText className="text-sanctuary-600">
+                    123 Sanctuary Road<br />
+                    Central Oregon, OR 97XXX
+                  </BodyText>
+                </CardContent>
+              </Card>
+              
+              <Card className="p-6">
+                <CardContent className="pt-0">
+                  <div className="w-12 h-12 bg-earth-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Users className="w-6 h-6 text-white" />
+                  </div>
+                  <H2 className="text-lg text-earth-800 mb-2">Group Tours</H2>
+                  <BodyText className="text-earth-600">
+                    Educational visits for schools,<br />
+                    families, and organizations
+                  </BodyText>
+                </CardContent>
+              </Card>
+            </div>
+            
+            <Button variant="primary" size="lg" className="flex items-center gap-2 mx-auto">
+              Schedule a Visit
+              <ArrowRight className="w-5 h-5" />
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Design System Access */}
+      <section className="py-8 bg-sanctuary-800 text-white">
+        <div className="container mx-auto px-4 text-center">
+          <BodyText className="text-sanctuary-200 mb-4">
+            Development Tools
+          </BodyText>
+          <Button 
+            variant="outline" 
+            onClick={() => setShowDesignSystem(true)}
+            className="border-white/30 text-white hover:bg-white/10"
+          >
+            <Palette className="w-4 h-4 mr-2" />
+            View Design System
+          </Button>
+        </div>
+      </section>
     </div>
   )
 }
