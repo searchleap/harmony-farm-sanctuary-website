@@ -128,10 +128,13 @@ For complete requirements, see: [development-plan.md](./development-plan.md)
     - [x] Comprehensive FAQ database (8 categories, 10+ detailed entries)
     - [x] Educational resource database (8 categories, 10+ resources)
     - [x] Advanced search and analytics framework
-  - [ ] Phase 2: Core Components (Steps 4-13) ⏳ **IN PROGRESS**
+  - [x] Phase 2: Core Components (Steps 4-13) ✅ **COMPLETE**
     - [x] Milestone 4.1: Core FAQ Components (FAQItem, FAQSearch, FAQCategory, FAQStats) ✅
-    - [x] Milestone 4.2: FAQ Interaction Components (FAQFilters, FAQFeedback, RelatedFAQs, PopularFAQs) ✅
-    - [ ] Milestone 5.1-5.2: Educational Resource Components (ResourceCard, ResourcePreview, ResourceDownload, etc.)
+    - [x] Milestone 4.2: FAQ Interaction Components (FAQFilters, FAQFeedback, RelatedFAQs, PopularFAQs) ✅ 
+    - [x] Milestone 5.1-5.2: Educational Resource Components ✅
+      - [x] ResourceCard, ResourcePreview, ResourceDownload, ResourceRating
+      - [x] ResourceCategories, ResourceFilters, ResourceSearch
+  - [ ] Phase 3: FAQ and Resource Pages (Steps 14-16) ⏳ **READY TO START**
 
 ## Tech Stack
 

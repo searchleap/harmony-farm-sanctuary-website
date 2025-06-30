@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { Menu, X, Heart, Home, Users, HandHeart, Calendar, ShoppingBag, BookOpen, Phone, Target, Newspaper } from 'lucide-react'
+import { Menu, X, Heart, Home, Users, HandHeart, Calendar, ShoppingBag, Phone, Target, Newspaper, HelpCircle, Download } from 'lucide-react'
 import { Button } from './ui'
 import { cn } from '../utils/cn'
 
@@ -61,10 +61,16 @@ const navigationItems: NavItem[] = [
     description: 'Support us through merch'
   },
   { 
-    label: 'Learn', 
-    href: '/learn', 
-    icon: BookOpen,
-    description: 'Educational resources'
+    label: 'FAQ', 
+    href: '/faq', 
+    icon: HelpCircle,
+    description: 'Frequently asked questions'
+  },
+  { 
+    label: 'Resources', 
+    href: '/resources', 
+    icon: Download,
+    description: 'Educational materials'
   },
   { 
     label: 'Contact', 

@@ -18,6 +18,9 @@ import { BlogPage } from './pages/BlogPage'
 import { BlogPostPage } from './pages/BlogPostPage'
 import { BlogCategoryPage } from './pages/BlogCategoryPage'
 import { BlogSearchPage } from './pages/BlogSearchPage'
+import { FAQPage } from './pages/FAQPage'
+import { ResourcesPage } from './pages/ResourcesPage'
+import { ResourceDetailPage } from './pages/ResourceDetailPage'
 import { initPerformanceMonitoring, preloadCriticalResources } from './utils/performance'
 
 function App() {
@@ -63,6 +66,9 @@ function App() {
             <Route path="/blog/search" element={<BlogSearchPage />} />
             <Route path="/blog/category/:categorySlug" element={<BlogCategoryPage />} />
             <Route path="/blog/:slug" element={<BlogPostPage />} />
+            <Route path="/faq" element={<FAQPage />} />
+            <Route path="/resources" element={<ResourcesPage />} />
+            <Route path="/resources/:id" element={<ResourceDetailPage />} />
           </Routes>
         </main>
       </div>
