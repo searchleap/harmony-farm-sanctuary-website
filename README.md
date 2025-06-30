@@ -130,8 +130,8 @@ For complete requirements, see: [development-plan.md](./development-plan.md)
     - [x] Advanced search and analytics framework
   - [ ] Phase 2: Core Components (Steps 4-13) ⏳ **IN PROGRESS**
     - [x] Milestone 4.1: Core FAQ Components (FAQItem, FAQSearch, FAQCategory, FAQStats) ✅
-    - [ ] Milestone 4.2: FAQ Interaction Components (FAQFilters, FAQFeedback, RelatedFAQs, PopularFAQs)
-    - [ ] Milestone 5.1-5.2: Educational Resource Components
+    - [x] Milestone 4.2: FAQ Interaction Components (FAQFilters, FAQFeedback, RelatedFAQs, PopularFAQs) ✅
+    - [ ] Milestone 5.1-5.2: Educational Resource Components (ResourceCard, ResourcePreview, ResourceDownload, etc.)
 
 ## Tech Stack
 
