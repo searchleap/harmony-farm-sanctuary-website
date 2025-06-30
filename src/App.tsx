@@ -21,6 +21,7 @@ import { BlogSearchPage } from './pages/BlogSearchPage'
 import { FAQPage } from './pages/FAQPage'
 import { ResourcesPage } from './pages/ResourcesPage'
 import { ResourceDetailPage } from './pages/ResourceDetailPage'
+import StoreTestPage from './components/store/StoreTestPage'
 import { initPerformanceMonitoring, preloadCriticalResources } from './utils/performance'
 
 function App() {
@@ -69,6 +70,7 @@ function App() {
             <Route path="/faq" element={<FAQPage />} />
             <Route path="/resources" element={<ResourcesPage />} />
             <Route path="/resources/:id" element={<ResourceDetailPage />} />
+            <Route path="/store-test" element={<StoreTestPage />} />
           </Routes>
         </main>
       </div>

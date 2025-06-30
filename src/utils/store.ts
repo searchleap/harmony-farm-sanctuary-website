@@ -1,7 +1,15 @@
 // Store Utility Functions
 // Task 13: Phase 1 - Helper Functions
 
-import { Product, CartItem, ShoppingCart, ProductFilter, ProductSort } from '../types/store'
+import { 
+  Product, 
+  CartItem, 
+  ShoppingCart, 
+  ProductFilters, 
+  SortOption,
+  CategoryData,
+  ProductCategory
+} from '../types/store'
 
 // Price formatting and calculations
 export const formatPrice = (price: number, currency: string = 'USD'): string => {
@@ -152,7 +160,7 @@ export const getCartItemCount = (cart: ShoppingCart): number => {
 }
 
 // Product filtering and sorting
-export const filterProducts = (products: Product[], filters: ProductFilter): Product[] => {
+export const filterProducts = (products: Product[], filters: any): Product[] => {
   let filtered = [...products]
 
   // Filter by category
@@ -181,7 +189,7 @@ export const filterProducts = (products: Product[], filters: ProductFilter): Pro
   // Filter by tags
   if (filters.tags && filters.tags.length > 0) {
     filtered = filtered.filter(product =>
-      filters.tags!.some(tag => product.tags.includes(tag))
+      filters.tags!.some((tag: string) => product.tags.includes(tag))
     )
   }
 
@@ -199,7 +207,7 @@ export const filterProducts = (products: Product[], filters: ProductFilter): Pro
   return filtered
 }
 
-export const sortProducts = (products: Product[], sort: ProductSort): Product[] => {
+export const sortProducts = (products: Product[], sort: any): Product[] => {
   const sorted = [...products]
 
   return sorted.sort((a, b) => {
@@ -363,4 +371,228 @@ export const getSearchSuggestions = (
   })
 
   return Array.from(suggestions).slice(0, limit)
+}
+
+// New filtering and search utilities for Task 13 Step 6
+
+export const applyProductFilters = (products: Product[], filters: ProductFilters): Product[] => {
+  let filtered = [...products]
+
+  // Filter by categories
+  if (filters.categories.length > 0) {
+    filtered = filtered.filter(product => filters.categories.includes(product.category))
+  }
+
+  // Filter by price range
+  if (filters.priceRange.min > 0 || filters.priceRange.max < Number.MAX_VALUE) {
+    filtered = filtered.filter(product => {
+      const price = product.salePrice || product.price
+      return price >= filters.priceRange.min && price <= filters.priceRange.max
+    })
+  }
+
+  // Filter by stock status
+  if (filters.inStockOnly) {
+    filtered = filtered.filter(product => product.inStock)
+  }
+
+  // Filter by tags
+  if (filters.tags.length > 0) {
+    filtered = filtered.filter(product =>
+      filters.tags.some(tag => product.tags.includes(tag))
+    )
+  }
+
+  // Filter by featured status
+  if (filters.featured) {
+    filtered = filtered.filter(product => product.featured)
+  }
+
+  // Filter by sale status
+  if (filters.onSale) {
+    filtered = filtered.filter(product => isProductOnSale(product))
+  }
+
+  return filtered
+}
+
+export const sortProductsBySortOption = (products: Product[], sortOption: SortOption): Product[] => {
+  const sorted = [...products]
+
+  return sorted.sort((a, b) => {
+    switch (sortOption) {
+      case 'price-asc':
+        return getProductPrice(a) - getProductPrice(b)
+      case 'price-desc':
+        return getProductPrice(b) - getProductPrice(a)
+      case 'name-asc':
+        return a.name.localeCompare(b.name)
+      case 'name-desc':
+        return b.name.localeCompare(a.name)
+      case 'newest':
+        return b.createdAt.getTime() - a.createdAt.getTime()
+      case 'popular':
+        // Featured products first, then by creation date
+        if (a.featured && !b.featured) return -1
+        if (!a.featured && b.featured) return 1
+        return b.createdAt.getTime() - a.createdAt.getTime()
+      case 'featured':
+        if (a.featured && !b.featured) return -1
+        if (!a.featured && b.featured) return 1
+        return a.name.localeCompare(b.name)
+      default:
+        return 0
+    }
+  })
+}
+
+export const searchProducts = (products: Product[], query: string): Product[] => {
+  if (!query || query.trim().length === 0) return products
+
+  const searchTerm = query.toLowerCase().trim()
+  
+  return products.filter(product => {
+    // Search in product name
+    if (product.name.toLowerCase().includes(searchTerm)) return true
+    
+    // Search in product description
+    if (product.description.toLowerCase().includes(searchTerm)) return true
+    if (product.shortDescription.toLowerCase().includes(searchTerm)) return true
+    
+    // Search in tags
+    if (product.tags.some(tag => tag.toLowerCase().includes(searchTerm))) return true
+    
+    // Search in category
+    if (product.category.toLowerCase().includes(searchTerm)) return true
+    
+    return false
+  })
+}
+
+export const getProductSearchSuggestions = (
+  query: string,
+  products: Product[],
+  limit: number = 8
+): string[] => {
+  if (!query || query.length < 2) return []
+
+  const suggestions = new Set<string>()
+  const searchTerm = query.toLowerCase()
+
+  // Add product names that start with the query
+  products.forEach(product => {
+    if (product.name.toLowerCase().startsWith(searchTerm)) {
+      suggestions.add(product.name)
+    }
+  })
+
+  // Add product names that contain the query
+  products.forEach(product => {
+    if (product.name.toLowerCase().includes(searchTerm) && 
+        !product.name.toLowerCase().startsWith(searchTerm)) {
+      suggestions.add(product.name)
+    }
+  })
+
+  // Add tags that match
+  products.forEach(product => {
+    product.tags.forEach(tag => {
+      if (tag.toLowerCase().includes(searchTerm)) {
+        suggestions.add(tag)
+      }
+    })
+  })
+
+  return Array.from(suggestions).slice(0, limit)
+}
+
+export const getCategoryData = (products: Product[]): CategoryData[] => {
+  const categories: Record<ProductCategory, number> = {
+    apparel: 0,
+    accessories: 0,
+    books: 0,
+    gifts: 0,
+    seasonal: 0
+  }
+
+  // Count products in each category
+  products.forEach(product => {
+    categories[product.category]++
+  })
+
+  return [
+    {
+      id: 'apparel',
+      name: 'Apparel',
+      slug: 'apparel',
+      description: 'T-shirts, hoodies, and wearable sanctuary gear',
+      icon: 'Shirt',
+      productCount: categories.apparel,
+      featured: true
+    },
+    {
+      id: 'accessories',
+      name: 'Accessories',
+      slug: 'accessories',
+      description: 'Bags, mugs, stickers, and everyday items',
+      icon: 'ShoppingBag',
+      productCount: categories.accessories,
+      featured: true
+    },
+    {
+      id: 'books',
+      name: 'Books & Education',
+      slug: 'books',
+      description: 'Educational materials and rescue stories',
+      icon: 'BookOpen',
+      productCount: categories.books,
+      featured: false
+    },
+    {
+      id: 'gifts',
+      name: 'Gifts',
+      slug: 'gifts',
+      description: 'Perfect gifts for animal lovers',
+      icon: 'Gift',
+      productCount: categories.gifts,
+      featured: true
+    },
+    {
+      id: 'seasonal',
+      name: 'Seasonal',
+      slug: 'seasonal',
+      description: 'Holiday and seasonal sanctuary items',
+      icon: 'Calendar',
+      productCount: categories.seasonal,
+      featured: false
+    }
+  ]
+}
+
+export const getFilteredProductCount = (products: Product[], filters: ProductFilters): number => {
+  return applyProductFilters(products, filters).length
+}
+
+export const createDefaultFilters = (): ProductFilters => {
+  return {
+    categories: [],
+    priceRange: {
+      min: 0,
+      max: Number.MAX_VALUE
+    },
+    inStockOnly: false,
+    tags: [],
+    featured: false,
+    onSale: false
+  }
+}
+
+export const getMinMaxPrices = (products: Product[]): { min: number; max: number } => {
+  if (products.length === 0) return { min: 0, max: 100 }
+
+  const prices = products.map(product => getProductPrice(product))
+  return {
+    min: Math.min(...prices),
+    max: Math.max(...prices)
+  }
 }

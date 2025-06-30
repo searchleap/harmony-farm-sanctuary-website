@@ -52,7 +52,7 @@ export function ProductVariants({
       case 'color': return 'Color'
       case 'style': return 'Style'
       case 'material': return 'Material'
-      default: return type.charAt(0).toUpperCase() + type.slice(1)
+      default: return String(type).charAt(0).toUpperCase() + String(type).slice(1)
     }
   }
 

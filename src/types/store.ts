@@ -257,3 +257,50 @@ export interface StoreSettings {
     twitter?: string
   }
 }
+
+// Store Navigation & Filtering Types
+export type SortOption = 'price-asc' | 'price-desc' | 'name-asc' | 'name-desc' | 'newest' | 'popular' | 'featured'
+export type ViewMode = 'grid' | 'list'
+
+export interface ProductFilters {
+  categories: ProductCategory[]
+  priceRange: {
+    min: number
+    max: number
+  }
+  inStockOnly: boolean
+  tags: string[]
+  featured: boolean
+  onSale: boolean
+}
+
+export interface SearchState {
+  query: string
+  suggestions: string[]
+  recentSearches: string[]
+  results: Product[]
+  isLoading: boolean
+}
+
+export interface CategoryData {
+  id: ProductCategory
+  name: string
+  slug: string
+  description: string
+  icon: string
+  productCount: number
+  featured: boolean
+  image?: string
+}
+
+export interface FilterState {
+  activeFilters: ProductFilters
+  sortBy: SortOption
+  viewMode: ViewMode
+  resultsPerPage: number
+  currentPage: number
+}
+
+export interface SearchFilters extends ProductFilters {
+  searchQuery: string
+}
