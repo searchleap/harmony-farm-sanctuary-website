@@ -10,11 +10,11 @@ import { Button } from '../ui'
 import { cn } from '../../utils/cn'
 
 interface ProductCardProps {
-  product: Product
+  product: Product | any // Allow both Product and AdaptedProduct types
   variant?: 'default' | 'compact' | 'featured' | 'list'
   showQuickAdd?: boolean
   showWishlist?: boolean
-  onAddToCart?: (productId: string) => void
+  onAddToCart?: (quantity: number, variantId?: string) => void
   onAddToWishlist?: (productId: string) => void
   className?: string
 }
@@ -39,8 +39,9 @@ export function ProductCard({
     e.preventDefault()
     e.stopPropagation()
     if (onAddToCart) {
-      onAddToCart(product.id)
-      console.log('➕ Quick add to cart:', product.id)
+      const defaultVariant = product.variants && product.variants.length > 0 ? product.variants[0].id : undefined
+      onAddToCart(1, defaultVariant)
+      console.log('➕ Quick add to cart:', product.id, 'variant:', defaultVariant)
     }
   }
 

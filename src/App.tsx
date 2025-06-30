@@ -22,6 +22,7 @@ import { FAQPage } from './pages/FAQPage'
 import { ResourcesPage } from './pages/ResourcesPage'
 import { ResourceDetailPage } from './pages/ResourceDetailPage'
 import StoreTestPage from './components/store/StoreTestPage'
+import ShopifyTestPage from './components/store/ShopifyTestPage'
 import { initPerformanceMonitoring, preloadCriticalResources } from './utils/performance'
 
 function App() {
@@ -71,6 +72,7 @@ function App() {
             <Route path="/resources" element={<ResourcesPage />} />
             <Route path="/resources/:id" element={<ResourceDetailPage />} />
             <Route path="/store-test" element={<StoreTestPage />} />
+            <Route path="/shopify-test" element={<ShopifyTestPage />} />
           </Routes>
         </main>
       </div>
