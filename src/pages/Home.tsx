@@ -1,6 +1,8 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { DesignSystem } from '../components/DesignSystem'
 import { Button, H1, H2, BodyLarge, BodyText, Card, CardHeader, CardTitle, CardContent } from '../components/ui'
+import { getFeaturedAnimals } from '../data/animals'
 import { 
   Palette, 
   Eye, 
@@ -20,8 +22,9 @@ import {
 
 export function HomePage() {
   const [showDesignSystem, setShowDesignSystem] = useState(false)
+  const featuredAnimals = getFeaturedAnimals()
   
-  console.log('🏠 HomePage rendered:', { showDesignSystem })
+  console.log('🏠 HomePage rendered:', { showDesignSystem, featuredAnimalsCount: featuredAnimals.length })
   
   if (showDesignSystem) {
     return (
@@ -165,56 +168,60 @@ export function HomePage() {
           </div>
           
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto mb-12">
-            <Card className="overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-              <div className="h-64 bg-gradient-to-br from-sanctuary-200 to-earth-200 flex items-center justify-center">
-                <span className="text-6xl">🐄</span>
-              </div>
-              <CardHeader>
-                <CardTitle className="text-sanctuary-800">Bella the Cow</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <BodyText className="text-sanctuary-600 mb-4">
-                  Rescued from a dairy farm, Bella now spends her days grazing peacefully and enjoying belly rubs from visitors.
-                </BodyText>
-                <Button variant="outline" size="sm" className="w-full">
-                  Read Bella's Story
-                </Button>
-              </CardContent>
-            </Card>
-            
-            <Card className="overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-              <div className="h-64 bg-gradient-to-br from-earth-200 to-sanctuary-200 flex items-center justify-center">
-                <span className="text-6xl">🐷</span>
-              </div>
-              <CardHeader>
-                <CardTitle className="text-earth-800">Wilbur & Friends</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <BodyText className="text-earth-600 mb-4">
-                  This trio of pigs loves mud baths, treats, and showing off their surprising intelligence to amazed guests.
-                </BodyText>
-                <Button variant="outline" size="sm" className="w-full">
-                  Meet the Pigs
-                </Button>
-              </CardContent>
-            </Card>
-            
-            <Card className="overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-              <div className="h-64 bg-gradient-to-br from-green-200 to-sanctuary-200 flex items-center justify-center">
-                <span className="text-6xl">🐐</span>
-              </div>
-              <CardHeader>
-                <CardTitle className="text-green-800">Luna the Goat</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <BodyText className="text-green-600 mb-4">
-                  Once shy and scared, Luna is now the sanctuary's unofficial greeter, charming everyone with her gentle spirit.
-                </BodyText>
-                <Button variant="outline" size="sm" className="w-full">
-                  Luna's Journey
-                </Button>
-              </CardContent>
-            </Card>
+            {featuredAnimals.map((animal, index) => {
+              const getSpeciesEmoji = (species: string) => {
+                switch (species) {
+                  case 'cow': return '🐄'
+                  case 'pig': return '🐷'
+                  case 'goat': return '🐐'
+                  case 'sheep': return '🐑'
+                  case 'chicken': return '🐓'
+                  default: return '🐾'
+                }
+              }
+              
+              const getColorScheme = (index: number) => {
+                const schemes = [
+                  'sanctuary', 'earth', 'green'
+                ]
+                return schemes[index % schemes.length]
+              }
+              
+              const colorScheme = getColorScheme(index)
+              
+              return (
+                <Card key={animal.id} className="overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+                  <div className="relative h-64 overflow-hidden">
+                    <img
+                      src={animal.featuredImage}
+                      alt={animal.name}
+                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
+                    <div className="absolute top-4 right-4">
+                      <span className="text-4xl drop-shadow-lg">{getSpeciesEmoji(animal.species)}</span>
+                    </div>
+                  </div>
+                  <CardHeader>
+                    <CardTitle className={`text-${colorScheme}-800`}>{animal.name}</CardTitle>
+                    <BodyText className={`text-${colorScheme}-600 text-sm capitalize`}>
+                      {animal.breed ? `${animal.breed} ${animal.species}` : animal.species}
+                    </BodyText>
+                  </CardHeader>
+                  <CardContent>
+                    <BodyText className={`text-${colorScheme}-600 mb-4`}>
+                      {animal.story.length > 120 ? `${animal.story.substring(0, 120)}...` : animal.story}
+                    </BodyText>
+                    <Link to={`/animals/${animal.id}`}>
+                      <Button variant="outline" size="sm" className="w-full group">
+                        Read {animal.name}'s Story
+                        <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                      </Button>
+                    </Link>
+                  </CardContent>
+                </Card>
+              )
+            })}
           </div>
           
           <div className="text-center">
