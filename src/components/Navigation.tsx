@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { Menu, X, Heart, Home, Users, HandHeart, Calendar, ShoppingBag, BookOpen, Phone, Target } from 'lucide-react'
+import { Menu, X, Heart, Home, Users, HandHeart, Calendar, ShoppingBag, BookOpen, Phone, Target, Newspaper } from 'lucide-react'
 import { Button } from './ui'
 import { cn } from '../utils/cn'
 
@@ -47,6 +47,12 @@ const navigationItems: NavItem[] = [
     href: '/events', 
     icon: Calendar,
     description: 'Tours and fundraisers'
+  },
+  { 
+    label: 'Blog', 
+    href: '/blog', 
+    icon: Newspaper,
+    description: 'Stories and updates'
   },
   { 
     label: 'Shop', 

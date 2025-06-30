@@ -2,7 +2,7 @@
 // Interactive engagement features for blog posts (likes, bookmarks, reading progress)
 
 import React, { useState, useEffect } from 'react';
-import { Heart, Bookmark, Share2, MessageCircle, Clock, TrendingUp } from 'lucide-react';
+import { Heart, Bookmark, Share2, Clock, TrendingUp } from 'lucide-react';
 import { BlogPost } from '../../types/blog';
 
 interface BlogEngagementProps {

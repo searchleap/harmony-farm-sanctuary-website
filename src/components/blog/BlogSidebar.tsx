@@ -4,10 +4,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Calendar, TrendingUp, Users, Tag, ExternalLink } from 'lucide-react';
-import { BlogPost } from '../../types/blog';
-import { getRecentBlogPosts, getMostPopularBlogPosts, getCategoryStats, getTagStats } from '../../utils/blogHelpers';
+// import { BlogPost } from '../../types/blog';
+import { getCategoryStats, getTagStats } from '../../utils/blogHelpers';
+import { getRecentBlogPosts, getMostPopularBlogPosts } from '../../data/blogPosts';
 import { BlogPreview } from './BlogPreview';
-import { BlogCategories } from './BlogCategories';
+// import { BlogCategories } from './BlogCategories';
 
 interface BlogSidebarProps {
   currentPostId?: string;

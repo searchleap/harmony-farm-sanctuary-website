@@ -100,7 +100,7 @@ export const generateBlogPostStructuredData = (post: BlogPost) => {
 };
 
 // Generate structured data for blog listing pages
-export const generateBlogListingStructuredData = (posts: BlogPost[], pageType: 'blog' | 'category' | 'tag', title?: string) => {
+export const generateBlogListingStructuredData = (posts: BlogPost[], _pageType: 'blog' | 'category' | 'tag', title?: string) => {
   const siteName = 'Harmony Farm Sanctuary';
   const siteUrl = 'https://harmonyfarm.org';
   

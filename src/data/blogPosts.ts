@@ -2,8 +2,8 @@
 // Comprehensive collection of blog content with rich media and metadata
 
 import { BlogPost, BlogTag } from '../types/blog';
-import { authors, getAuthorById } from './authors';
-import { blogCategories, getCategoryById } from './blogCategories';
+import { getAuthorById } from './authors';
+import { getCategoryById } from './blogCategories';
 
 // Blog tags for content organization
 export const blogTags: BlogTag[] = [
@@ -398,6 +398,8 @@ export const getMostPopularBlogPosts = (limit: number = 5): BlogPost[] => {
     .sort((a, b) => b.views - a.views)
     .slice(0, limit);
 };
+
+
 
 // Update tag counts based on published posts
 export const updateTagCounts = (): void => {

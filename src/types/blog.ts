@@ -12,6 +12,7 @@ export interface Author {
     twitter?: string;
     linkedin?: string;
     instagram?: string;
+    facebook?: string;
   };
   yearsAtSanctuary: number;
   specialties: string[];

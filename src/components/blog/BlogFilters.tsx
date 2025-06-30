@@ -2,8 +2,8 @@
 // Advanced filtering and sorting interface for blog posts
 
 import React, { useState } from 'react';
-import { Search, Filter, X, ChevronDown, Calendar, User, Tag, SlidersHorizontal } from 'lucide-react';
-import { BlogSearchParams, BlogCategory, BlogTag, Author } from '../../types/blog';
+import { Search, X, ChevronDown, User, Tag, SlidersHorizontal } from 'lucide-react';
+import { BlogSearchParams } from '../../types/blog';
 import { blogCategories } from '../../data/blogCategories';
 import { blogTags } from '../../data/blogPosts';
 import { authors } from '../../data/authors';
@@ -27,7 +27,7 @@ export const BlogFilters: React.FC<BlogFiltersProps> = ({
   console.log('BlogFilters rendering:', { searchParams, totalResults });
 
   const [isAdvancedOpen, setIsAdvancedOpen] = useState(false);
-  const [activeFilters, setActiveFilters] = useState<string[]>([]);
+  // const [activeFilters, setActiveFilters] = useState<string[]>([]);
 
   // Update search parameters
   const updateSearch = (updates: Partial<BlogSearchParams>) => {
@@ -69,7 +69,7 @@ export const BlogFilters: React.FC<BlogFiltersProps> = ({
   // Clear all filters
   const clearAllFilters = () => {
     onSearchChange({});
-    setActiveFilters([]);
+    // setActiveFilters([]);
   };
 
   // Get active filter count

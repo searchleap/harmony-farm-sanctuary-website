@@ -2,7 +2,7 @@
 // Main content display for individual blog posts with rich formatting
 
 import React from 'react';
-import { Calendar, Clock, Eye, Heart, Share2, User } from 'lucide-react';
+import { Calendar, Clock, Eye, Heart, Share2 } from 'lucide-react';
 import { BlogPost } from '../../types/blog';
 import { formatBlogDate } from '../../utils/blogHelpers';
 import { CategoryBadge } from './CategoryBadge';

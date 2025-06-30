@@ -24,7 +24,7 @@ export const RelatedPosts: React.FC<RelatedPostsProps> = ({
 }) => {
   console.log('RelatedPosts rendering:', { currentPostTitle: currentPost.title, limit, variant });
 
-  const relatedPosts = getRelatedPosts(currentPost.id, limit);
+  const relatedPosts = getRelatedPosts(currentPost, limit);
 
   if (relatedPosts.length === 0) {
     return null;

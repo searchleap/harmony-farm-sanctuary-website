@@ -13,6 +13,10 @@ import {
   ContactPage, 
   DonatePage 
 } from './pages'
+import { BlogPage } from './pages/BlogPage'
+import { BlogPostPage } from './pages/BlogPostPage'
+import { BlogCategoryPage } from './pages/BlogCategoryPage'
+import { BlogSearchPage } from './pages/BlogSearchPage'
 
 function App() {
   console.log('🌟 Harmony Farm Sanctuary App initialized with React Router')
@@ -34,6 +38,10 @@ function App() {
             <Route path="/learn" element={<LearnPage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/donate" element={<DonatePage />} />
+            <Route path="/blog" element={<BlogPage />} />
+            <Route path="/blog/search" element={<BlogSearchPage />} />
+            <Route path="/blog/category/:categorySlug" element={<BlogCategoryPage />} />
+            <Route path="/blog/:slug" element={<BlogPostPage />} />
           </Routes>
         </main>
       </div>
