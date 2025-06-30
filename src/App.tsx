@@ -5,6 +5,7 @@ import {
   AboutPage, 
   MissionPage,
   AnimalsPage, 
+  AnimalProfilePage,
   VolunteerPage, 
   EventsPage, 
   ShopPage, 
@@ -26,6 +27,7 @@ function App() {
             <Route path="/about" element={<AboutPage />} />
             <Route path="/mission" element={<MissionPage />} />
             <Route path="/animals" element={<AnimalsPage />} />
+            <Route path="/animals/:id" element={<AnimalProfilePage />} />
             <Route path="/volunteer" element={<VolunteerPage />} />
             <Route path="/events" element={<EventsPage />} />
             <Route path="/shop" element={<ShopPage />} />

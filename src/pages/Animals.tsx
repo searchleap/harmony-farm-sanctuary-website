@@ -1,51 +1,10 @@
 import { useState } from 'react'
-import { Heart } from 'lucide-react'
+import { Link } from 'react-router-dom'
+import { Heart, Star, ArrowRight } from 'lucide-react'
 import { H1, H2, BodyLarge, BodyText, Card, CardHeader, CardTitle, CardContent, Badge, Button, Input } from '../components/ui'
+import { animals } from '../data/animals'
 
 const animalCategories = ['All', 'Cows', 'Pigs', 'Goats', 'Sheep', 'Chickens', 'Horses']
-
-const sampleAnimals = [
-  {
-    id: '1',
-    name: 'Bessie',
-    species: 'Cow',
-    age: '5 years',
-    story: 'Rescued from a dairy farm, Bessie is now living her best life in our pastures.',
-    image: '🐄',
-    isSponsored: false,
-    personality: ['Gentle', 'Curious', 'Friendly']
-  },
-  {
-    id: '2', 
-    name: 'Wilbur',
-    species: 'Pig',
-    age: '3 years',
-    story: 'This sweet boy was saved from becoming bacon and now loves mud baths and belly rubs.',
-    image: '🐷',
-    isSponsored: true,
-    personality: ['Playful', 'Smart', 'Social']
-  },
-  {
-    id: '3',
-    name: 'Charlotte',
-    species: 'Goat', 
-    age: '2 years',
-    story: 'Charlotte came to us as a baby and has grown into a confident, adventurous goat.',
-    image: '🐐',
-    isSponsored: false,
-    personality: ['Adventurous', 'Climber', 'Independent']
-  },
-  {
-    id: '4',
-    name: 'Henrietta',
-    species: 'Chicken',
-    age: '4 years',
-    story: 'A former battery hen who now enjoys dust baths and foraging freely.',
-    image: '🐔',
-    isSponsored: true,
-    personality: ['Busy', 'Curious', 'Social']
-  }
-]
 
 export function AnimalsPage() {
   const [selectedCategory, setSelectedCategory] = useState('All')
@@ -53,11 +12,43 @@ export function AnimalsPage() {
   
   console.log('🐾 AnimalsPage rendered:', { selectedCategory, searchTerm })
   
-  const filteredAnimals = sampleAnimals.filter(animal => {
-    const matchesCategory = selectedCategory === 'All' || animal.species === selectedCategory.slice(0, -1)
-    const matchesSearch = animal.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         animal.species.toLowerCase().includes(searchTerm.toLowerCase())
-    return matchesCategory && matchesSearch
+  const getSpeciesEmoji = (species: string) => {
+    switch (species) {
+      case 'cow': return '🐄'
+      case 'pig': return '🐷'
+      case 'goat': return '🐐'
+      case 'sheep': return '🐑'
+      case 'chicken': return '🐓'
+      case 'turkey': return '🦃'
+      case 'horse': return '🐴'
+      default: return '🐾'
+    }
+  }
+  
+  const calculateAge = (animal: any) => {
+    if (animal.birthDate) {
+      const birth = new Date(animal.birthDate)
+      const now = new Date()
+      const ageInYears = Math.floor((now.getTime() - birth.getTime()) / (365.25 * 24 * 60 * 60 * 1000))
+      return ageInYears >= 1 ? `${ageInYears} year${ageInYears > 1 ? 's' : ''} old` : 'Under 1 year'
+    }
+    return animal.age ? `${animal.age} years old` : 'Age unknown'
+  }
+  
+  const filteredAnimals = animals.filter(animal => {
+    const categoryMatch = selectedCategory === 'All' || 
+      (selectedCategory === 'Cows' && animal.species === 'cow') ||
+      (selectedCategory === 'Pigs' && animal.species === 'pig') ||
+      (selectedCategory === 'Goats' && animal.species === 'goat') ||
+      (selectedCategory === 'Sheep' && animal.species === 'sheep') ||
+      (selectedCategory === 'Chickens' && animal.species === 'chicken') ||
+      (selectedCategory === 'Horses' && animal.species === 'horse')
+    
+    const searchMatch = animal.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                       animal.species.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                       (animal.breed && animal.breed.toLowerCase().includes(searchTerm.toLowerCase()))
+    
+    return categoryMatch && searchMatch
   })
   
   return (
@@ -100,45 +91,78 @@ export function AnimalsPage() {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredAnimals.map(animal => (
               <Card key={animal.id} variant="elevated" className="group hover:scale-105 transition-transform">
-                <CardHeader>
-                  <div className="text-center mb-4">
-                    <div className="text-6xl mb-4">{animal.image}</div>
-                    <div className="flex items-center justify-between">
-                      <CardTitle>{animal.name}</CardTitle>
-                      {animal.isSponsored ? (
-                        <Badge variant="sponsored" size="sm">
-                          <Heart className="w-3 h-3 mr-1" />
-                          Sponsored
-                        </Badge>
-                      ) : (
-                        <Badge variant="success" size="sm">Available</Badge>
-                      )}
+                <div className="relative">
+                  <img
+                    src={animal.featuredImage}
+                    alt={animal.name}
+                    className="w-full h-48 object-cover rounded-t-lg"
+                  />
+                  {animal.featuredAnimal && (
+                    <div className="absolute top-3 right-3">
+                      <Badge variant="sponsored" size="sm">
+                        <Star className="w-3 h-3 mr-1" />
+                        Featured
+                      </Badge>
                     </div>
-                    <BodyText variant="muted">{animal.species} • {animal.age}</BodyText>
+                  )}
+                </div>
+                
+                <CardHeader>
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <CardTitle className="flex items-center gap-2">
+                        <span className="text-2xl">{getSpeciesEmoji(animal.species)}</span>
+                        {animal.name}
+                      </CardTitle>
+                      <BodyText variant="muted" className="capitalize">
+                        {animal.breed ? `${animal.breed} ${animal.species}` : animal.species} • {calculateAge(animal)}
+                      </BodyText>
+                    </div>
+                    {animal.isSponsored ? (
+                      <Badge variant="sponsored" size="sm">
+                        <Heart className="w-3 h-3 mr-1 fill-current" />
+                        Sponsored
+                      </Badge>
+                    ) : (
+                      <Badge variant="success" size="sm">Available</Badge>
+                    )}
                   </div>
                 </CardHeader>
+                
                 <CardContent>
-                  <BodyText className="mb-4">{animal.story}</BodyText>
+                  <BodyText className="mb-4">
+                    {animal.story.length > 120 ? `${animal.story.substring(0, 120)}...` : animal.story}
+                  </BodyText>
                   
                   <div className="mb-4">
                     <H2 className="text-sm font-semibold text-sanctuary-700 mb-2">Personality</H2>
                     <div className="flex flex-wrap gap-1">
-                      {animal.personality.map(trait => (
+                      {animal.personality.slice(0, 3).map(trait => (
                         <Badge key={trait} variant="default" size="sm">{trait}</Badge>
                       ))}
+                      {animal.personality.length > 3 && (
+                        <Badge variant="default" size="sm">+{animal.personality.length - 3}</Badge>
+                      )}
                     </div>
                   </div>
                   
-                  <div className="flex gap-2">
-                    <Button variant="primary" size="sm" className="flex-1">
-                      Learn More
+                  {!animal.isSponsored && animal.sponsorCount < animal.maxSponsors && (
+                    <div className="mb-4 p-3 bg-sanctuary-50 rounded-lg">
+                      <div className="text-sm text-sanctuary-700 font-medium">
+                        Sponsorship: ${animal.sponsorshipCost.monthly}/month
+                      </div>
+                      <div className="text-xs text-sanctuary-600">
+                        {animal.sponsorCount} of {animal.maxSponsors} sponsors
+                      </div>
+                    </div>
+                  )}
+                  
+                  <Link to={`/animals/${animal.id}`}>
+                    <Button variant="primary" size="sm" className="w-full group">
+                      {animal.isSponsored ? 'Learn More' : 'Sponsor Me'}
+                      <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                     </Button>
-                    {!animal.isSponsored && (
-                      <Button variant="donate" size="sm">
-                        <Heart className="w-4 h-4" />
-                      </Button>
-                    )}
-                  </div>
+                  </Link>
                 </CardContent>
               </Card>
             ))}

@@ -4,14 +4,66 @@ export interface Animal {
   id: string
   name: string
   species: 'cow' | 'pig' | 'goat' | 'sheep' | 'chicken' | 'turkey' | 'horse' | 'other'
+  breed?: string
+  gender: 'male' | 'female' | 'unknown'
+  age?: number
+  weight?: string
+  color?: string
+  
+  // Stories and Background
   story: string
+  rescueStory: string
+  personalityDescription: string
+  favoriteTreats?: string[]
+  quirks?: string[]
+  
+  // Images and Media
   images: string[]
+  featuredImage: string
+  
+  // Dates and Status
   arrivalDate: string
+  birthDate?: string
+  status: 'healthy' | 'recovering' | 'special-needs' | 'hospice'
+  
+  // Medical Information
+  medicalNeeds?: string[]
+  medicalHistory?: string[]
+  specialDiet?: string
+  medications?: string[]
+  vetNotes?: string
+  
+  // Personality and Behavior
+  personality: string[]
+  socialLevel: 'very-social' | 'social' | 'selective' | 'shy' | 'independent'
+  energyLevel: 'low' | 'moderate' | 'high'
+  goodWithKids: boolean
+  goodWithOtherAnimals: boolean
+  
+  // Care Requirements
+  careLevel: 'easy' | 'moderate' | 'intensive'
+  specialNeeds?: string[]
+  housingType: 'pasture' | 'barn' | 'special-enclosure' | 'medical-facility'
+  companionAnimals?: string[] // IDs of other animals they live with
+  
+  // Sponsorship Information
   isSponsored: boolean
   sponsorshipLevel?: 'basic' | 'premium' | 'full'
-  age?: number
-  personality?: string[]
-  medicalNeeds?: string[]
+  sponsorshipCost: {
+    monthly: number
+    annually: number
+  }
+  sponsorCount: number
+  maxSponsors: number
+  sponsorshipBenefits: string[]
+  
+  // Additional Info
+  funFacts?: string[]
+  favoritePlaces?: string[]
+  dailyRoutine?: string
+  lifestylePreferences?: string[]
+  adoptionEligible: boolean
+  featuredAnimal: boolean
 }
 
 export interface Volunteer {
