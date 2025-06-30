@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { DesignSystem } from '../components/DesignSystem'
+import { HomepageBlogSection } from '../components/HomepageBlogSection'
 import { Button, H1, H2, BodyLarge, BodyText, Card, CardHeader, CardTitle, CardContent } from '../components/ui'
 import { getFeaturedAnimals } from '../data/animals'
 import { 
@@ -75,24 +76,28 @@ export function HomePage() {
           </BodyLarge>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Button 
-              variant="donate" 
-              size="lg"
-              className="text-lg px-8 py-4 flex items-center gap-3 shadow-xl"
-            >
-              <Heart className="w-5 h-5" />
-              Sponsor an Animal
-              <ArrowRight className="w-5 h-5" />
-            </Button>
+            <Link to="/donate">
+              <Button 
+                variant="donate" 
+                size="lg"
+                className="text-lg px-8 py-4 flex items-center gap-3 shadow-xl"
+              >
+                <Heart className="w-5 h-5" />
+                Sponsor an Animal
+                <ArrowRight className="w-5 h-5" />
+              </Button>
+            </Link>
             
-            <Button 
-              variant="secondary" 
-              size="lg"
-              className="text-lg px-8 py-4 flex items-center gap-3 bg-white/20 backdrop-blur-sm border-white/30 text-white hover:bg-white/30"
-            >
-              <Users className="w-5 h-5" />
-              Become a Volunteer
-            </Button>
+            <Link to="/volunteer">
+              <Button 
+                variant="secondary" 
+                size="lg"
+                className="text-lg px-8 py-4 flex items-center gap-3 bg-white/20 backdrop-blur-sm border-white/30 text-white hover:bg-white/30"
+              >
+                <Users className="w-5 h-5" />
+                Become a Volunteer
+              </Button>
+            </Link>
           </div>
           
           {/* Scroll indicator */}
@@ -225,13 +230,18 @@ export function HomePage() {
           </div>
           
           <div className="text-center">
-            <Button variant="primary" size="lg" className="flex items-center gap-2 mx-auto">
-              Meet All Our Animals
-              <ArrowRight className="w-5 h-5" />
-            </Button>
+            <Link to="/animals">
+              <Button variant="primary" size="lg" className="flex items-center gap-2 mx-auto">
+                Meet All Our Animals
+                <ArrowRight className="w-5 h-5" />
+              </Button>
+            </Link>
           </div>
         </div>
       </section>
+
+      {/* Latest Blog Stories */}
+      <HomepageBlogSection />
 
       {/* Call-to-Action Sections */}
       <section className="py-20 bg-gradient-to-br from-sanctuary-600 to-earth-600 text-white">
@@ -264,10 +274,12 @@ export function HomePage() {
                     <span>Full animal sponsorship</span>
                   </div>
                 </div>
-                <Button variant="donate" size="lg" className="w-full bg-white text-sanctuary-800 hover:bg-white/90">
-                  <Heart className="w-5 h-5 mr-2" />
-                  Make a Donation
-                </Button>
+                <Link to="/donate">
+                  <Button variant="donate" size="lg" className="w-full bg-white text-sanctuary-800 hover:bg-white/90">
+                    <Heart className="w-5 h-5 mr-2" />
+                    Make a Donation
+                  </Button>
+                </Link>
               </CardContent>
             </Card>
             
@@ -298,10 +310,12 @@ export function HomePage() {
                     <span>Educational programs</span>
                   </div>
                 </div>
-                <Button variant="secondary" size="lg" className="w-full bg-white text-earth-800 hover:bg-white/90">
-                  <Users className="w-5 h-5 mr-2" />
-                  Become a Volunteer
-                </Button>
+                <Link to="/volunteer">
+                  <Button variant="secondary" size="lg" className="w-full bg-white text-earth-800 hover:bg-white/90">
+                    <Users className="w-5 h-5 mr-2" />
+                    Become a Volunteer
+                  </Button>
+                </Link>
               </CardContent>
             </Card>
           </div>
@@ -398,10 +412,12 @@ export function HomePage() {
               </Card>
             </div>
             
-            <Button variant="primary" size="lg" className="flex items-center gap-2 mx-auto">
-              Schedule a Visit
-              <ArrowRight className="w-5 h-5" />
-            </Button>
+            <Link to="/contact">
+              <Button variant="primary" size="lg" className="flex items-center gap-2 mx-auto">
+                Schedule a Visit
+                <ArrowRight className="w-5 h-5" />
+              </Button>
+            </Link>
           </div>
         </div>
       </section>
