@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { DesignSystem } from '../components/DesignSystem'
 import { HomepageBlogSection } from '../components/HomepageBlogSection'
+import { FeaturedNewsSection } from '../components/FeaturedNewsSection'
 import { Button, H1, H2, BodyLarge, BodyText, Card, CardHeader, CardTitle, CardContent } from '../components/ui'
 import { getFeaturedAnimals } from '../data/animals'
 import { 
@@ -15,7 +16,6 @@ import {
   DollarSign,
   UserPlus,
   Star,
-  Mail,
   Facebook,
   Instagram,
   Twitter
@@ -322,55 +322,36 @@ export function HomePage() {
         </div>
       </section>
 
-      {/* Newsletter & Social */}
-      <section className="py-20 bg-sanctuary-50">
+      {/* Featured News & Updates */}
+      <FeaturedNewsSection />
+
+      {/* Social Media & Community */}
+      <section className="py-16 bg-sanctuary-50">
         <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-12">
-              <H2 className="text-sanctuary-800 mb-6">Stay Connected</H2>
-              <BodyLarge className="text-sanctuary-600">
-                Get updates on our animals, upcoming events, and ways to help. Join our community of animal lovers!
-              </BodyLarge>
+          <div className="max-w-4xl mx-auto text-center">
+            <H2 className="text-sanctuary-800 mb-6">Join Our Community</H2>
+            <BodyLarge className="text-sanctuary-600 mb-8">
+              Follow along with daily life at the sanctuary and stay connected with our community of animal lovers.
+            </BodyLarge>
+            
+            <div className="flex justify-center gap-4 mb-8">
+              <Button variant="outline" size="lg" className="flex items-center gap-3">
+                <Facebook className="w-5 h-5" />
+                Facebook
+              </Button>
+              <Button variant="outline" size="lg" className="flex items-center gap-3">
+                <Instagram className="w-5 h-5" />
+                Instagram  
+              </Button>
+              <Button variant="outline" size="lg" className="flex items-center gap-3">
+                <Twitter className="w-5 h-5" />
+                Twitter
+              </Button>
             </div>
             
-            <Card className="bg-white/60 backdrop-blur-sm border-sanctuary-200 p-8">
-              <CardContent>
-                <div className="flex flex-col md:flex-row gap-6 items-center">
-                  <div className="flex-1">
-                    <H2 className="text-xl text-sanctuary-800 mb-2">Newsletter Signup</H2>
-                    <BodyText className="text-sanctuary-600 mb-4">
-                      Monthly updates and heartwarming animal stories delivered to your inbox.
-                    </BodyText>
-                    <div className="flex gap-3">
-                      <input 
-                        type="email" 
-                        placeholder="Enter your email"
-                        className="flex-1 px-4 py-3 border border-sanctuary-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sanctuary-500"
-                      />
-                      <Button variant="primary" className="px-6">
-                        <Mail className="w-4 h-4 mr-2" />
-                        Subscribe
-                      </Button>
-                    </div>
-                  </div>
-                  
-                  <div className="flex flex-col items-center gap-4">
-                    <BodyText className="text-sanctuary-600 font-medium">Follow Us</BodyText>
-                    <div className="flex gap-3">
-                      <Button variant="outline" size="sm" className="p-3">
-                        <Facebook className="w-5 h-5" />
-                      </Button>
-                      <Button variant="outline" size="sm" className="p-3">
-                        <Instagram className="w-5 h-5" />
-                      </Button>
-                      <Button variant="outline" size="sm" className="p-3">
-                        <Twitter className="w-5 h-5" />
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+            <BodyText className="text-sanctuary-500">
+              Share our stories, tag us in your posts, and help spread awareness about farm animal rescue.
+            </BodyText>
           </div>
         </div>
       </section>
