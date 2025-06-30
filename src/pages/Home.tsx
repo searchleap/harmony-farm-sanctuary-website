@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { DesignSystem } from '../components/DesignSystem'
 import { HomepageBlogSection } from '../components/HomepageBlogSection'
 import { FeaturedNewsSection } from '../components/FeaturedNewsSection'
-import { Button, H1, H2, BodyLarge, BodyText, Card, CardHeader, CardTitle, CardContent } from '../components/ui'
+import { Button, H1, H2, H3, BodyLarge, BodyText, Card, CardHeader, CardTitle, CardContent } from '../components/ui'
 import { getFeaturedAnimals } from '../data/animals'
 import { 
   Palette, 
@@ -18,7 +18,9 @@ import {
   Star,
   Facebook,
   Instagram,
-  Twitter
+  Twitter,
+  HelpCircle,
+  BookOpen
 } from 'lucide-react'
 
 export function HomePage() {
@@ -399,6 +401,105 @@ export function HomePage() {
                 <ArrowRight className="w-5 h-5" />
               </Button>
             </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ and Resources */}
+      <section className="py-20 bg-gradient-to-br from-sanctuary-50 to-earth-50">
+        <div className="container mx-auto px-4">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-16">
+              <H2 className="text-sanctuary-800 mb-6">Learn & Get Support</H2>
+              <BodyLarge className="text-sanctuary-600 max-w-2xl mx-auto">
+                Find answers to your questions and explore our educational resources about animal welfare and sanctuary life.
+              </BodyLarge>
+            </div>
+            
+            <div className="grid lg:grid-cols-2 gap-12">
+              {/* FAQ Section */}
+              <Card className="bg-white/60 backdrop-blur-sm border-sanctuary-200 p-8 hover:shadow-xl transition-all duration-300">
+                <div className="text-center">
+                  <div className="w-16 h-16 bg-sanctuary-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <HelpCircle className="w-8 h-8 text-sanctuary-600" />
+                  </div>
+                  <H3 className="text-sanctuary-800 mb-4">Frequently Asked Questions</H3>
+                  <BodyText className="text-sanctuary-600 mb-6">
+                    Get instant answers to common questions about visiting, volunteering, our animals, and sanctuary operations.
+                  </BodyText>
+                  
+                  <div className="grid grid-cols-2 gap-4 mb-6 text-sm">
+                    <div className="bg-sanctuary-50 rounded-lg p-3">
+                      <div className="font-semibold text-sanctuary-800">25+</div>
+                      <div className="text-sanctuary-600">Questions Answered</div>
+                    </div>
+                    <div className="bg-sanctuary-50 rounded-lg p-3">
+                      <div className="font-semibold text-sanctuary-800">8</div>
+                      <div className="text-sanctuary-600">Topic Categories</div>
+                    </div>
+                  </div>
+                  
+                  <Link to="/faq">
+                    <Button variant="primary" className="w-full">
+                      Browse FAQ
+                      <ArrowRight className="w-4 h-4 ml-2" />
+                    </Button>
+                  </Link>
+                </div>
+              </Card>
+
+              {/* Resources Section */}
+              <Card className="bg-white/60 backdrop-blur-sm border-sanctuary-200 p-8 hover:shadow-xl transition-all duration-300">
+                <div className="text-center">
+                  <div className="w-16 h-16 bg-earth-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <BookOpen className="w-8 h-8 text-earth-600" />
+                  </div>
+                  <H3 className="text-sanctuary-800 mb-4">Educational Resources</H3>
+                  <BodyText className="text-sanctuary-600 mb-6">
+                    Download guides, watch videos, and explore comprehensive materials about animal welfare and compassionate living.
+                  </BodyText>
+                  
+                  <div className="grid grid-cols-2 gap-4 mb-6 text-sm">
+                    <div className="bg-earth-50 rounded-lg p-3">
+                      <div className="font-semibold text-sanctuary-800">15+</div>
+                      <div className="text-sanctuary-600">Resources Available</div>
+                    </div>
+                    <div className="bg-earth-50 rounded-lg p-3">
+                      <div className="font-semibold text-sanctuary-800">PDF & Video</div>
+                      <div className="text-sanctuary-600">Multiple Formats</div>
+                    </div>
+                  </div>
+                  
+                  <Link to="/resources">
+                    <Button variant="secondary" className="w-full">
+                      Explore Resources
+                      <ArrowRight className="w-4 h-4 ml-2" />
+                    </Button>
+                  </Link>
+                </div>
+              </Card>
+            </div>
+            
+            {/* Quick Links */}
+            <div className="mt-12 text-center">
+              <BodyText className="text-sanctuary-600 mb-4">
+                Need immediate help? Try these popular topics:
+              </BodyText>
+              <div className="flex flex-wrap justify-center gap-3">
+                <Link to="/faq#visiting">
+                  <Button variant="outline" size="sm">Planning Your Visit</Button>
+                </Link>
+                <Link to="/faq#volunteering">
+                  <Button variant="outline" size="sm">Volunteer Opportunities</Button>
+                </Link>
+                <Link to="/resources#animal-care">
+                  <Button variant="outline" size="sm">Animal Care Guides</Button>
+                </Link>
+                <Link to="/contact">
+                  <Button variant="outline" size="sm">Contact Support</Button>
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
       </section>
