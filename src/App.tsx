@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { Navigation } from './components/Navigation'
 import { 
@@ -17,9 +18,29 @@ import { BlogPage } from './pages/BlogPage'
 import { BlogPostPage } from './pages/BlogPostPage'
 import { BlogCategoryPage } from './pages/BlogCategoryPage'
 import { BlogSearchPage } from './pages/BlogSearchPage'
+import { initPerformanceMonitoring, preloadCriticalResources } from './utils/performance'
 
 function App() {
   console.log('🌟 Harmony Farm Sanctuary App initialized with React Router')
+  
+  // Initialize performance monitoring
+  useEffect(() => {
+    initPerformanceMonitoring()
+    
+    // Preload critical resources
+    const criticalResources = [
+      // Critical fonts
+      '/fonts/inter-var.woff2',
+      // Critical images (if any)
+      '/images/hero-sanctuary.webp',
+      '/images/logo.webp'
+    ]
+    
+    // Only preload if browser supports it
+    if ('link' in document.createElement('link')) {
+      preloadCriticalResources(criticalResources)
+    }
+  }, [])
   
   return (
     <Router>

@@ -7,6 +7,8 @@ import { ArrowRight, BookOpen, Users } from 'lucide-react';
 import { BlogSearchParams } from '../types/blog';
 import { searchBlogPosts, getBlogAnalytics } from '../utils/blogHelpers';
 import { getFeaturedBlogPosts } from '../data/blogPosts';
+import { generateBlogListingStructuredData } from '../utils/seoHelpers';
+import { SEOHead } from '../components/SEOHead';
 import { BlogFilters } from '../components/blog/BlogFilters';
 import { BlogCard } from '../components/blog/BlogCard';
 import { BlogPreview } from '../components/blog/BlogPreview';
@@ -54,9 +56,31 @@ export const BlogPage: React.FC = () => {
 
   // Pagination logic
   const hasMorePosts = searchResults.currentPage < searchResults.totalPages;
+  
+  // Generate SEO data
+  const structuredData = generateBlogListingStructuredData(searchResults.posts, 'blog');
 
   return (
     <div className="min-h-screen bg-gray-50">
+      {/* SEO Meta Tags */}
+      <SEOHead
+        title="Blog - Stories from the Sanctuary | Harmony Farm Sanctuary"
+        description="Discover heartwarming animal stories, educational insights, and the latest news from our farm animal sanctuary. Read about rescue stories, animal care, and compassionate living."
+        keywords="farm animal sanctuary, animal rescue stories, pig intelligence, animal welfare, vegan education, sanctuary news, animal updates"
+        canonical="https://harmonyfarm.org/blog"
+        
+        ogType="website"
+        ogTitle="Blog - Stories from the Sanctuary"
+        ogDescription="Discover heartwarming animal stories, educational insights, and the latest news from our farm animal sanctuary."
+        ogImage="https://harmonyfarm.org/images/blog-og-image.jpg"
+        ogUrl="https://harmonyfarm.org/blog"
+        
+        twitterTitle="Blog - Stories from the Sanctuary"
+        twitterDescription="Discover heartwarming animal stories, educational insights, and the latest news from our farm animal sanctuary."
+        twitterImage="https://harmonyfarm.org/images/blog-twitter-image.jpg"
+        
+        structuredData={structuredData}
+      />
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-sanctuary-primary to-sanctuary-secondary text-white">
         <div className="container mx-auto px-4 py-16">

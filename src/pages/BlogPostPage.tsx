@@ -8,6 +8,7 @@ import { BlogPost } from '../types/blog';
 import { incrementPostViews } from '../utils/blogHelpers';
 import { getBlogPostBySlug } from '../data/blogPosts';
 import { generateBlogPostMeta, generateBlogPostStructuredData } from '../utils/seoHelpers';
+import { SEOHead } from '../components/SEOHead';
 import { BlogContent } from '../components/blog/BlogContent';
 import { BlogEngagement } from '../components/blog/BlogEngagement';
 import { RelatedPosts } from '../components/blog/RelatedPosts';
@@ -46,34 +47,9 @@ export const BlogPostPage: React.FC = () => {
     return () => clearTimeout(timer);
   }, [slug]);
 
-  // Update document head with meta tags
-  useEffect(() => {
-    if (post) {
-      const meta = generateBlogPostMeta(post);
-      const structuredData = generateBlogPostStructuredData(post);
-      
-      // Update page title
-      document.title = meta.title;
-      
-      // Update meta description
-      const metaDescription = document.querySelector('meta[name="description"]');
-      if (metaDescription) {
-        metaDescription.setAttribute('content', meta.description);
-      }
-      
-      // Add structured data
-      const script = document.createElement('script');
-      script.type = 'application/ld+json';
-      script.textContent = JSON.stringify(structuredData);
-      document.head.appendChild(script);
-      
-      return () => {
-        // Cleanup
-        document.head.removeChild(script);
-        document.title = 'Harmony Farm Sanctuary';
-      };
-    }
-  }, [post]);
+  // Generate SEO meta data
+  const seoMeta = post ? generateBlogPostMeta(post) : null;
+  const structuredData = post ? generateBlogPostStructuredData(post) : null;
 
   if (loading) {
     return (
@@ -116,6 +92,38 @@ export const BlogPostPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      {/* SEO Meta Tags */}
+      {seoMeta && (
+        <SEOHead
+          title={seoMeta.title}
+          description={seoMeta.description}
+          keywords={seoMeta.keywords}
+          canonical={seoMeta.canonical}
+          robots={seoMeta.robots}
+          
+          ogType={seoMeta.ogType}
+          ogTitle={seoMeta.ogTitle}
+          ogDescription={seoMeta.ogDescription}
+          ogImage={seoMeta.ogImage}
+          ogUrl={seoMeta.ogUrl}
+          ogSiteName={seoMeta.ogSiteName}
+          
+          twitterCard={seoMeta.twitterCard}
+          twitterTitle={seoMeta.twitterTitle}
+          twitterDescription={seoMeta.twitterDescription}
+          twitterImage={seoMeta.twitterImage}
+          twitterSite={seoMeta.twitterSite}
+          twitterCreator={seoMeta.twitterCreator}
+          
+          articlePublishedTime={seoMeta.articlePublishedTime}
+          articleModifiedTime={seoMeta.articleModifiedTime}
+          articleAuthor={seoMeta.articleAuthor}
+          articleSection={seoMeta.articleSection}
+          articleTag={seoMeta.articleTag}
+          
+          structuredData={structuredData || undefined}
+        />
+      )}
       {/* Header Section */}
       <header className="bg-white border-b border-gray-200">
         <div className="container mx-auto px-4 py-6">
