@@ -111,7 +111,7 @@ export function Navigation() {
   return (
     <nav className="bg-white shadow-sm border-b border-sanctuary-100 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-20">
+        <div className="flex justify-between items-center h-16">
           {/* Logo and Brand */}
           <Link 
             to="/" 
@@ -128,10 +128,9 @@ export function Navigation() {
           </Link>
           
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center space-x-2">
+          <div className="hidden lg:flex items-center space-x-3">
             {/* Primary Navigation */}
             {primaryNavItems.map((item) => {
-              const Icon = item.icon
               const isActive = isActivePath(item.href)
               
               return (
@@ -139,14 +138,13 @@ export function Navigation() {
                   key={item.href}
                   to={item.href}
                   className={cn(
-                    'flex items-center px-4 py-3 rounded-lg text-sm font-semibold transition-all duration-200',
+                    'px-5 py-3 rounded-lg text-sm font-medium transition-all duration-200',
                     isActive
                       ? 'bg-sanctuary-100 text-sanctuary-800 shadow-sm'
                       : 'text-gray-700 hover:bg-sanctuary-50 hover:text-sanctuary-700 hover:shadow-sm'
                   )}
                   title={item.description}
                 >
-                  <Icon className="w-4 h-4 mr-2" />
                   {item.label}
                 </Link>
               )
@@ -154,7 +152,6 @@ export function Navigation() {
             
             {/* Dropdown Groups */}
             {dropdownGroups.map((group) => {
-              const Icon = group.icon
               const isActive = isGroupActive(group)
               const isDropdownOpen = activeDropdown === group.label
               
@@ -163,7 +160,7 @@ export function Navigation() {
                   <button
                     onClick={() => handleDropdownToggle(group.label)}
                     className={cn(
-                      'flex items-center px-4 py-3 rounded-lg text-sm font-semibold transition-all duration-200',
+                      'flex items-center px-5 py-3 rounded-lg text-sm font-medium transition-all duration-200',
                       isActive || isDropdownOpen
                         ? 'bg-sanctuary-100 text-sanctuary-800 shadow-sm'
                         : 'text-gray-700 hover:bg-sanctuary-50 hover:text-sanctuary-700 hover:shadow-sm'
@@ -171,10 +168,9 @@ export function Navigation() {
                     aria-expanded={isDropdownOpen}
                     aria-haspopup="true"
                   >
-                    <Icon className="w-4 h-4 mr-2" />
                     {group.label}
                     <ChevronDown className={cn(
-                      "w-4 h-4 ml-1 transition-transform duration-200",
+                      "w-4 h-4 ml-2 transition-transform duration-200",
                       isDropdownOpen && "rotate-180"
                     )} />
                   </button>
