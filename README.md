@@ -166,11 +166,27 @@ For complete requirements, see: [development-plan.md](./development-plan.md)
       - [x] All store components working with Shopify data
       - [x] Testing page at /shopify-test with real Shopify integration
       - [x] Environment configuration and setup documentation
-  - [ ] Phase 3: Store Pages & Checkout (Steps 7-9) ⏳ **NEXT** 
+  - [ ] Phase 3: Store Pages & Checkout (Steps 7-9) **PAUSED** (Waiting for Shopify store setup)
     - [ ] ShopPage with Shopify integration
     - [ ] ProductPage with Shopify product details  
     - [ ] Shopify checkout integration
   - [ ] Phase 4: Integration & Enhancement (Steps 10-12)
+- [ ] **Task 14**: Core Site Admin Functionality ⏳ **IN PROGRESS - Phase 1**
+  - [ ] Phase 1: Admin Foundation (Steps 1-4) ⏳ **STARTING**
+    - [ ] Admin authentication system with role-based access
+    - [ ] Admin dashboard layout with statistics
+    - [ ] Admin data management infrastructure
+    - [ ] Admin content management system core
+  - [ ] Phase 2: Content Management (Steps 5-8)
+    - [ ] Animal management system
+    - [ ] Blog management system
+    - [ ] FAQ & resource management
+    - [ ] User & volunteer management
+  - [ ] Phase 3: Advanced Admin Features (Steps 9-12)
+    - [ ] Analytics & reporting dashboard
+    - [ ] Settings & configuration
+    - [ ] Backup & export functions
+    - [ ] Admin testing & documentation
 
 ## Tech Stack
 
