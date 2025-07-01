@@ -25,6 +25,9 @@ import { ResourceDetailPage } from './pages/ResourceDetailPage'
 import StoreTestPage from './components/store/StoreTestPage'
 import ShopifyTestPage from './components/store/ShopifyTestPage'
 import AdminLoginPage from './pages/admin/AdminLoginPage'
+import AdminPage from './pages/admin/AdminPage'
+import AdminLayout from './components/admin/AdminLayout'
+import ProtectedRoute from './components/admin/ProtectedRoute'
 import { initPerformanceMonitoring, preloadCriticalResources } from './utils/performance'
 
 function App() {
@@ -56,6 +59,14 @@ function App() {
           <Routes>
             {/* Admin Routes */}
             <Route path="/admin/login" element={<AdminLoginPage />} />
+            <Route path="/admin/*" element={
+              <ProtectedRoute>
+                <AdminLayout />
+              </ProtectedRoute>
+            }>
+              <Route index element={<AdminPage />} />
+              {/* More admin routes will be added in future steps */}
+            </Route>
             
             {/* Public Routes */}
             <Route path="/*" element={

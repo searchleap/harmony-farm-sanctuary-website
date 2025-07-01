@@ -207,7 +207,7 @@ export function Navigation() {
           </div>
           
           {/* Donate Button - Desktop */}
-          <div className="hidden lg:flex items-center">
+          <div className="hidden lg:flex items-center space-x-3">
             <Link to="/donate">
               <Button 
                 variant="donate" 
@@ -217,6 +217,14 @@ export function Navigation() {
                 <Heart className="w-4 h-4 mr-2" />
                 Donate
               </Button>
+            </Link>
+            
+            {/* Admin Access - Development */}
+            <Link 
+              to="/admin"
+              className="text-xs text-gray-400 hover:text-gray-600 transition-colors px-2 py-1 rounded"
+            >
+              Admin
             </Link>
           </div>
           
@@ -318,7 +326,7 @@ export function Navigation() {
             
             {/* Mobile Donate Button */}
             <div className="pt-4 border-t border-sanctuary-100">
-              <Link to="/donate" onClick={closeMenu} className="block">
+              <Link to="/donate" onClick={closeMenu} className="block mb-3">
                 <Button 
                   variant="donate" 
                   size="lg"
@@ -327,6 +335,15 @@ export function Navigation() {
                   <Heart className="w-5 h-5 mr-2" />
                   Donate Now
                 </Button>
+              </Link>
+              
+              {/* Admin Access - Development */}
+              <Link 
+                to="/admin" 
+                onClick={closeMenu}
+                className="block text-center text-xs text-gray-400 hover:text-gray-600 transition-colors"
+              >
+                Admin Panel
               </Link>
             </div>
           </div>
