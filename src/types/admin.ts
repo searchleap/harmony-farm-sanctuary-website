@@ -32,7 +32,8 @@ export type AdminResource =
   | 'users' 
   | 'settings' 
   | 'analytics'
-  | 'donations';
+  | 'donations'
+  | 'inquiries';
 
 export type AdminAction = 'create' | 'read' | 'update' | 'delete';
 

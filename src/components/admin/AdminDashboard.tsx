@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { 
   Heart, 
   FileText, 
@@ -11,34 +11,50 @@ import {
   AlertCircle,
   CheckCircle2,
   Clock,
-  Eye
+  Eye,
+  RefreshCw
 } from 'lucide-react';
 import { useAdminAuth } from '../../contexts/AdminAuthContext';
-import { animals } from '../../data/animals';
-import { blogPosts } from '../../data/blogPosts';
-import { faqs } from '../../data/faqs';
-import { educationalResources } from '../../data/educationalResources';
-import { volunteerRoles } from '../../data/volunteerRoles';
+import { useAdminStats } from '../../hooks/useAdminData';
+import { AdminDataInitializer } from '../../utils/adminDataInit';
+import { AdminDataManager } from '../../utils/adminData';
 
 const AdminDashboard: React.FC = () => {
   const { user } = useAdminAuth();
+  const { stats, loading: statsLoading, reload: reloadStats } = useAdminStats();
+  const [isInitializing, setIsInitializing] = useState(false);
+  const [lastInitialized, setLastInitialized] = useState<Date | null>(null);
 
-  // Calculate statistics from existing data
-  const stats = {
-    totalAnimals: animals.length,
-    totalBlogPosts: blogPosts.length,
-    totalFAQs: faqs.length,
-    totalResources: educationalResources.length,
-    totalVolunteers: volunteerRoles.reduce((sum, role) => sum + role.currentVolunteers, 0),
-    pendingApplications: 5, // Mock data
-    unreadInquiries: 8, // Mock data
-    thisMonthDonations: 15420, // Mock data
+  // Initialize admin data on first load
+  useEffect(() => {
+    const initializeData = async () => {
+      try {
+        setIsInitializing(true);
+        console.log('Initializing admin data...');
+        await AdminDataInitializer.initializeData();
+        setLastInitialized(new Date());
+        reloadStats();
+      } catch (error) {
+        console.error('Failed to initialize admin data:', error);
+      } finally {
+        setIsInitializing(false);
+      }
+    };
+
+    initializeData();
+  }, [reloadStats]);
+
+  // Calculate additional statistics
+  const additionalStats = {
+    pendingApplications: 5, // TODO: Calculate from actual volunteer applications
+    unreadInquiries: stats.inquiries || 8,
+    thisMonthDonations: 15420, // TODO: Calculate from actual donations this month
   };
 
   const dashboardCards = [
     {
       title: 'Animals',
-      value: stats.totalAnimals,
+      value: stats.animals || 0,
       change: '+2 this month',
       changeType: 'increase' as const,
       icon: <Heart className="h-6 w-6" />,
@@ -47,7 +63,7 @@ const AdminDashboard: React.FC = () => {
     },
     {
       title: 'Blog Posts',
-      value: stats.totalBlogPosts,
+      value: stats.blogPosts || 0,
       change: '+1 this week',
       changeType: 'increase' as const,
       icon: <FileText className="h-6 w-6" />,
@@ -56,25 +72,25 @@ const AdminDashboard: React.FC = () => {
     },
     {
       title: 'Volunteers',
-      value: stats.totalVolunteers,
+      value: stats.volunteers || 0,
       change: '+3 this month',
       changeType: 'increase' as const,
       icon: <Users className="h-6 w-6" />,
       color: 'bg-green-500',
-      description: 'Active volunteers'
+      description: 'Active volunteer roles'
     },
     {
       title: 'Inquiries',
-      value: stats.unreadInquiries,
+      value: additionalStats.unreadInquiries,
       change: 'Needs attention',
       changeType: 'alert' as const,
       icon: <Mail className="h-6 w-6" />,
       color: 'bg-orange-500',
-      description: 'Unread messages'
+      description: 'Contact submissions'
     },
     {
       title: 'Donations',
-      value: `$${stats.thisMonthDonations.toLocaleString()}`,
+      value: `$${additionalStats.thisMonthDonations.toLocaleString()}`,
       change: '+12% this month',
       changeType: 'increase' as const,
       icon: <DollarSign className="h-6 w-6" />,
@@ -83,7 +99,7 @@ const AdminDashboard: React.FC = () => {
     },
     {
       title: 'Resources',
-      value: stats.totalResources,
+      value: stats.resources || 0,
       change: 'All published',
       changeType: 'stable' as const,
       icon: <Activity className="h-6 w-6" />,
@@ -195,18 +211,46 @@ const AdminDashboard: React.FC = () => {
     <div className="p-6 max-w-7xl mx-auto">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">
-          Welcome back, {user?.firstName}!
-        </h1>
-        <p className="text-gray-600">
-          Here's what's happening at Harmony Farm Sanctuary today.
-        </p>
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">
+              Welcome back, {user?.firstName}!
+            </h1>
+            <p className="text-gray-600">
+              Here's what's happening at Harmony Farm Sanctuary today.
+            </p>
+          </div>
+          
+          <div className="flex items-center space-x-3">
+            {isInitializing && (
+              <div className="flex items-center text-sm text-blue-600">
+                <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
+                Initializing data...
+              </div>
+            )}
+            
+            {lastInitialized && (
+              <div className="text-sm text-gray-500">
+                Data updated: {lastInitialized.toLocaleTimeString()}
+              </div>
+            )}
+            
+            <button
+              onClick={reloadStats}
+              disabled={statsLoading || isInitializing}
+              className="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-colors disabled:opacity-50"
+              title="Refresh statistics"
+            >
+              <RefreshCw className={`h-4 w-4 ${(statsLoading || isInitializing) ? 'animate-spin' : ''}`} />
+            </button>
+          </div>
+        </div>
       </div>
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
         {dashboardCards.map((card, index) => (
-          <div key={index} className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
+          <div key={index} className={`bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow ${(statsLoading || isInitializing) ? 'opacity-50' : ''}`}>
             <div className="flex items-center justify-between mb-4">
               <div className={`p-3 rounded-lg ${card.color}`}>
                 <div className="text-white">
