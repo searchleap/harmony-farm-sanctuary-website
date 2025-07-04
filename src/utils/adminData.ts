@@ -10,15 +10,19 @@ import { VolunteerRole } from '../data/volunteerRoles';
 
 // Storage keys for different data types
 export const STORAGE_KEYS = {
+  admin: 'harmony_admin_admin',
   animals: 'harmony_admin_animals',
-  blogPosts: 'harmony_admin_blog_posts',
-  faqs: 'harmony_admin_faqs',
+  blog: 'harmony_admin_blog_posts',
+  faq: 'harmony_admin_faqs',
   resources: 'harmony_admin_resources',
   volunteers: 'harmony_admin_volunteers',
-  inquiries: 'harmony_admin_inquiries',
-  donations: 'harmony_admin_donations',
+  users: 'harmony_admin_users',
   settings: 'harmony_admin_settings',
   analytics: 'harmony_admin_analytics',
+  inquiries: 'harmony_admin_inquiries',
+  donations: 'harmony_admin_donations',
+  backup: 'harmony_admin_backup',
+  testing: 'harmony_admin_testing',
   metadata: 'harmony_admin_metadata',
 } as const;
 
