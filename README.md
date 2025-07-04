@@ -172,11 +172,11 @@ For complete requirements, see: [development-plan.md](./development-plan.md)
     - [ ] Shopify checkout integration
   - [ ] Phase 4: Integration & Enhancement (Steps 10-12)
 - [ ] **Task 14**: Core Site Admin Functionality ⏳ **IN PROGRESS - Phase 1 Step 2**
-  - [ ] Phase 1: Admin Foundation (Steps 1-4) ⏳ **Step 3**
+  - [ ] Phase 1: Admin Foundation (Steps 1-4) ⏳ **Step 4**
     - [x] Step 1: Admin authentication system with role-based access ✅
     - [x] Step 2: Admin dashboard layout with statistics ✅
-    - [ ] Step 3: Admin data management infrastructure ⏳ **NEXT**
-    - [ ] Step 4: Admin content management system core
+    - [x] Step 3: Admin data management infrastructure ✅
+    - [ ] Step 4: Admin content management system core ⏳ **NEXT**
   - [ ] Phase 2: Content Management (Steps 5-8)
     - [ ] Animal management system
     - [ ] Blog management system
