@@ -17,16 +17,25 @@ For complete requirements, see: [development-plan.md](./development-plan.md)
 
 ## 🚀 Deployment Status
 
-**Current Status**: READY FOR DEPLOYMENT ✅
-- ✅ Production build successful (npm run build:prod)
+**Current Status**: LIVE IN PRODUCTION ✅
+- ✅ **Auto-deployed via Vercel** (connected to GitHub main branch)
+- ✅ **Production URL**: Automatically deploys on every push to main
 - ✅ Admin system fully functional (80+ components)  
 - ✅ TypeScript errors resolved (critical issues)
-- ✅ Preview server tested (localhost:4173)
 - ✅ Bundle optimized (2.3MB JS, 84KB CSS)
 
-**Next Steps**: Deploy to Vercel → Configure domain → Go live!
+**Deployment Setup**: 
+- 🔄 **Automatic Deployment**: Vercel auto-deploys when pushing to GitHub
+- 📦 **Build Command**: `npm run build:prod`
+- 📁 **Output Directory**: `dist`
+- 🔗 **Repository**: Connected to `searchleap/harmony-farm-sanctuary-website`
 
 ## Development Progress
+
+### 🌐 Production Access
+- **Live Site**: Auto-deployed via Vercel (latest commit)
+- **Admin Panel**: `/admin` (credentials: admin/admin123)
+- **GitHub Integration**: Automatic deployment on push to main branch
 
 ### ✅ Completed Milestones
 - [x] Project initialization with TaskMaster
@@ -294,6 +303,31 @@ The project uses TaskMaster for organized development with 25 carefully planned 
 
 ### TaskMaster Integration Issues
 Currently experiencing MCP error handling issues with the TaskMaster server that prevent automated task management. Tasks have been manually created and are tracked in `.taskmaster/tasks/tasks.json`.
+
+## 🔄 Deployment Workflow
+
+**IMPORTANT**: This project has **automatic deployment** configured with Vercel.
+
+### How Deployment Works
+1. **Push to main branch** → Vercel automatically deploys
+2. **Build command**: `npm run build:prod` (uses Vite without TypeScript checking)
+3. **Output directory**: `dist/`
+4. **Live in ~2-3 minutes** after push
+
+### Development Workflow
+```bash
+# Make changes locally
+git add .
+git commit -m "Your changes"
+git push origin main
+# ↳ Vercel automatically deploys to production
+```
+
+### Deployment Configuration
+- **Platform**: Vercel (connected to GitHub)
+- **Repository**: `searchleap/harmony-farm-sanctuary-website`
+- **Branch**: `main` (auto-deploy enabled)
+- **Build**: Optimized production bundle (2.3MB JS, 84KB CSS)
 
 ## Development Status
 
