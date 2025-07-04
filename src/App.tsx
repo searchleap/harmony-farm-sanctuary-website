@@ -34,6 +34,11 @@ import { AnimalsPage as AdminAnimalsPage } from './pages/admin/AnimalsPage'
 import { BlogPage as AdminBlogPage } from './pages/admin/BlogPage'
 import { FAQPage as AdminFAQPage } from './pages/admin/FAQPage'
 import { ResourcesPage as AdminResourcesPage } from './pages/admin/ResourcesPage'
+import { VolunteersPage as AdminVolunteersPage } from './pages/admin/VolunteersPage'
+import { InquiriesPage as AdminInquiriesPage } from './pages/admin/InquiriesPage'
+import { DonationsPage as AdminDonationsPage } from './pages/admin/DonationsPage'
+import { EventsPage as AdminEventsPage } from './pages/admin/EventsPage'
+import { ShopPage as AdminShopPage } from './pages/admin/ShopPage'
 import AdminLayout from './components/admin/AdminLayout'
 import ProtectedRoute from './components/admin/ProtectedRoute'
 import { initPerformanceMonitoring, preloadCriticalResources } from './utils/performance'
@@ -111,6 +116,31 @@ function App() {
               <Route path="resources" element={
                 <ProtectedRoute resource="resources" action="read">
                   <AdminResourcesPage />
+                </ProtectedRoute>
+              } />
+              <Route path="volunteers" element={
+                <ProtectedRoute resource="volunteers" action="read">
+                  <AdminVolunteersPage />
+                </ProtectedRoute>
+              } />
+              <Route path="inquiries" element={
+                <ProtectedRoute resource="inquiries" action="read">
+                  <AdminInquiriesPage />
+                </ProtectedRoute>
+              } />
+              <Route path="donations" element={
+                <ProtectedRoute resource="donations" action="read">
+                  <AdminDonationsPage />
+                </ProtectedRoute>
+              } />
+              <Route path="events" element={
+                <ProtectedRoute resource="settings" action="read">
+                  <AdminEventsPage />
+                </ProtectedRoute>
+              } />
+              <Route path="shop" element={
+                <ProtectedRoute resource="settings" action="read">
+                  <AdminShopPage />
                 </ProtectedRoute>
               } />
             </Route>

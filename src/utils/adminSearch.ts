@@ -311,3 +311,80 @@ export function quickSearch<T extends Record<string, any>>(
 
   return engine.search(searchTerm).data;
 }
+
+// Volunteer search configuration
+export function createVolunteerSearchConfig(): SearchConfig {
+  return {
+    fields: [
+      { field: 'title', weight: 3, type: 'string' },
+      { field: 'category', weight: 2, type: 'string' },
+      { field: 'description', weight: 1, type: 'string' },
+      { field: 'requirements', weight: 1, type: 'array' },
+      { field: 'urgency', weight: 2, type: 'string' }
+    ],
+    filters: {
+      ...commonFilters,
+      highUrgency: { field: 'urgency', operator: 'equals', value: 'high', type: 'string' },
+      animalCare: { field: 'category', operator: 'equals', value: 'animal-care', type: 'string' },
+      active: { field: 'isActive', operator: 'equals', value: true, type: 'boolean' }
+    },
+    options: {
+      caseSensitive: false,
+      includeMatches: true,
+      threshold: 0.3
+    }
+  };
+}
+
+// Inquiry search configuration
+export function createInquirySearchConfig(): SearchConfig {
+  return {
+    fields: [
+      { field: 'name', weight: 3, type: 'string' },
+      { field: 'email', weight: 2, type: 'string' },
+      { field: 'subject', weight: 3, type: 'string' },
+      { field: 'message', weight: 1, type: 'string' },
+      { field: 'type', weight: 2, type: 'string' }
+    ],
+    filters: {
+      ...commonFilters,
+      new: { field: 'status', operator: 'equals', value: 'new', type: 'string' },
+      responded: { field: 'status', operator: 'equals', value: 'responded', type: 'string' },
+      resolved: { field: 'status', operator: 'equals', value: 'resolved', type: 'string' },
+      highPriority: { field: 'priority', operator: 'equals', value: 'high', type: 'string' },
+      volunteer: { field: 'type', operator: 'equals', value: 'volunteer', type: 'string' },
+      adoption: { field: 'type', operator: 'equals', value: 'adoption', type: 'string' }
+    },
+    options: {
+      caseSensitive: false,
+      includeMatches: true,
+      threshold: 0.3
+    }
+  };
+}
+
+// Donation search configuration
+export function createDonationSearchConfig(): SearchConfig {
+  return {
+    fields: [
+      { field: 'donorName', weight: 3, type: 'string' },
+      { field: 'donorEmail', weight: 2, type: 'string' },
+      { field: 'purpose', weight: 2, type: 'string' },
+      { field: 'type', weight: 2, type: 'string' },
+      { field: 'method', weight: 1, type: 'string' }
+    ],
+    filters: {
+      ...commonFilters,
+      recurring: { field: 'isRecurring', operator: 'equals', value: true, type: 'boolean' },
+      monthly: { field: 'type', operator: 'equals', value: 'monthly', type: 'string' },
+      memorial: { field: 'type', operator: 'equals', value: 'memorial', type: 'string' },
+      sponsorship: { field: 'type', operator: 'equals', value: 'sponsorship', type: 'string' },
+      largeAmount: { field: 'amount', operator: 'gte', value: 100, type: 'number' }
+    },
+    options: {
+      caseSensitive: false,
+      includeMatches: true,
+      threshold: 0.3
+    }
+  };
+}
