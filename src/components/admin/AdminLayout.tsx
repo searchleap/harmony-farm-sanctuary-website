@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
-import { Menu, X, Bell, User, Settings, LogOut } from 'lucide-react';
+import { Menu, Bell, User, Settings, LogOut } from 'lucide-react';
 import { useAdminAuth } from '../../contexts/AdminAuthContext';
 import AdminSidebar from './AdminSidebar';
 

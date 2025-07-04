@@ -42,8 +42,8 @@ export function AdminEditPage({
   className = '',
   headerActions,
   footerContent,
-  sidebarContent,
-  validationMode = 'onBlur'
+  sidebarContent
+  // validationMode = 'onBlur' // TODO: Implement validation mode
 }: AdminEditPageProps) {
   const [isDirty, setIsDirty] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
@@ -72,11 +72,11 @@ export function AdminEditPage({
     }
   };
 
-  const handleFormChange = () => {
-    if (!isDirty) {
-      setIsDirty(true);
-    }
-  };
+  // const handleFormChange = () => {
+  //   if (!isDirty) {
+  //     setIsDirty(true);
+  //   }
+  // }; // TODO: Implement form change tracking
 
   return (
     <div className={`space-y-6 ${className}`}>
