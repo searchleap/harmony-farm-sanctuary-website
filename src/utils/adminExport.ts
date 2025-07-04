@@ -391,6 +391,7 @@ export function exportAnimals(animals: any[], config?: Partial<ExportConfig>): v
   const exporter = new AdminExporter(animals);
   const exportConfig: ExportConfig = {
     filename: 'animals-export.csv',
+    format: 'csv' as const,
     fields: ['name', 'species', 'breed', 'age', 'status', 'description', 'createdAt'],
     headers: {
       'name': 'Animal Name',
@@ -417,6 +418,7 @@ export function exportBlogPosts(posts: any[], config?: Partial<ExportConfig>): v
   const exporter = new AdminExporter(posts);
   const exportConfig: ExportConfig = {
     filename: 'blog-posts-export.csv',
+    format: 'csv' as const,
     fields: ['title', 'author', 'status', 'publishedAt', 'excerpt'],
     headers: {
       'title': 'Title',

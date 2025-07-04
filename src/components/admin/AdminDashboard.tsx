@@ -5,7 +5,6 @@ import {
   Users, 
   Mail, 
   TrendingUp, 
-  Calendar, 
   DollarSign,
   Activity,
   AlertCircle,
@@ -17,7 +16,7 @@ import {
 import { useAdminAuth } from '../../contexts/AdminAuthContext';
 import { useAdminStats } from '../../hooks/useAdminData';
 import { AdminDataInitializer } from '../../utils/adminDataInit';
-import { AdminDataManager } from '../../utils/adminData';
+// import { AdminDataManager } from '../../utils/adminData';
 
 const AdminDashboard: React.FC = () => {
   const { user } = useAdminAuth();
@@ -271,7 +270,7 @@ const AdminDashboard: React.FC = () => {
               <div className="flex items-center space-x-1">
                 <span className={`text-xs font-medium ${
                   card.changeType === 'increase' ? 'text-green-600' :
-                  card.changeType === 'decrease' ? 'text-red-600' :
+                  card.changeType === 'stable' ? 'text-gray-600' :
                   card.changeType === 'alert' ? 'text-orange-600' :
                   'text-gray-600'
                 }`}>

@@ -1,21 +1,25 @@
 import React from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { useAdminAuth } from '../../contexts/AdminAuthContext';
-import { AdminRole } from '../../types/admin';
+import { AdminRole, AdminResource, AdminAction } from '../../types/admin';
 import { AlertTriangle, Lock, Shield } from 'lucide-react';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
   requiredRoles?: AdminRole[];
+  resource?: AdminResource;
+  action?: AdminAction;
   fallbackPath?: string;
 }
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ 
   children, 
   requiredRoles = [],
+  resource,
+  action,
   fallbackPath = '/admin/login'
 }) => {
-  const { user, isAuthenticated, isLoading } = useAdminAuth();
+  const { user, isAuthenticated, isLoading, hasPermission } = useAdminAuth();
   const location = useLocation();
 
   // Show loading spinner while checking authentication
@@ -40,15 +44,24 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     return <AccessDenied userRole={user.role} requiredRoles={requiredRoles} />;
   }
 
+  // Check resource/action permissions
+  if (resource && action && !hasPermission(resource, action)) {
+    return <AccessDenied userRole={user?.role} requiredPermission={{ resource, action }} />;
+  }
+
   return <>{children}</>;
 };
 
 interface AccessDeniedProps {
-  userRole: AdminRole;
-  requiredRoles: AdminRole[];
+  userRole?: AdminRole;
+  requiredRoles?: AdminRole[];
+  requiredPermission?: {
+    resource: AdminResource;
+    action: AdminAction;
+  };
 }
 
-const AccessDenied: React.FC<AccessDeniedProps> = ({ userRole, requiredRoles }) => {
+const AccessDenied: React.FC<AccessDeniedProps> = ({ userRole, requiredRoles, requiredPermission }) => {
   const { logout } = useAdminAuth();
 
   const roleDescriptions = {
@@ -76,25 +89,45 @@ const AccessDenied: React.FC<AccessDeniedProps> = ({ userRole, requiredRoles }) 
           </p>
           
           <div className="bg-gray-50 rounded-lg p-4 mb-6 text-left">
-            <div className="flex items-center mb-2">
-              <Shield className="h-4 w-4 text-gray-500 mr-2" />
-              <span className="text-sm font-medium text-gray-700">Your Role:</span>
-            </div>
-            <p className="text-sm text-gray-600 ml-6">
-              {roleDescriptions[userRole]}
-            </p>
-            
-            <div className="flex items-center mt-4 mb-2">
-              <Lock className="h-4 w-4 text-gray-500 mr-2" />
-              <span className="text-sm font-medium text-gray-700">Required Roles:</span>
-            </div>
-            <div className="ml-6 space-y-1">
-              {requiredRoles.map(role => (
-                <p key={role} className="text-sm text-gray-600">
-                  {roleDescriptions[role]}
+            {userRole && (
+              <>
+                <div className="flex items-center mb-2">
+                  <Shield className="h-4 w-4 text-gray-500 mr-2" />
+                  <span className="text-sm font-medium text-gray-700">Your Role:</span>
+                </div>
+                <p className="text-sm text-gray-600 ml-6">
+                  {roleDescriptions[userRole]}
                 </p>
-              ))}
-            </div>
+              </>
+            )}
+            
+            {requiredRoles && requiredRoles.length > 0 && (
+              <>
+                <div className="flex items-center mt-4 mb-2">
+                  <Lock className="h-4 w-4 text-gray-500 mr-2" />
+                  <span className="text-sm font-medium text-gray-700">Required Roles:</span>
+                </div>
+                <div className="ml-6 space-y-1">
+                  {requiredRoles.map(role => (
+                    <p key={role} className="text-sm text-gray-600">
+                      {roleDescriptions[role]}
+                    </p>
+                  ))}
+                </div>
+              </>
+            )}
+
+            {requiredPermission && (
+              <>
+                <div className="flex items-center mt-4 mb-2">
+                  <Lock className="h-4 w-4 text-gray-500 mr-2" />
+                  <span className="text-sm font-medium text-gray-700">Required Permission:</span>
+                </div>
+                <p className="text-sm text-gray-600 ml-6">
+                  {requiredPermission.action} access to {requiredPermission.resource}
+                </p>
+              </>
+            )}
           </div>
           
           <div className="space-y-3">

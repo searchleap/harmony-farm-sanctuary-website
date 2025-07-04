@@ -26,6 +26,9 @@ import StoreTestPage from './components/store/StoreTestPage'
 import ShopifyTestPage from './components/store/ShopifyTestPage'
 import AdminLoginPage from './pages/admin/AdminLoginPage'
 import AdminPage from './pages/admin/AdminPage'
+import { AnimalsPage as AdminAnimalsPage } from './pages/admin/AnimalsPage'
+import { BlogPage as AdminBlogPage } from './pages/admin/BlogPage'
+import { FAQPage as AdminFAQPage } from './pages/admin/FAQPage'
 import AdminLayout from './components/admin/AdminLayout'
 import ProtectedRoute from './components/admin/ProtectedRoute'
 import { initPerformanceMonitoring, preloadCriticalResources } from './utils/performance'
@@ -65,7 +68,21 @@ function App() {
               </ProtectedRoute>
             }>
               <Route index element={<AdminPage />} />
-              {/* More admin routes will be added in future steps */}
+              <Route path="animals" element={
+                <ProtectedRoute resource="animals" action="read">
+                  <AdminAnimalsPage />
+                </ProtectedRoute>
+              } />
+              <Route path="blog" element={
+                <ProtectedRoute resource="blog" action="read">
+                  <AdminBlogPage />
+                </ProtectedRoute>
+              } />
+              <Route path="faq" element={
+                <ProtectedRoute resource="faq" action="read">
+                  <AdminFAQPage />
+                </ProtectedRoute>
+              } />
             </Route>
             
             {/* Public Routes */}

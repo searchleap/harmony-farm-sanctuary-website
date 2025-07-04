@@ -25,6 +25,7 @@ export interface ActionButtonProps {
   variant?: 'primary' | 'secondary' | 'danger' | 'success' | 'warning' | 'ghost';
   className?: string;
   tooltip?: string;
+  children?: React.ReactNode;
 }
 
 export interface ActionButtonGroupProps {
@@ -127,7 +128,9 @@ export function EditButton(props: ActionButtonProps) {
       icon={Edit} 
       tooltip={props.tooltip || 'Edit'}
       variant={props.variant || 'ghost'}
-    />
+    >
+      {props.children}
+    </BaseActionButton>
   );
 }
 
@@ -138,7 +141,9 @@ export function DeleteButton(props: ActionButtonProps) {
       icon={Trash2} 
       tooltip={props.tooltip || 'Delete'}
       variant={props.variant || 'danger'}
-    />
+    >
+      {props.children}
+    </BaseActionButton>
   );
 }
 
@@ -149,7 +154,9 @@ export function ViewButton(props: ActionButtonProps) {
       icon={Eye} 
       tooltip={props.tooltip || 'View'}
       variant={props.variant || 'ghost'}
-    />
+    >
+      {props.children}
+    </BaseActionButton>
   );
 }
 
