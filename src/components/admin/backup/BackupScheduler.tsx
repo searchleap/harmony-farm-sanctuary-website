@@ -5,9 +5,7 @@ import {
   Trash2, 
   Play, 
   Pause, 
-  Calendar, 
-  Clock,
-  Settings,
+  Calendar,
   AlertCircle,
   CheckCircle,
   XCircle
@@ -15,7 +13,7 @@ import {
 import { AdminButton } from '../common/AdminButton';
 import { AdminFormField } from '../common/AdminFormField';
 import { AdminModal } from '../common/AdminModal';
-import { AdminBadge } from '../common/AdminBadge';
+import { AdminStatusBadge } from '../common/AdminStatusBadge';
 import { BackupJob, BackupType, ContentType, ScheduleFrequency } from '../../../types/backup';
 import { 
   sampleBackupJobs, 
@@ -182,7 +180,7 @@ const BackupJobModal: React.FC<BackupJobModalProps> = ({ job, isOpen, onClose, o
       isOpen={isOpen}
       onClose={onClose}
       title={job ? 'Edit Backup Job' : 'Create Backup Job'}
-      size="large"
+      size="xl"
     >
       <div className="space-y-6">
         {/* Basic Information */}
@@ -280,7 +278,7 @@ const BackupJobModal: React.FC<BackupJobModalProps> = ({ job, isOpen, onClose, o
             <AdminFormField
               label="Day of Week"
               type="select"
-              value={formData.schedule?.dayOfWeek || 0}
+              value={String(formData.schedule?.dayOfWeek || 0)}
               onChange={(value) => handleScheduleChange('dayOfWeek', parseInt(value))}
               options={[
                 { value: 0, label: 'Sunday' },
@@ -298,7 +296,7 @@ const BackupJobModal: React.FC<BackupJobModalProps> = ({ job, isOpen, onClose, o
             <AdminFormField
               label="Day of Month"
               type="number"
-              value={formData.schedule?.dayOfMonth || 1}
+              value={String(formData.schedule?.dayOfMonth || 1)}
               onChange={(value) => handleScheduleChange('dayOfMonth', parseInt(value))}
               min={1}
               max={31}
@@ -346,7 +344,7 @@ const BackupJobModal: React.FC<BackupJobModalProps> = ({ job, isOpen, onClose, o
               <AdminFormField
                 label="Retention Days"
                 type="number"
-                value={formData.retentionDays || 30}
+                value={String(formData.retentionDays || 30)}
                 onChange={(value) => setFormData(prev => ({ ...prev, retentionDays: parseInt(value) }))}
                 min={1}
                 max={3650}
@@ -356,7 +354,7 @@ const BackupJobModal: React.FC<BackupJobModalProps> = ({ job, isOpen, onClose, o
               <AdminFormField
                 label="Max Backup Count"
                 type="number"
-                value={formData.maxBackups || 30}
+                value={String(formData.maxBackups || 30)}
                 onChange={(value) => setFormData(prev => ({ ...prev, maxBackups: parseInt(value) }))}
                 min={1}
                 max={100}
@@ -583,10 +581,10 @@ const BackupScheduler: React.FC = () => {
                     <h5 className="text-lg font-medium text-gray-900 dark:text-white">
                       {job.name}
                     </h5>
-                    <AdminBadge color={getStatusColor(job.status)}>
+                    <AdminStatusBadge color={getStatusColor(job.status)}>
                       {job.status}
-                    </AdminBadge>
-                    <AdminBadge color="blue">{job.type}</AdminBadge>
+                    </AdminStatusBadge>
+                    <AdminStatusBadge color="blue">{job.type}</AdminStatusBadge>
                   </div>
                   
                   <p className="text-gray-600 dark:text-gray-400 mb-3">
@@ -700,7 +698,7 @@ const BackupScheduler: React.FC = () => {
                   <div>
                     <h5 className="font-medium text-gray-900 dark:text-white">{template.name}</h5>
                     {template.isDefault && (
-                      <AdminBadge color="blue" size="sm">Default</AdminBadge>
+                      <AdminStatusBadge color="blue" size="sm">Default</AdminStatusBadge>
                     )}
                   </div>
                   <AdminButton
@@ -715,6 +713,9 @@ const BackupScheduler: React.FC = () => {
                         lastRun: undefined,
                         nextRun: undefined,
                         lastError: undefined,
+                        maxBackups: 30,
+                        compressionEnabled: true,
+                        encryptionEnabled: false,
                         createdAt: new Date(),
                         updatedAt: new Date(),
                         createdBy: 'admin'

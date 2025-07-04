@@ -2,6 +2,9 @@
 // Comprehensive collection of educational materials and resources
 
 import { EducationalResource, ResourceTag } from '../types/faq';
+
+// Re-export types for convenience
+export type { EducationalResource, ResourceTag };
 import { getResourceCategoryById } from './resourceCategories';
 
 // Resource tags for content organization

@@ -663,6 +663,7 @@ export function FAQPage() {
       {/* Add FAQ Modal */}
       {isAddModalOpen && (
         <AdminModal
+          isOpen={isAddModalOpen}
           title="Create New FAQ"
           onClose={() => setIsAddModalOpen(false)}
           size="xl"
@@ -679,6 +680,7 @@ export function FAQPage() {
       {/* Edit FAQ Modal */}
       {isEditModalOpen && selectedFAQ && (
         <AdminModal
+          isOpen={isEditModalOpen}
           title="Edit FAQ"
           onClose={() => setIsEditModalOpen(false)}
           size="xl"

@@ -4,7 +4,7 @@ import { LucideIcon } from 'lucide-react';
 export interface AdminButtonProps {
   children: React.ReactNode;
   variant?: 'primary' | 'secondary' | 'outline' | 'danger' | 'success';
-  size?: 'sm' | 'md' | 'lg';
+  size?: 'sm' | 'md' | 'lg' | 'xl' | 'full';
   type?: 'button' | 'submit' | 'reset';
   disabled?: boolean;
   loading?: boolean;
@@ -37,7 +37,9 @@ export const AdminButton: React.FC<AdminButtonProps> = ({
   const sizeClasses = {
     sm: 'px-3 py-1.5 text-sm gap-1.5',
     md: 'px-4 py-2 text-sm gap-2',
-    lg: 'px-6 py-3 text-base gap-2'
+    lg: 'px-6 py-3 text-base gap-2',
+    xl: 'px-8 py-4 text-lg gap-3',
+    full: 'w-full px-6 py-3 text-base gap-2'
   };
 
   const disabledClasses = disabled || loading 

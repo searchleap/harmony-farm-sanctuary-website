@@ -24,6 +24,7 @@ export interface AdminPermission {
 }
 
 export type AdminResource = 
+  | 'admin'
   | 'animals' 
   | 'blog' 
   | 'faq' 
@@ -33,7 +34,9 @@ export type AdminResource =
   | 'settings' 
   | 'analytics'
   | 'donations'
-  | 'inquiries';
+  | 'inquiries'
+  | 'backup'
+  | 'testing';
 
 export type AdminAction = 'create' | 'read' | 'update' | 'delete';
 

@@ -6,13 +6,11 @@ import {
   Play,
   Pause,
   CheckCircle,
-  AlertTriangle,
-  Eye,
-  Settings
+  AlertTriangle
 } from 'lucide-react';
 import { AdminButton } from '../common/AdminButton';
 import { AdminFormField } from '../common/AdminFormField';
-import { AdminBadge } from '../common/AdminBadge';
+import { AdminStatusBadge } from '../common/AdminStatusBadge';
 import { MigrationJob, ContentType } from '../../../types/backup';
 import { sampleMigrationJobs } from '../../../data/backupData';
 import { formatDuration } from '../../../utils/backupService';

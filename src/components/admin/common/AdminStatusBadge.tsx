@@ -13,7 +13,8 @@ export type BadgeVariant =
 export type BadgeSize = 'sm' | 'md' | 'lg';
 
 export interface AdminStatusBadgeProps {
-  variant: BadgeVariant;
+  variant?: BadgeVariant;
+  color?: string; // For backward compatibility
   size?: BadgeSize;
   children: React.ReactNode;
   icon?: React.ReactNode;
@@ -53,6 +54,7 @@ const iconSizes = {
 
 export function AdminStatusBadge({
   variant,
+  color,
   size = 'md',
   children,
   icon,
@@ -61,6 +63,9 @@ export function AdminStatusBadge({
   onClick
 }: AdminStatusBadgeProps) {
   
+  // Handle backward compatibility with color prop
+  const effectiveVariant = variant || (color === 'blue' ? 'info' : color === 'green' ? 'success' : color === 'red' ? 'error' : 'neutral');
+
   const defaultIcons = {
     success: CheckCircle,
     error: XCircle,
@@ -71,11 +76,11 @@ export function AdminStatusBadge({
     secondary: Heart
   };
 
-  const Icon = icon ? null : (showIcon ? defaultIcons[variant] : null);
+  const Icon = icon ? null : (showIcon ? defaultIcons[effectiveVariant] : null);
 
   const badgeClass = `
     inline-flex items-center font-medium rounded-full border
-    ${variantStyles[variant]}
+    ${variantStyles[effectiveVariant]}
     ${sizeStyles[size]}
     ${onClick ? 'cursor-pointer hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500' : ''}
     ${className}

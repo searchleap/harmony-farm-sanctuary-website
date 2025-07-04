@@ -5,7 +5,7 @@ export interface AdminFormFieldProps {
   label: string;
   value: string;
   onChange: (value: string) => void;
-  type?: 'text' | 'email' | 'password' | 'number' | 'textarea' | 'date';
+  type?: 'text' | 'email' | 'password' | 'number' | 'textarea' | 'date' | 'select' | 'time';
   placeholder?: string;
   required?: boolean;
   disabled?: boolean;
@@ -14,6 +14,8 @@ export interface AdminFormFieldProps {
   rows?: number;
   min?: string | number;
   max?: string | number;
+  options?: { value: string | number; label: string }[];
+  help?: string;
   className?: string;
 }
 
@@ -30,6 +32,8 @@ export const AdminFormField: React.FC<AdminFormFieldProps> = ({
   rows = 3,
   min,
   max,
+  options,
+  help,
   className = ''
 }) => {
   const baseInputClasses = `
@@ -58,6 +62,25 @@ export const AdminFormField: React.FC<AdminFormFieldProps> = ({
           rows={rows}
           className={baseInputClasses}
         />
+      );
+    }
+
+    if (type === 'select') {
+      return (
+        <select
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          required={required}
+          disabled={disabled}
+          className={baseInputClasses}
+        >
+          <option value="">{placeholder || 'Select an option'}</option>
+          {options?.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
       );
     }
 
@@ -92,8 +115,8 @@ export const AdminFormField: React.FC<AdminFormFieldProps> = ({
         </div>
       )}
       
-      {helpText && !error && (
-        <p className="text-sm text-gray-600">{helpText}</p>
+      {(helpText || help) && !error && (
+        <p className="text-sm text-gray-600">{helpText || help}</p>
       )}
     </div>
   );

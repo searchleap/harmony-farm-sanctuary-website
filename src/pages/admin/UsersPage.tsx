@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Users, UserPlus, Calendar, MessageSquare, FileText } from 'lucide-react';
 import { UserManagement, VolunteerApplications, VolunteerProfiles, VolunteerScheduling, CommunicationCenter } from '../../components/admin/users';
-import { AdminButton } from '../../components/admin/common';
 
 export function UsersPage() {
   const [activeView, setActiveView] = useState('users');

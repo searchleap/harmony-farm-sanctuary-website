@@ -7,17 +7,15 @@ import {
   Eye,
   Play,
   X,
-  Download,
-  Database
+  Download
 } from 'lucide-react';
 import { AdminButton } from '../common/AdminButton';
 import { AdminFormField } from '../common/AdminFormField';
-import { AdminBadge } from '../common/AdminBadge';
+import { AdminStatusBadge } from '../common/AdminStatusBadge';
 import { 
   ImportJob, 
   ContentType, 
   ExportFormat, 
-  ConflictResolution,
   ImportPreview
 } from '../../../types/backup';
 import { sampleImportJobs } from '../../../data/backupData';

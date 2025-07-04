@@ -1,5 +1,8 @@
 import { VolunteerRole, VolunteerStats, VolunteerTestimonial, VolunteerEvent } from '../types/volunteer';
 
+// Re-export types for convenience
+export type { VolunteerRole, VolunteerStats, VolunteerTestimonial, VolunteerEvent };
+
 export const volunteerRoles: VolunteerRole[] = [
   {
     id: 'animal-care-daily',

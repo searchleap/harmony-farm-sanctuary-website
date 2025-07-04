@@ -1,10 +1,6 @@
 import React, { useState } from 'react';
 import { 
   Download, 
-  FileText, 
-  Database, 
-  Calendar,
-  Filter,
   Settings,
   Play,
   CheckCircle,
@@ -13,21 +9,17 @@ import {
 } from 'lucide-react';
 import { AdminButton } from '../common/AdminButton';
 import { AdminFormField } from '../common/AdminFormField';
-import { AdminBadge } from '../common/AdminBadge';
+import { AdminStatusBadge } from '../common/AdminStatusBadge';
 import { 
   ExportJob, 
   ContentType, 
   ExportFormat, 
-  DateRange,
-  ExportFilters
+  DateRange
 } from '../../../types/backup';
 import { sampleExportJobs } from '../../../data/backupData';
 import { 
   validateExportJob, 
-  formatFileSize, 
-  formatDuration, 
-  calculateProgress,
-  getMimeType
+  formatFileSize
 } from '../../../utils/backupService';
 
 const DataExportTool: React.FC = () => {
@@ -272,7 +264,7 @@ const DataExportTool: React.FC = () => {
                   <h5 className="font-medium text-gray-900 dark:text-white mb-1">{template.name}</h5>
                   <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">{template.description}</p>
                   <div className="flex items-center gap-2">
-                    <AdminBadge color="blue" size="sm">{template.format.toUpperCase()}</AdminBadge>
+                    <AdminStatusBadge color="blue" size="sm">{template.format.toUpperCase()}</AdminStatusBadge>
                     <span className="text-xs text-gray-500 dark:text-gray-400">
                       {template.contentTypes.length} content type{template.contentTypes.length !== 1 ? 's' : ''}
                     </span>
@@ -515,12 +507,12 @@ const DataExportTool: React.FC = () => {
                     <div className="flex-1 min-w-0">
                       <h5 className="font-medium text-gray-900 dark:text-white truncate">{job.name}</h5>
                       <div className="flex items-center gap-2 mt-1">
-                        <AdminBadge color={getStatusColor(job.status)} size="sm">
+                        <AdminStatusBadge color={getStatusColor(job.status)} size="sm">
                           {job.status}
-                        </AdminBadge>
-                        <AdminBadge color="blue" size="sm">
+                        </AdminStatusBadge>
+                        <AdminStatusBadge color="blue" size="sm">
                           {job.format.toUpperCase()}
-                        </AdminBadge>
+                        </AdminStatusBadge>
                       </div>
                       
                       {job.status === 'running' && (

@@ -2,6 +2,9 @@
 // Comprehensive collection of blog content with rich media and metadata
 
 import { BlogPost, BlogTag } from '../types/blog';
+
+// Re-export types for convenience
+export type { BlogPost, BlogTag };
 import { getAuthorById } from './authors';
 import { getCategoryById } from './blogCategories';
 

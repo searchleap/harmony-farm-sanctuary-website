@@ -2,6 +2,9 @@
 // Comprehensive collection of frequently asked questions with detailed answers
 
 import { FAQ, FAQTag } from '../types/faq';
+
+// Re-export types for convenience
+export type { FAQ, FAQTag };
 import { getCategoryById } from './faqCategories';
 
 // FAQ tags for content organization

@@ -10,8 +10,8 @@ import {
   FileText
 } from 'lucide-react';
 import { AdminButton } from '../common/AdminButton';
-import { AdminBadge } from '../common/AdminBadge';
-import { BackupVerification as BackupVerificationType, BackupFile } from '../../../types/backup';
+import { AdminStatusBadge } from '../common/AdminStatusBadge';
+import { BackupVerification as BackupVerificationType } from '../../../types/backup';
 import { 
   sampleBackupVerifications, 
   sampleBackupFiles 
@@ -182,8 +182,8 @@ const BackupVerification: React.FC = () => {
                   <div>
                     <h5 className="font-medium text-gray-900 dark:text-white">{file.name}</h5>
                     <div className="flex items-center gap-2 mt-1">
-                      <AdminBadge color="blue">{file.type}</AdminBadge>
-                      <AdminBadge color="green">{file.format.toUpperCase()}</AdminBadge>
+                      <AdminStatusBadge color="blue">{file.type}</AdminStatusBadge>
+                      <AdminStatusBadge color="green">{file.format.toUpperCase()}</AdminStatusBadge>
                       <span className="text-sm text-gray-600 dark:text-gray-400">
                         {file.sizeFormatted} • {file.createdAt.toLocaleDateString()}
                       </span>
@@ -226,9 +226,9 @@ const BackupVerification: React.FC = () => {
                     <div className="flex items-center gap-3 mb-3">
                       {getStatusIcon(verification.status)}
                       <h5 className="font-medium text-gray-900 dark:text-white">{file.name}</h5>
-                      <AdminBadge color={getStatusColor(verification.status)}>
+                      <AdminStatusBadge color={getStatusColor(verification.status)}>
                         {verification.status}
-                      </AdminBadge>
+                      </AdminStatusBadge>
                       <div className="flex items-center gap-2">
                         <span className="text-sm text-gray-600 dark:text-gray-400">Score:</span>
                         <span className={`font-bold ${getScoreColor(verification.score)}`}>
