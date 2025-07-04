@@ -6,8 +6,9 @@ import DataValidationTester from '../../components/admin/testing/DataValidationT
 import PlaywrightTester from '../../components/admin/testing/PlaywrightTester';
 import AdminDocumentation from '../../components/admin/testing/AdminDocumentation';
 import ComponentDocGenerator from '../../components/admin/testing/ComponentDocGenerator';
+import PerformanceMonitor from '../../components/admin/testing/PerformanceMonitor';
 
-type TestingTab = 'suite' | 'components' | 'validation' | 'playwright' | 'docs' | 'component-docs';
+type TestingTab = 'suite' | 'components' | 'validation' | 'playwright' | 'docs' | 'component-docs' | 'performance';
 
 interface TestingTabInfo {
   id: TestingTab;
@@ -48,6 +49,11 @@ const AdminTestingPage: React.FC = () => {
       id: 'component-docs',
       name: 'Component Docs',
       description: 'Auto-generated component documentation'
+    },
+    {
+      id: 'performance',
+      name: 'Performance',
+      description: 'Real-time performance monitoring and optimization'
     }
   ];
 
@@ -65,6 +71,8 @@ const AdminTestingPage: React.FC = () => {
         return <AdminDocumentation />;
       case 'component-docs':
         return <ComponentDocGenerator />;
+      case 'performance':
+        return <PerformanceMonitor />;
       default:
         return <AdminTestSuite />;
     }
