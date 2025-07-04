@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { AdminListPage } from '../../components/admin/templates/AdminListPage';
 import { AdminModal, AdminStatusBadge, StandardActions } from '../../components/admin/common';
-import { useAdminData } from '../../hooks/useAdminData';
+import { useAdminData, useInquiries } from '../../hooks/useAdminData';
 import { useAdminNotifications } from '../../hooks/useAdminNotifications';
 import { AdminSearchEngine, createInquirySearchConfig } from '../../utils/adminSearch';
 import { Mail, Phone, User, MessageSquare, Reply } from 'lucide-react';
@@ -10,19 +10,20 @@ import type { AdminTableColumn, BreadcrumbItem } from '../../components/admin/co
 import type { ContactInquiry } from '../../utils/adminData';
 
 export function InquiriesPage() {
-  const { data: adminData, loading, refetch } = useAdminData();
+  const { data: adminData, loading: adminDataLoading } = useAdminData();
+  const { data: inquiries, loading, create, update, delete: deleteInquiry, refetch } = useInquiries();
   const { success, error } = useAdminNotifications();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedInquiry, setSelectedInquiry] = useState<ContactInquiry | null>(null);
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
   const [isReplyModalOpen, setIsReplyModalOpen] = useState(false);
 
-  console.log('[InquiriesPage] Rendering with inquiries:', adminData.inquiries?.length || 0);
+  console.log('[InquiriesPage] Rendering with inquiries:', inquiries?.length || 0);
 
   // Search engine
   const searchEngine = useMemo(() => {
-    return new AdminSearchEngine(adminData.inquiries || [], createInquirySearchConfig());
-  }, [adminData.inquiries]);
+    return new AdminSearchEngine(inquiries || [], createInquirySearchConfig());
+  }, [inquiries]);
 
   // Filtered inquiries
   const filteredInquiries = useMemo(() => {

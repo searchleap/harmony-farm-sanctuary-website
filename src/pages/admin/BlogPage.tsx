@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { AdminListPage } from '../../components/admin/templates/AdminListPage';
 import { AdminModal, AdminStatusBadge, StandardActions } from '../../components/admin/common';
 import { EnhancedBlogForm } from '../../components/admin/blog/EnhancedBlogForm';
-import { useAdminData } from '../../hooks/useAdminData';
+import { useAdminData, useBlogPosts } from '../../hooks/useAdminData';
 import { useAdminNotifications } from '../../hooks/useAdminNotifications';
 import { AdminSearchEngine, createBlogSearchConfig } from '../../utils/adminSearch';
 import { exportBlogPosts } from '../../utils/adminExport';
@@ -12,7 +12,8 @@ import type { AdminTableColumn, BreadcrumbItem } from '../../components/admin/co
 import type { BlogPost, Author, BlogCategory, BlogTag, BlogMedia } from '../../types/blog';
 
 export function BlogPage() {
-  const { data: adminData, loading, refetch } = useAdminData();
+  const { data: adminData, loading: adminDataLoading } = useAdminData();
+  const { data: blogPosts, loading, create, update, delete: deleteBlogPost, refetch } = useBlogPosts();
   const { success, error } = useAdminNotifications();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null);
@@ -20,7 +21,7 @@ export function BlogPage() {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [formLoading, setFormLoading] = useState(false);
 
-  console.log('[BlogPage] Rendering with blog posts:', adminData.blogPosts?.length || 0);
+  console.log('[BlogPage] Rendering with blog posts:', blogPosts?.length || 0);
 
   // Mock data for enhanced blog management
   const mockAuthors: Author[] = [
@@ -114,8 +115,8 @@ export function BlogPage() {
 
   // Search engine
   const searchEngine = useMemo(() => {
-    return new AdminSearchEngine(adminData.blogPosts || [], createBlogSearchConfig());
-  }, [adminData.blogPosts]);
+    return new AdminSearchEngine(blogPosts || [], createBlogSearchConfig());
+  }, [blogPosts]);
 
   // Filtered posts
   const filteredPosts = useMemo(() => {
@@ -234,7 +235,7 @@ export function BlogPage() {
   const handleDelete = async (post: BlogPost) => {
     if (window.confirm(`Are you sure you want to delete "${post.title}"?`)) {
       try {
-        // TODO: Implement delete in data manager
+        await deleteBlogPost(post.id);
         success(`Blog post "${post.title}" has been deleted`);
         refetch();
       } catch (err) {
@@ -247,10 +248,26 @@ export function BlogPage() {
     setFormLoading(true);
     try {
       if (selectedPost) {
-        // TODO: Implement update in data manager
+        // Update existing blog post
+        await update(selectedPost.id, postData);
         success(`Blog post "${postData.title}" has been updated with enhanced content`);
       } else {
-        // TODO: Implement create in data manager
+        // Create new blog post
+        const blogPostData = {
+          ...postData,
+          status: postData.status || 'draft',
+          author: postData.author || 'Sarah Thompson', // Default author
+          category: postData.category || 'Animal Stories', // Default category
+          content: postData.content || '',
+          excerpt: postData.excerpt || '',
+          slug: postData.slug || postData.title?.toLowerCase().replace(/\s+/g, '-') || '',
+          featuredImage: postData.featuredImage || '',
+          tags: postData.tags || [],
+          seoTitle: postData.seoTitle || postData.title || '',
+          seoDescription: postData.seoDescription || postData.excerpt || '',
+          readTime: postData.readTime || Math.ceil((postData.content || '').split(' ').length / 200)
+        };
+        await create(blogPostData as any);
         success(`Blog post "${postData.title}" has been created with rich content`);
       }
       setIsEditModalOpen(false);

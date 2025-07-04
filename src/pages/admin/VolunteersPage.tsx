@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { AdminListPage } from '../../components/admin/templates/AdminListPage';
 import { AdminModal, AdminStatusBadge, StandardActions } from '../../components/admin/common';
-import { useAdminData } from '../../hooks/useAdminData';
+import { useAdminData, useVolunteers } from '../../hooks/useAdminData';
 import { useAdminNotifications } from '../../hooks/useAdminNotifications';
 import { AdminSearchEngine, createVolunteerSearchConfig } from '../../utils/adminSearch';
 import { Users, Mail, Clock, Star } from 'lucide-react';
@@ -9,19 +9,20 @@ import type { AdminTableColumn, BreadcrumbItem } from '../../components/admin/co
 import type { VolunteerRole } from '../../types/volunteer';
 
 export function VolunteersPage() {
-  const { data: adminData, loading, refetch } = useAdminData();
+  const { data: adminData, loading: adminDataLoading } = useAdminData();
+  const { data: volunteers, loading, create, update, delete: deleteVolunteer, refetch } = useVolunteers();
   const { success, error } = useAdminNotifications();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedVolunteer, setSelectedVolunteer] = useState<VolunteerRole | null>(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
-  console.log('[VolunteersPage] Rendering with volunteers:', adminData.volunteers?.length || 0);
+  console.log('[VolunteersPage] Rendering with volunteers:', volunteers?.length || 0);
 
   // Search engine
   const searchEngine = useMemo(() => {
-    return new AdminSearchEngine(adminData.volunteers || [], createVolunteerSearchConfig());
-  }, [adminData.volunteers]);
+    return new AdminSearchEngine(volunteers || [], createVolunteerSearchConfig());
+  }, [volunteers]);
 
   // Filtered volunteers
   const filteredVolunteers = useMemo(() => {

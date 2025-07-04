@@ -8,14 +8,15 @@ import { FAQAnalytics } from '../../components/admin/faq/FAQAnalytics';
 import { FAQBulkActions } from '../../components/admin/faq/FAQBulkActions';
 import { ContentVersionControl, ApprovalWorkflow, ChangeTracker, WorkflowDashboard } from '../../components/admin/workflow';
 import { FeedbackCollection, RatingSystem, FeedbackAnalytics, FeedbackModeration } from '../../components/admin/feedback';
-import { useAdminData } from '../../hooks/useAdminData';
+import { useAdminData, useFAQs } from '../../hooks/useAdminData';
 import { useAdminNotifications } from '../../hooks/useAdminNotifications';
 import { AdminSearchEngine, createFAQSearchConfig } from '../../utils/adminSearch';
 import type { AdminTableColumn, AdminFormField, BreadcrumbItem } from '../../components/admin/common';
 import type { FAQ, FAQCategory, FAQTag, FAQBulkOperation, FAQHelpfulness } from '../../types/faq';
 
 export function FAQPage() {
-  const { data: adminData, loading } = useAdminData();
+  const { data: adminData, loading: adminDataLoading } = useAdminData();
+  const { data: faqs, loading, create, update, delete: deleteFAQ, refetch } = useFAQs();
   const { success, error } = useAdminNotifications();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedFAQ, setSelectedFAQ] = useState<FAQ | null>(null);
@@ -24,7 +25,7 @@ export function FAQPage() {
   const [activeView, setActiveView] = useState('list');
   const [selectedFAQs, setSelectedFAQs] = useState<string[]>([]);
 
-  console.log('[FAQPage] Rendering with FAQs:', adminData.faqs?.length || 0);
+  console.log('[FAQPage] Rendering with FAQs:', faqs?.length || 0);
 
   // Enhanced FAQ mock data
   const faqCategories: FAQCategory[] = [
@@ -119,7 +120,7 @@ export function FAQPage() {
     { id: 'housing', name: 'Housing', slug: 'housing', count: 6 }
   ];
 
-  const enhancedFAQs: FAQ[] = (adminData.faqs || []).map((faq: any, index: number) => ({
+  const enhancedFAQs: FAQ[] = (faqs || []).map((faq: any, index: number) => ({
     ...faq,
     category: faqCategories[index % faqCategories.length],
     tags: [faqTags[index % faqTags.length], faqTags[(index + 1) % faqTags.length]],

@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { AdminListPage } from '../../components/admin/templates/AdminListPage';
 import { AdminModal, AdminStatusBadge, StandardActions } from '../../components/admin/common';
-import { useAdminData } from '../../hooks/useAdminData';
+import { useAdminData, useDonations } from '../../hooks/useAdminData';
 import { useAdminNotifications } from '../../hooks/useAdminNotifications';
 import { AdminSearchEngine, createDonationSearchConfig } from '../../utils/adminSearch';
 import { DollarSign, Calendar, CreditCard, Receipt, TrendingUp } from 'lucide-react';
@@ -10,18 +10,19 @@ import type { AdminTableColumn, BreadcrumbItem } from '../../components/admin/co
 import type { DonationRecord } from '../../utils/adminData';
 
 export function DonationsPage() {
-  const { data: adminData, loading, refetch } = useAdminData();
+  const { data: adminData, loading: adminDataLoading } = useAdminData();
+  const { data: donations, loading, create, update, delete: deleteDonation, refetch } = useDonations();
   const { success, error } = useAdminNotifications();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedDonation, setSelectedDonation] = useState<DonationRecord | null>(null);
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
 
-  console.log('[DonationsPage] Rendering with donations:', adminData.donations?.length || 0);
+  console.log('[DonationsPage] Rendering with donations:', donations?.length || 0);
 
   // Search engine
   const searchEngine = useMemo(() => {
-    return new AdminSearchEngine(adminData.donations || [], createDonationSearchConfig());
-  }, [adminData.donations]);
+    return new AdminSearchEngine(donations || [], createDonationSearchConfig());
+  }, [donations]);
 
   // Filtered donations
   const filteredDonations = useMemo(() => {

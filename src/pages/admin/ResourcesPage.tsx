@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { AdminListPage } from '../../components/admin/templates/AdminListPage';
 import { AdminModal, AdminStatusBadge, StandardActions } from '../../components/admin/common';
-import { useAdminData } from '../../hooks/useAdminData';
+import { useAdminData, useResources } from '../../hooks/useAdminData';
 import { useAdminNotifications } from '../../hooks/useAdminNotifications';
 import { AdminSearchEngine, createResourceSearchConfig } from '../../utils/adminSearch';
 import { FileText, Download, ExternalLink } from 'lucide-react';
@@ -10,19 +10,20 @@ import type { AdminTableColumn, BreadcrumbItem } from '../../components/admin/co
 import type { EducationalResource } from '../../types/faq';
 
 export function ResourcesPage() {
-  const { data: adminData, loading, refetch } = useAdminData();
+  const { data: adminData, loading: adminDataLoading } = useAdminData();
+  const { data: resources, loading, create, update, delete: deleteResource, refetch } = useResources();
   const { success, error } = useAdminNotifications();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedResource, setSelectedResource] = useState<EducationalResource | null>(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
-  console.log('[ResourcesPage] Rendering with resources:', adminData.resources?.length || 0);
+  console.log('[ResourcesPage] Rendering with resources:', resources?.length || 0);
 
   // Search engine
   const searchEngine = useMemo(() => {
-    return new AdminSearchEngine(adminData.resources || [], createResourceSearchConfig());
-  }, [adminData.resources]);
+    return new AdminSearchEngine(resources || [], createResourceSearchConfig());
+  }, [resources]);
 
   // Filtered resources
   const filteredResources = useMemo(() => {

@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { AdminListPage } from '../../components/admin/templates/AdminListPage';
 import { AdminModal, AdminStatusBadge, StandardActions } from '../../components/admin/common';
 import { EnhancedAnimalForm } from '../../components/admin/animals/EnhancedAnimalForm';
-import { useAdminData } from '../../hooks/useAdminData';
+import { useAdminData, useAnimals } from '../../hooks/useAdminData';
 import { useAdminNotifications } from '../../hooks/useAdminNotifications';
 import { AdminSearchEngine, createAnimalSearchConfig } from '../../utils/adminSearch';
 import { exportAnimals } from '../../utils/adminExport';
@@ -12,7 +12,8 @@ import type { Animal } from '../../types/admin';
 import type { EnhancedAnimal, AnimalFormData, AnimalPhoto } from '../../types/admin';
 
 export function AnimalsPage() {
-  const { data: animalsData, loading, refetch } = useAdminData();
+  const { data: animalsData, loading: adminDataLoading } = useAdminData();
+  const { data: animals, loading, create, update, delete: deleteAnimal, refetch } = useAnimals();
   const { success, error } = useAdminNotifications();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedAnimal, setSelectedAnimal] = useState<EnhancedAnimal | null>(null);
@@ -20,12 +21,12 @@ export function AnimalsPage() {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [formLoading, setFormLoading] = useState(false);
 
-  console.log('[AnimalsPage] Rendering with animals:', animalsData.animals?.length || 0);
+  console.log('[AnimalsPage] Rendering with animals:', animals?.length || 0);
 
   // Search engine
   const searchEngine = useMemo(() => {
-    return new AdminSearchEngine(animalsData.animals || [], createAnimalSearchConfig());
-  }, [animalsData.animals]);
+    return new AdminSearchEngine(animals || [], createAnimalSearchConfig());
+  }, [animals]);
 
   // Filtered animals
   const filteredAnimals = useMemo(() => {
@@ -226,7 +227,7 @@ export function AnimalsPage() {
   const handleDelete = async (animal: Animal) => {
     if (window.confirm(`Are you sure you want to delete ${animal.name}?`)) {
       try {
-        // TODO: Implement delete in data manager
+        await deleteAnimal(animal.id);
         success(`${animal.name} has been deleted`);
         refetch();
       } catch (err) {
@@ -277,10 +278,10 @@ export function AnimalsPage() {
       };
 
       if (selectedAnimal) {
-        // TODO: Implement update in data manager
+        await update(selectedAnimal.id, animalData);
         success(`${formData.basic.name} has been updated with enhanced profile`);
       } else {
-        // TODO: Implement create in data manager
+        await create(animalData as any);
         success(`${formData.basic.name} has been added with complete profile`);
       }
       
