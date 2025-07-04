@@ -119,7 +119,7 @@ export function FAQPage() {
     { id: 'housing', name: 'Housing', slug: 'housing', count: 6 }
   ];
 
-  const enhancedFAQs: FAQ[] = (adminData || []).map((faq: any, index: number) => ({
+  const enhancedFAQs: FAQ[] = (adminData.faqs || []).map((faq: any, index: number) => ({
     ...faq,
     category: faqCategories[index % faqCategories.length],
     tags: [faqTags[index % faqTags.length], faqTags[(index + 1) % faqTags.length]],
