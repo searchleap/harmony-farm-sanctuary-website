@@ -368,3 +368,149 @@ export interface ChangeRecord {
   change_reason?: string;
   is_major_change: boolean;
 }
+
+// User Feedback & Rating System Types
+export interface UserFeedback {
+  id: string;
+  content_id: string;
+  content_type: 'faq' | 'resource';
+  user_id?: string; // Optional for anonymous feedback
+  feedback_type: 'helpfulness' | 'rating' | 'comment' | 'suggestion';
+  
+  // Feedback data
+  helpful?: boolean; // For helpfulness votes
+  rating?: number; // 1-5 star rating
+  comment?: string; // Text feedback
+  categories?: FeedbackCategory[]; // Specific aspects rated
+  
+  // Context
+  user_agent?: string;
+  session_id?: string;
+  referrer?: string;
+  time_spent?: number; // Seconds spent on content
+  
+  // Metadata
+  created_at: string;
+  updated_at?: string;
+  status: 'pending' | 'approved' | 'flagged' | 'hidden';
+  moderated_by?: string;
+  moderated_at?: string;
+  moderation_notes?: string;
+}
+
+export interface FeedbackCategory {
+  name: string;
+  rating: number; // 1-5
+  weight?: number; // For weighted averages
+}
+
+export interface FeedbackMetrics {
+  content_id: string;
+  content_type: 'faq' | 'resource';
+  
+  // Helpfulness metrics
+  helpful_count: number;
+  not_helpful_count: number;
+  helpfulness_ratio: number; // helpful / (helpful + not_helpful)
+  
+  // Rating metrics
+  average_rating: number;
+  rating_count: number;
+  rating_distribution: Record<number, number>; // 1-5 star counts
+  
+  // Category ratings
+  category_ratings: Record<string, {
+    average: number;
+    count: number;
+  }>;
+  
+  // Engagement metrics
+  total_feedback_count: number;
+  comment_count: number;
+  suggestion_count: number;
+  
+  // Quality indicators
+  sentiment_score?: number; // -1 to 1
+  quality_score?: number; // 0-100
+  improvement_priority?: 'low' | 'medium' | 'high';
+  
+  last_updated: string;
+}
+
+export interface SentimentAnalysis {
+  score: number; // -1 (negative) to 1 (positive)
+  magnitude: number; // 0 to 1 (intensity)
+  classification: 'positive' | 'neutral' | 'negative';
+  keywords: string[];
+  themes: string[];
+  confidence: number; // 0 to 1
+}
+
+export interface FeedbackSuggestion {
+  id: string;
+  content_id: string;
+  content_type: 'faq' | 'resource';
+  suggestion_type: 'content_update' | 'new_faq' | 'categorization' | 'formatting';
+  title: string;
+  description: string;
+  priority: 'low' | 'medium' | 'high';
+  confidence_score: number; // 0-1
+  
+  // Supporting data
+  feedback_count: number;
+  user_sentiment: number;
+  common_keywords: string[];
+  
+  // Implementation
+  status: 'pending' | 'in_progress' | 'completed' | 'dismissed';
+  assigned_to?: string;
+  implemented_at?: string;
+  
+  created_at: string;
+  updated_at: string;
+}
+
+export interface FeedbackTrend {
+  period: string; // Date period (day, week, month)
+  content_id: string;
+  content_type: 'faq' | 'resource';
+  
+  // Trend data
+  helpful_votes: number;
+  not_helpful_votes: number;
+  average_rating: number;
+  feedback_volume: number;
+  sentiment_trend: number; // Change in sentiment
+  
+  // Comparison
+  vs_previous_period: {
+    helpful_change: number;
+    rating_change: number;
+    volume_change: number;
+    sentiment_change: number;
+  };
+}
+
+export interface FeedbackWidget {
+  content_id: string;
+  content_type: 'faq' | 'resource';
+  widget_type: 'simple_thumbs' | 'star_rating' | 'detailed_form' | 'quick_survey';
+  
+  // Configuration
+  enabled: boolean;
+  position: 'top' | 'bottom' | 'sidebar' | 'inline';
+  trigger: 'immediate' | 'on_scroll' | 'on_exit' | 'timed';
+  trigger_delay?: number; // Seconds
+  
+  // Customization
+  title?: string;
+  description?: string;
+  categories?: string[]; // For detailed ratings
+  required_fields?: string[];
+  
+  // Behavior
+  allow_anonymous: boolean;
+  require_email: boolean;
+  show_results: boolean;
+  auto_hide_after_feedback: boolean;
+}

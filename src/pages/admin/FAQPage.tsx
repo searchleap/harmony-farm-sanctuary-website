@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Settings, BarChart3, FolderTree, Plus, GitCommit } from 'lucide-react';
+import { Settings, BarChart3, FolderTree, Plus, GitCommit, MessageSquare } from 'lucide-react';
 import { AdminListPage } from '../../components/admin/templates/AdminListPage';
 import { AdminModal, AdminForm, AdminStatusBadge, StandardActions, AdminButton } from '../../components/admin/common';
 import { FAQCategoryManager } from '../../components/admin/faq/FAQCategoryManager';
@@ -7,6 +7,7 @@ import { EnhancedFAQForm } from '../../components/admin/faq/EnhancedFAQForm';
 import { FAQAnalytics } from '../../components/admin/faq/FAQAnalytics';
 import { FAQBulkActions } from '../../components/admin/faq/FAQBulkActions';
 import { ContentVersionControl, ApprovalWorkflow, ChangeTracker, WorkflowDashboard } from '../../components/admin/workflow';
+import { FeedbackCollection, RatingSystem, FeedbackAnalytics, FeedbackModeration } from '../../components/admin/feedback';
 import { useAdminData } from '../../hooks/useAdminData';
 import { useAdminNotifications } from '../../hooks/useAdminNotifications';
 import { AdminSearchEngine, createFAQSearchConfig } from '../../utils/adminSearch';
@@ -193,7 +194,8 @@ export function FAQPage() {
     { id: 'list', label: 'FAQ List', icon: 'List' },
     { id: 'categories', label: 'Categories', icon: 'FolderTree' },
     { id: 'analytics', label: 'Analytics', icon: 'BarChart3' },
-    { id: 'workflow', label: 'Workflow', icon: 'GitCommit' }
+    { id: 'workflow', label: 'Workflow', icon: 'GitCommit' },
+    { id: 'feedback', label: 'Feedback', icon: 'MessageSquare' }
   ];
 
   const renderViewContent = () => {
@@ -229,6 +231,60 @@ export function FAQPage() {
               onBulkAction={(action, itemIds) => console.log('Bulk action:', action, itemIds)}
               onStateChange={(itemId, newState) => console.log('State change:', itemId, newState)}
             />
+          </div>
+        );
+
+      case 'feedback':
+        return (
+          <div className="space-y-6">
+            <FeedbackAnalytics
+              feedback={[]} // Mock data would go here
+              metrics={[]} // Mock metrics would go here
+              suggestions={[]} // Mock suggestions would go here
+              onExportData={() => console.log('Export feedback data')}
+              onImplementSuggestion={(id) => console.log('Implement suggestion:', id)}
+            />
+            
+            <div className="grid grid-cols-2 gap-6">
+              <RatingSystem
+                contentId="example-faq-1"
+                contentType="faq"
+                metrics={{
+                  content_id: 'example-faq-1',
+                  content_type: 'faq',
+                  helpful_count: 45,
+                  not_helpful_count: 8,
+                  helpfulness_ratio: 84.9,
+                  average_rating: 4.2,
+                  rating_count: 38,
+                  rating_distribution: { 1: 1, 2: 2, 3: 5, 4: 15, 5: 15 },
+                  category_ratings: {
+                    'clarity': { average: 4.1, count: 25 },
+                    'accuracy': { average: 4.5, count: 22 },
+                    'helpfulness': { average: 4.0, count: 30 }
+                  },
+                  total_feedback_count: 53,
+                  comment_count: 12,
+                  suggestion_count: 3,
+                  quality_score: 85,
+                  improvement_priority: 'low',
+                  last_updated: new Date().toISOString()
+                }}
+                feedback={[]}
+                onRatingSubmit={(rating, categories) => console.log('Rating submitted:', rating, categories)}
+                onMetricsRefresh={() => console.log('Refresh metrics')}
+                allowInteraction={true}
+              />
+              
+              <FeedbackModeration
+                feedback={[]}
+                currentUser={{ id: 'admin1', name: 'Admin User', role: 'admin' }}
+                onFeedbackUpdate={(id, updates) => console.log('Update feedback:', id, updates)}
+                onFeedbackDelete={(id) => console.log('Delete feedback:', id)}
+                onBulkAction={(action, ids) => console.log('Bulk action:', action, ids)}
+                onResponseSubmit={(id, response) => console.log('Response:', id, response)}
+              />
+            </div>
           </div>
         );
 
