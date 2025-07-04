@@ -3,6 +3,7 @@ import { AdminListPage } from '../../components/admin/templates/AdminListPage';
 import { AdminModal, AdminStatusBadge } from '../../components/admin/common';
 import { useAdminNotifications } from '../../hooks/useAdminNotifications';
 import { Calendar, Clock, MapPin, Users, Plus } from 'lucide-react';
+import { formatDate } from '../../utils/dateUtils';
 import type { AdminTableColumn, BreadcrumbItem } from '../../components/admin/common';
 
 // Mock event interface
@@ -107,7 +108,7 @@ export function EventsPage() {
       render: (date: Date, event: Event) => (
         <div>
           <div className="text-sm font-medium text-gray-900">
-            {date.toLocaleDateString()}
+            {formatDate(date)}
           </div>
           <div className="text-sm text-gray-500">
             {event.startTime} - {event.endTime}
@@ -203,7 +204,7 @@ export function EventsPage() {
   const handleExport = () => {
     const csvContent = 'Title,Type,Date,Start Time,End Time,Location,Capacity,Registered,Status,Price\n' + 
       filteredEvents.map(event => 
-        `"${event.title}","${event.type}","${event.date.toLocaleDateString()}","${event.startTime}","${event.endTime}","${event.location}","${event.capacity}","${event.registered}","${event.status}","${event.price || 0}"`
+        `"${event.title}","${event.type}","${formatDate(event.date)}","${event.startTime}","${event.endTime}","${event.location}","${event.capacity}","${event.registered}","${event.status}","${event.price || 0}"`
       ).join('\n');
     
     const blob = new Blob([csvContent], { type: 'text/csv' });
@@ -257,7 +258,7 @@ export function EventsPage() {
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700">Date</label>
-                <p className="text-gray-900">{selectedEvent.date.toLocaleDateString()}</p>
+                <p className="text-gray-900">{formatDate(selectedEvent.date)}</p>
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700">Time</label>

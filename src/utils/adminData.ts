@@ -139,6 +139,32 @@ export interface EmailTemplate {
 
 // Data persistence utilities
 export class AdminDataManager {
+  // Utility method for safe date conversion
+  static safeConvertToDate(value: any): Date | undefined {
+    if (!value) return undefined;
+    
+    try {
+      // If it's already a Date object, return it
+      if (value instanceof Date) {
+        return value;
+      }
+      
+      // If it's a string or number, try to convert
+      const date = new Date(value);
+      
+      // Check if the date is valid
+      if (!isNaN(date.getTime())) {
+        return date;
+      }
+      
+      console.warn('Invalid date value:', value);
+      return undefined;
+    } catch (error) {
+      console.warn('Error converting to Date:', value, error);
+      return undefined;
+    }
+  }
+
   // Generic CRUD operations
   static create<T extends { id: string }>(
     resource: AdminResource,
@@ -175,15 +201,56 @@ export class AdminDataManager {
       
       const parsed = JSON.parse(data);
       
-      // Convert date strings back to Date objects
-      return parsed.map((item: any) => ({
-        ...item,
-        createdAt: item.createdAt ? new Date(item.createdAt) : undefined,
-        updatedAt: item.updatedAt ? new Date(item.updatedAt) : undefined,
-        publishedAt: item.publishedAt ? new Date(item.publishedAt) : undefined,
-        submittedAt: item.submittedAt ? new Date(item.submittedAt) : undefined,
-        donatedAt: item.donatedAt ? new Date(item.donatedAt) : undefined,
-      }));
+      // Convert date strings back to Date objects safely
+      return parsed.map((item: any) => {
+        const convertedItem = { ...item };
+        
+        // List of fields that should be Date objects
+        const dateFields = [
+          'createdAt', 'updatedAt', 'publishedAt', 'submittedAt', 'donatedAt',
+          'respondedAt', 'resolvedAt', 'lastModified', 'scheduledAt', 'completedAt'
+        ];
+        
+        // Convert each date field safely
+        dateFields.forEach(field => {
+          if (item[field]) {
+            try {
+              // If it's already a Date object, keep it
+              if (item[field] instanceof Date) {
+                convertedItem[field] = item[field];
+              }
+              // If it's a string that looks like a date, convert it
+              else if (typeof item[field] === 'string') {
+                const date = new Date(item[field]);
+                // Check if the date is valid
+                if (!isNaN(date.getTime())) {
+                  convertedItem[field] = date;
+                } else {
+                  console.warn(`Invalid date string for ${field}:`, item[field]);
+                  convertedItem[field] = undefined;
+                }
+              }
+              // If it's a number (timestamp), convert it
+              else if (typeof item[field] === 'number') {
+                convertedItem[field] = new Date(item[field]);
+              }
+            } catch (error) {
+              console.warn(`Error converting ${field} to Date:`, item[field], error);
+              convertedItem[field] = undefined;
+            }
+          }
+        });
+        
+        // Handle nested date objects (like in notes array)
+        if (item.notes && Array.isArray(item.notes)) {
+          convertedItem.notes = item.notes.map((note: any) => ({
+            ...note,
+            createdAt: note.createdAt ? this.safeConvertToDate(note.createdAt) : undefined,
+          }));
+        }
+        
+        return convertedItem;
+      });
     } catch (error) {
       console.error(`Error getting ${resource} data:`, error);
       return [];

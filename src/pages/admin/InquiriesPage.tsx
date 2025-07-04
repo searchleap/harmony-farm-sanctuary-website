@@ -5,6 +5,7 @@ import { useAdminData } from '../../hooks/useAdminData';
 import { useAdminNotifications } from '../../hooks/useAdminNotifications';
 import { AdminSearchEngine, createInquirySearchConfig } from '../../utils/adminSearch';
 import { Mail, Phone, User, MessageSquare, Reply } from 'lucide-react';
+import { formatDate } from '../../utils/dateUtils';
 import type { AdminTableColumn, BreadcrumbItem } from '../../components/admin/common';
 import type { ContactInquiry } from '../../utils/adminData';
 
@@ -108,10 +109,7 @@ export function InquiriesPage() {
       key: 'submittedAt',
       title: 'Submitted',
       dataIndex: 'submittedAt',
-      render: (date: string | Date) => {
-        const submitDate = typeof date === 'string' ? new Date(date) : date;
-        return submitDate ? submitDate.toLocaleDateString() : 'N/A';
-      }
+      render: (date: any) => formatDate(date, 'N/A')
     },
     {
       key: 'actions',

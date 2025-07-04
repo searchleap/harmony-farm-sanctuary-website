@@ -5,6 +5,7 @@ import { useAdminData } from '../../hooks/useAdminData';
 import { useAdminNotifications } from '../../hooks/useAdminNotifications';
 import { AdminSearchEngine, createDonationSearchConfig } from '../../utils/adminSearch';
 import { DollarSign, Calendar, CreditCard, Receipt, TrendingUp } from 'lucide-react';
+import { formatDate } from '../../utils/dateUtils';
 import type { AdminTableColumn, BreadcrumbItem } from '../../components/admin/common';
 import type { DonationRecord } from '../../utils/adminData';
 
@@ -113,10 +114,7 @@ export function DonationsPage() {
       key: 'donatedAt',
       title: 'Date',
       dataIndex: 'donatedAt',
-      render: (date: string | Date) => {
-        const donationDate = typeof date === 'string' ? new Date(date) : date;
-        return donationDate ? donationDate.toLocaleDateString() : 'N/A';
-      }
+      render: (date: any) => formatDate(date, 'N/A')
     },
     {
       key: 'isRecurring',

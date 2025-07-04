@@ -7,6 +7,7 @@ import { useAdminNotifications } from '../../hooks/useAdminNotifications';
 import { AdminSearchEngine, createBlogSearchConfig } from '../../utils/adminSearch';
 import { exportBlogPosts } from '../../utils/adminExport';
 import { Eye, Calendar, Users, Tag } from 'lucide-react';
+import { formatDate } from '../../utils/dateUtils';
 import type { AdminTableColumn, BreadcrumbItem } from '../../components/admin/common';
 import type { BlogPost, Author, BlogCategory, BlogTag, BlogMedia } from '../../types/blog';
 
@@ -172,7 +173,7 @@ export function BlogPage() {
       key: 'publishedAt',
       title: 'Published',
       dataIndex: 'publishedAt',
-      render: (date: string) => date ? new Date(date).toLocaleDateString() : 'Not published'
+      render: (date: any) => formatDate(date, 'Not published')
     },
     {
       key: 'category',

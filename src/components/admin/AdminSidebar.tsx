@@ -19,6 +19,7 @@ import {
   TestTube2
 } from 'lucide-react';
 import { useAdminAuth } from '../../contexts/AdminAuthContext';
+import { formatDateTime } from '../../utils/dateUtils';
 import { AdminResource, AdminAction } from '../../types/admin';
 
 interface AdminSidebarProps {
@@ -266,12 +267,7 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ isOpen, onClose }) => {
           <div className="p-4 border-t border-gray-200 bg-gray-50">
             <div className="text-center">
               <p className="text-xs text-gray-500">
-                Last login: {user?.lastLogin?.toLocaleDateString('en-US', {
-                  month: 'short',
-                  day: 'numeric',
-                  hour: '2-digit',
-                  minute: '2-digit'
-                })}
+                Last login: {formatDateTime(user?.lastLogin, 'Never')}
               </p>
               <a
                 href="/"

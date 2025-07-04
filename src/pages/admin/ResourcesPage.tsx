@@ -5,6 +5,7 @@ import { useAdminData } from '../../hooks/useAdminData';
 import { useAdminNotifications } from '../../hooks/useAdminNotifications';
 import { AdminSearchEngine, createResourceSearchConfig } from '../../utils/adminSearch';
 import { FileText, Download, ExternalLink } from 'lucide-react';
+import { formatDate } from '../../utils/dateUtils';
 import type { AdminTableColumn, BreadcrumbItem } from '../../components/admin/common';
 import type { EducationalResource } from '../../types/faq';
 
@@ -82,7 +83,7 @@ export function ResourcesPage() {
       key: 'lastUpdated',
       title: 'Last Updated',
       dataIndex: 'lastUpdated',
-      render: (date: string) => date ? new Date(date).toLocaleDateString() : 'N/A'
+      render: (date: any) => formatDate(date, 'N/A')
     },
     {
       key: 'actions',
