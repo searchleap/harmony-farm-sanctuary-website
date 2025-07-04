@@ -4,8 +4,10 @@ import AdminTestSuite from '../../components/admin/testing/AdminTestSuite';
 import ComponentTester from '../../components/admin/testing/ComponentTester';
 import DataValidationTester from '../../components/admin/testing/DataValidationTester';
 import PlaywrightTester from '../../components/admin/testing/PlaywrightTester';
+import AdminDocumentation from '../../components/admin/testing/AdminDocumentation';
+import ComponentDocGenerator from '../../components/admin/testing/ComponentDocGenerator';
 
-type TestingTab = 'suite' | 'components' | 'validation' | 'playwright';
+type TestingTab = 'suite' | 'components' | 'validation' | 'playwright' | 'docs' | 'component-docs';
 
 interface TestingTabInfo {
   id: TestingTab;
@@ -36,6 +38,16 @@ const AdminTestingPage: React.FC = () => {
       id: 'playwright',
       name: 'E2E Testing',
       description: 'Automated browser testing with Playwright'
+    },
+    {
+      id: 'docs',
+      name: 'Documentation',
+      description: 'Admin system user guides and API docs'
+    },
+    {
+      id: 'component-docs',
+      name: 'Component Docs',
+      description: 'Auto-generated component documentation'
     }
   ];
 
@@ -49,6 +61,10 @@ const AdminTestingPage: React.FC = () => {
         return <DataValidationTester />;
       case 'playwright':
         return <PlaywrightTester />;
+      case 'docs':
+        return <AdminDocumentation />;
+      case 'component-docs':
+        return <ComponentDocGenerator />;
       default:
         return <AdminTestSuite />;
     }
