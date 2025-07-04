@@ -3,8 +3,9 @@ import { AdminBreadcrumbs } from '../../components/admin/common/AdminBreadcrumbs
 import AdminTestSuite from '../../components/admin/testing/AdminTestSuite';
 import ComponentTester from '../../components/admin/testing/ComponentTester';
 import DataValidationTester from '../../components/admin/testing/DataValidationTester';
+import PlaywrightTester from '../../components/admin/testing/PlaywrightTester';
 
-type TestingTab = 'suite' | 'components' | 'validation';
+type TestingTab = 'suite' | 'components' | 'validation' | 'playwright';
 
 interface TestingTabInfo {
   id: TestingTab;
@@ -30,6 +31,11 @@ const AdminTestingPage: React.FC = () => {
       id: 'validation',
       name: 'Data Validation',
       description: 'Data integrity and validation testing'
+    },
+    {
+      id: 'playwright',
+      name: 'E2E Testing',
+      description: 'Automated browser testing with Playwright'
     }
   ];
 
@@ -41,6 +47,8 @@ const AdminTestingPage: React.FC = () => {
         return <ComponentTester />;
       case 'validation':
         return <DataValidationTester />;
+      case 'playwright':
+        return <PlaywrightTester />;
       default:
         return <AdminTestSuite />;
     }
