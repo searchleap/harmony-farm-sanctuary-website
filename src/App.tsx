@@ -33,6 +33,7 @@ import AdminTestingPage from './pages/admin/AdminTestingPage'
 import { AnimalsPage as AdminAnimalsPage } from './pages/admin/AnimalsPage'
 import { BlogPage as AdminBlogPage } from './pages/admin/BlogPage'
 import { FAQPage as AdminFAQPage } from './pages/admin/FAQPage'
+import { ResourcesPage as AdminResourcesPage } from './pages/admin/ResourcesPage'
 import AdminLayout from './components/admin/AdminLayout'
 import ProtectedRoute from './components/admin/ProtectedRoute'
 import { initPerformanceMonitoring, preloadCriticalResources } from './utils/performance'
@@ -105,6 +106,11 @@ function App() {
               <Route path="faq" element={
                 <ProtectedRoute resource="faq" action="read">
                   <AdminFAQPage />
+                </ProtectedRoute>
+              } />
+              <Route path="resources" element={
+                <ProtectedRoute resource="resources" action="read">
+                  <AdminResourcesPage />
                 </ProtectedRoute>
               } />
             </Route>
