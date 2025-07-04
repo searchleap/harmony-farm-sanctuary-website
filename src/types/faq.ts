@@ -294,3 +294,77 @@ export interface ResourceCardProps {
   onBookmark?: (resourceId: string) => void;
   onRate?: (resourceId: string, rating: number) => void;
 }
+
+// Version Control & Workflow Types
+export type WorkflowState = 'draft' | 'review' | 'approved' | 'published' | 'archived';
+
+export interface ContentVersion {
+  id: string;
+  content_id: string;
+  content_type: 'faq' | 'resource';
+  version_number: number;
+  title: string;
+  content: any; // Stores the full content snapshot
+  changes_summary: string;
+  created_by: string;
+  created_at: string;
+  is_current: boolean;
+  workflow_state: WorkflowState;
+  approval_data?: ApprovalData;
+}
+
+export interface VersionDiff {
+  field: string;
+  field_label: string;
+  old_value: any;
+  new_value: any;
+  change_type: 'added' | 'removed' | 'modified';
+}
+
+export interface ApprovalData {
+  submitted_by: string;
+  submitted_at: string;
+  current_stage: ApprovalStage;
+  stages: ApprovalStage[];
+  comments: ApprovalComment[];
+}
+
+export interface ApprovalStage {
+  id: string;
+  name: string;
+  role_required: string;
+  order: number;
+  status: 'pending' | 'approved' | 'rejected' | 'skipped';
+  approved_by?: string;
+  approved_at?: string;
+  notes?: string;
+}
+
+export interface ApprovalComment {
+  id: string;
+  stage_id: string;
+  author: string;
+  content: string;
+  created_at: string;
+  is_internal: boolean;
+}
+
+export interface WorkflowTransition {
+  from_state: WorkflowState;
+  to_state: WorkflowState;
+  action: string;
+  role_required: string;
+  requires_approval: boolean;
+}
+
+export interface ChangeRecord {
+  id: string;
+  content_id: string;
+  content_type: 'faq' | 'resource';
+  version_id: string;
+  changed_by: string;
+  changed_at: string;
+  changes: VersionDiff[];
+  change_reason?: string;
+  is_major_change: boolean;
+}

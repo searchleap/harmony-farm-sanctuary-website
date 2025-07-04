@@ -1,11 +1,12 @@
 import React, { useState, useMemo } from 'react';
-import { Settings, BarChart3, FolderTree, Plus } from 'lucide-react';
+import { Settings, BarChart3, FolderTree, Plus, GitCommit } from 'lucide-react';
 import { AdminListPage } from '../../components/admin/templates/AdminListPage';
 import { AdminModal, AdminForm, AdminStatusBadge, StandardActions, AdminButton } from '../../components/admin/common';
 import { FAQCategoryManager } from '../../components/admin/faq/FAQCategoryManager';
 import { EnhancedFAQForm } from '../../components/admin/faq/EnhancedFAQForm';
 import { FAQAnalytics } from '../../components/admin/faq/FAQAnalytics';
 import { FAQBulkActions } from '../../components/admin/faq/FAQBulkActions';
+import { ContentVersionControl, ApprovalWorkflow, ChangeTracker, WorkflowDashboard } from '../../components/admin/workflow';
 import { useAdminData } from '../../hooks/useAdminData';
 import { useAdminNotifications } from '../../hooks/useAdminNotifications';
 import { AdminSearchEngine, createFAQSearchConfig } from '../../utils/adminSearch';
@@ -191,7 +192,8 @@ export function FAQPage() {
   const views = [
     { id: 'list', label: 'FAQ List', icon: 'List' },
     { id: 'categories', label: 'Categories', icon: 'FolderTree' },
-    { id: 'analytics', label: 'Analytics', icon: 'BarChart3' }
+    { id: 'analytics', label: 'Analytics', icon: 'BarChart3' },
+    { id: 'workflow', label: 'Workflow', icon: 'GitCommit' }
   ];
 
   const renderViewContent = () => {
@@ -214,6 +216,20 @@ export function FAQPage() {
             categories={faqCategories}
             helpfulness={faqHelpfulness}
           />
+        );
+
+      case 'workflow':
+        return (
+          <div className="space-y-6">
+            <WorkflowDashboard
+              items={[]}
+              currentUser="current_user"
+              userRole="admin"
+              onItemClick={(item) => console.log('View item:', item)}
+              onBulkAction={(action, itemIds) => console.log('Bulk action:', action, itemIds)}
+              onStateChange={(itemId, newState) => console.log('State change:', itemId, newState)}
+            />
+          </div>
         );
 
       case 'list':
