@@ -379,11 +379,14 @@ export function FAQPage() {
       key: 'category',
       title: 'Category',
       dataIndex: 'category',
-      render: (category: string) => (
-        <AdminStatusBadge variant="secondary">
-          {category}
-        </AdminStatusBadge>
-      )
+      render: (category: any) => {
+        const categoryName = typeof category === 'string' ? category : (category?.name || 'General');
+        return (
+          <AdminStatusBadge variant="secondary">
+            {categoryName}
+          </AdminStatusBadge>
+        );
+      }
     },
     {
       key: 'isActive',

@@ -145,7 +145,16 @@ export function BlogPage() {
     {
       key: 'author',
       title: 'Author',
-      dataIndex: 'author'
+      dataIndex: 'author',
+      render: (author: any) => {
+        if (typeof author === 'string') {
+          return author;
+        }
+        if (typeof author === 'object' && author?.name) {
+          return author.name;
+        }
+        return 'Unknown Author';
+      }
     },
     {
       key: 'status',
@@ -169,11 +178,14 @@ export function BlogPage() {
       key: 'category',
       title: 'Category',
       dataIndex: 'category',
-      render: (category: string) => (
-        <span className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-blue-100 text-blue-800">
-          {category || 'Uncategorized'}
-        </span>
-      )
+      render: (category: any) => {
+        const categoryName = typeof category === 'string' ? category : (category?.name || 'Uncategorized');
+        return (
+          <span className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-blue-100 text-blue-800">
+            {categoryName}
+          </span>
+        );
+      }
     },
     {
       key: 'readTime',
