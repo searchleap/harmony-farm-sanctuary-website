@@ -14,7 +14,8 @@ import {
   Shield,
   Calendar,
   ShoppingBag,
-  DollarSign
+  DollarSign,
+  Database
 } from 'lucide-react';
 import { useAdminAuth } from '../../contexts/AdminAuthContext';
 import { AdminResource, AdminAction } from '../../types/admin';
@@ -130,6 +131,13 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ isOpen, onClose }) => {
       path: '/admin/analytics',
       description: 'Site analytics',
       permission: { resource: 'analytics', action: 'read' }
+    },
+    {
+      title: 'Backup & Export',
+      icon: <Database className="h-5 w-5" />,
+      path: '/admin/backup',
+      description: 'Data backup and export',
+      permission: { resource: 'settings', action: 'read' }
     },
     {
       title: 'Settings',
