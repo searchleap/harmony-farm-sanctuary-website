@@ -1,13 +1,18 @@
 import React, { useState } from 'react';
-import { BarChart3, Calendar, RefreshCw } from 'lucide-react';
+import { BarChart3, Calendar, RefreshCw, TrendingUp, Users, DollarSign } from 'lucide-react';
 import { AnalyticsFilter } from '../../../types/analytics';
 import { dashboardData, kpiMetrics } from '../../../data/analyticsData';
 import MetricsWidget from './MetricsWidget';
 import AnalyticsFilters from './AnalyticsFilters';
 import DataExportTool from './DataExportTool';
+import ContentAnalytics from './ContentAnalytics';
+import EngagementMetrics from './EngagementMetrics';
+import DonationAnalytics from './DonationAnalytics';
+import RevenueCharts from './RevenueCharts';
 import { AdminButton } from '../common/AdminButton';
 
 const AnalyticsDashboard: React.FC = () => {
+  const [activeTab, setActiveTab] = useState<'overview' | 'content' | 'engagement' | 'financial'>('overview');
   const [filters, setFilters] = useState<AnalyticsFilter>({
     category: [],
     dateRange: {
@@ -30,6 +35,13 @@ const AnalyticsDashboard: React.FC = () => {
 
   const availableMetrics = ['animals', 'donations', 'volunteers', 'content', 'engagement'];
   const availableCategories = ['Sanctuary Operations', 'Financial', 'Community', 'Content'];
+
+  const tabs = [
+    { id: 'overview', name: 'Overview', icon: BarChart3 },
+    { id: 'content', name: 'Content', icon: TrendingUp },
+    { id: 'engagement', name: 'Engagement', icon: Users },
+    { id: 'financial', name: 'Financial', icon: DollarSign }
+  ];
 
   return (
     <div className="space-y-6">
@@ -72,6 +84,30 @@ const AnalyticsDashboard: React.FC = () => {
         </div>
       </div>
 
+      {/* Navigation Tabs */}
+      <div className="border-b border-gray-200 dark:border-gray-700">
+        <nav className="-mb-px flex space-x-8">
+          {tabs.map((tab) => {
+            const IconComponent = tab.icon;
+            const isActive = activeTab === tab.id;
+            return (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id as any)}
+                className={`flex items-center space-x-2 py-4 px-1 border-b-2 font-medium text-sm transition-colors ${
+                  isActive
+                    ? 'border-blue-500 text-blue-600 dark:text-blue-400'
+                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300'
+                }`}
+              >
+                <IconComponent className="w-5 h-5" />
+                <span>{tab.name}</span>
+              </button>
+            );
+          })}
+        </nav>
+      </div>
+
       {/* Filters */}
       <AnalyticsFilters
         filters={filters}
@@ -80,12 +116,15 @@ const AnalyticsDashboard: React.FC = () => {
         availableCategories={availableCategories}
       />
 
-      {/* KPI Metrics Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {kpiMetrics.map((metric) => (
-          <MetricsWidget key={metric.id} metric={metric} />
-        ))}
-      </div>
+      {/* Tab Content */}
+      {activeTab === 'overview' && (
+        <>
+          {/* KPI Metrics Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {kpiMetrics.map((metric) => (
+              <MetricsWidget key={metric.id} metric={metric} />
+            ))}
+          </div>
 
       {/* Quick Stats Overview */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -214,6 +253,23 @@ const AnalyticsDashboard: React.FC = () => {
           </div>
         </div>
       </div>
+        </>
+      )}
+
+      {activeTab === 'content' && (
+        <ContentAnalytics timeRange={filters.dateRange.preset} category={filters.category} />
+      )}
+
+      {activeTab === 'engagement' && (
+        <EngagementMetrics />
+      )}
+
+      {activeTab === 'financial' && (
+        <div className="space-y-8">
+          <DonationAnalytics timeRange={filters.dateRange.preset} />
+          <RevenueCharts timeRange={filters.dateRange.preset} />
+        </div>
+      )}
     </div>
   );
 };
