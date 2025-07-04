@@ -328,3 +328,239 @@ export interface AdminNotificationContextType {
   removeNotification: (id: string) => void;
   clearAll: () => void;
 }
+
+// ========================================
+// Enhanced Animal Management Types (Phase 2, Step 5)
+// ========================================
+
+export interface AnimalPhoto {
+  id: string;
+  url: string;
+  thumbnailUrl: string;
+  caption?: string;
+  isPrimary: boolean;
+  uploadedBy: string;
+  uploadedAt: Date;
+  altText: string;
+  tags: string[];
+  metadata: {
+    filename: string;
+    size: number;
+    dimensions: { width: number; height: number };
+    format: string;
+  };
+}
+
+export interface MedicalRecord {
+  id: string;
+  animalId: string;
+  date: Date;
+  type: 'vaccination' | 'treatment' | 'checkup' | 'surgery' | 'emergency' | 'dental' | 'diagnostic';
+  title: string;
+  description: string;
+  veterinarian: {
+    name: string;
+    clinic: string;
+    phone: string;
+    email?: string;
+  };
+  diagnosis?: string;
+  treatment?: string;
+  medications?: AnimalMedication[];
+  cost?: number;
+  followUpRequired: boolean;
+  followUpDate?: Date;
+  nextAppointment?: Date;
+  attachments?: {
+    id: string;
+    filename: string;
+    url: string;
+    type: 'image' | 'document' | 'xray' | 'lab_result';
+  }[];
+  isEmergency: boolean;
+  status: 'completed' | 'ongoing' | 'scheduled' | 'cancelled';
+  notes?: string;
+  addedBy: string;
+  lastModified: Date;
+}
+
+export interface AnimalMedication {
+  id: string;
+  name: string;
+  dosage: string;
+  frequency: string;
+  startDate: Date;
+  endDate?: Date;
+  isOngoing: boolean;
+  prescribedBy: string;
+  purpose: string;
+  sideEffects?: string[];
+  instructions?: string;
+  cost?: number;
+}
+
+export interface Sponsor {
+  id: string;
+  type: 'individual' | 'family' | 'business' | 'organization';
+  firstName: string;
+  lastName?: string;
+  businessName?: string;
+  email: string;
+  phone?: string;
+  address: {
+    street: string;
+    city: string;
+    state: string;
+    zipCode: string;
+    country: string;
+  };
+  sponsorshipTier: 'basic' | 'premium' | 'guardian' | 'lifetime';
+  monthlyAmount: number;
+  startDate: Date;
+  endDate?: Date;
+  isActive: boolean;
+  animalsSponsored: string[];
+  totalDonated: number;
+  paymentMethod: 'credit_card' | 'bank_transfer' | 'paypal' | 'check';
+  preferences: {
+    communicationFrequency: 'weekly' | 'monthly' | 'quarterly' | 'annually';
+    receiveUpdates: boolean;
+    receivePhotos: boolean;
+    receiveNewsletter: boolean;
+    visitPreferences: 'in_person' | 'virtual' | 'both' | 'none';
+  };
+  notes?: string;
+  addedBy: string;
+  lastContact?: Date;
+  renewalReminder?: Date;
+}
+
+export interface CareNote {
+  id: string;
+  animalId: string;
+  date: Date;
+  category: 'feeding' | 'behavior' | 'health' | 'enrichment' | 'training' | 'social' | 'maintenance' | 'other';
+  title: string;
+  content: string;
+  caregiverName: string;
+  priority: 'low' | 'medium' | 'high' | 'urgent';
+  isPublic: boolean; // Can be shared with sponsors
+  tags: string[];
+  attachments?: {
+    id: string;
+    filename: string;
+    url: string;
+    type: 'image' | 'video' | 'document';
+  }[];
+  relatedAnimals?: string[]; // For group activities
+  addedBy: string;
+  lastModified: Date;
+}
+
+export interface AnimalAnalytics {
+  animalId: string;
+  careStats: {
+    totalCareNotes: number;
+    recentCareNotes: number; // Last 30 days
+    careFrequency: Record<CareNote['category'], number>;
+    averageCareInterval: number; // Days between care notes
+  };
+  medicalStats: {
+    totalMedicalRecords: number;
+    recentMedicalRecords: number; // Last 30 days
+    totalMedicalCost: number;
+    yearlyMedicalCost: number;
+    vaccinationStatus: 'up_to_date' | 'due_soon' | 'overdue';
+    nextVaccinationDate?: Date;
+    ongoingMedications: number;
+  };
+  sponsorshipStats: {
+    totalSponsors: number;
+    activeSponsors: number;
+    monthlyRevenue: number;
+    yearlyRevenue: number;
+    sponsorshipGoal: number;
+    sponsorshipPercentage: number;
+    averageSponsorshipDuration: number; // Months
+    renewalRate: number; // Percentage
+  };
+  engagementStats: {
+    pageViews: number;
+    profileViews: number;
+    photoViews: number;
+    sponsorshipInquiries: number;
+    socialShares: number;
+    lastUpdated: Date;
+  };
+}
+
+export interface EnhancedAnimal extends Omit<import('../types').Animal, 'images' | 'medicalHistory'> {
+  // Enhanced photo management
+  photos: AnimalPhoto[];
+  
+  // Medical tracking
+  medicalHistory: MedicalRecord[];
+  currentMedications: AnimalMedication[];
+  vaccinations: {
+    type: string;
+    date: Date;
+    nextDue: Date;
+    veterinarian: string;
+  }[];
+  
+  // Sponsorship management
+  sponsors: Sponsor[];
+  sponsorshipGoals: {
+    monthlyTarget: number;
+    currentAmount: number;
+    goalDescription: string;
+  };
+  
+  // Care tracking
+  careNotes: CareNote[];
+  careSchedule: {
+    feeding: { times: string[]; diet: string; notes?: string };
+    exercise: { frequency: string; duration: string; activities: string[] };
+    grooming: { frequency: string; lastGroomed?: Date; notes?: string };
+    enrichment: { activities: string[]; frequency: string; preferences: string[] };
+  };
+  
+  // Analytics and metrics
+  analytics: AnimalAnalytics;
+  
+  // Enhanced admin fields
+  adminNotes: string;
+  internalStatus: 'active' | 'inactive' | 'archived';
+  lastUpdated: Date;
+  updatedBy: string;
+  publicProfile: boolean; // Whether to show on public website
+  featuredUntil?: Date; // When to stop featuring
+  
+  // Content management
+  storyLastUpdated?: Date;
+  photosLastUpdated?: Date;
+  needsContentUpdate: boolean;
+  contentReviewDate?: Date;
+}
+
+// Animal Management Helper Types
+export interface AnimalSearchFilters {
+  species?: string[];
+  status?: string[];
+  sponsorshipStatus?: 'sponsored' | 'not_sponsored' | 'partially_sponsored';
+  careLevel?: string[];
+  medicalStatus?: 'healthy' | 'treatment' | 'chronic' | 'emergency';
+  ageRange?: { min: number; max: number };
+  arrivalDateRange?: { start: Date; end: Date };
+  hasPhotos?: boolean;
+  needsUpdate?: boolean;
+}
+
+export interface AnimalFormData {
+  basic: Pick<EnhancedAnimal, 'name' | 'species' | 'breed' | 'gender' | 'age' | 'weight' | 'color'>;
+  story: Pick<EnhancedAnimal, 'story' | 'rescueStory' | 'personalityDescription'>;
+  care: Pick<EnhancedAnimal, 'careLevel' | 'specialNeeds' | 'housingType' | 'companionAnimals'>;
+  medical: Pick<EnhancedAnimal, 'medicalNeeds' | 'specialDiet' | 'medications'>;
+  sponsorship: Pick<EnhancedAnimal, 'sponsorshipCost' | 'maxSponsors' | 'sponsorshipBenefits'>;
+  admin: Pick<EnhancedAnimal, 'adminNotes' | 'internalStatus' | 'publicProfile'>;
+}

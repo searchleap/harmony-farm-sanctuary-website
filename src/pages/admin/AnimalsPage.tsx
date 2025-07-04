@@ -1,20 +1,24 @@
 import React, { useState, useMemo } from 'react';
 import { AdminListPage } from '../../components/admin/templates/AdminListPage';
-import { AdminModal, AdminForm, AdminStatusBadge, StandardActions } from '../../components/admin/common';
+import { AdminModal, AdminStatusBadge, StandardActions } from '../../components/admin/common';
+import { EnhancedAnimalForm } from '../../components/admin/animals/EnhancedAnimalForm';
 import { useAdminData } from '../../hooks/useAdminData';
 import { useAdminNotifications } from '../../hooks/useAdminNotifications';
 import { AdminSearchEngine, createAnimalSearchConfig } from '../../utils/adminSearch';
 import { exportAnimals } from '../../utils/adminExport';
-import type { AdminTableColumn, AdminFormField, BreadcrumbItem } from '../../components/admin/common';
+import { Settings, Camera, FileText, Heart } from 'lucide-react';
+import type { AdminTableColumn, BreadcrumbItem } from '../../components/admin/common';
 import type { Animal } from '../../types/admin';
+import type { EnhancedAnimal, AnimalFormData, AnimalPhoto } from '../../types/admin';
 
 export function AnimalsPage() {
   const { data: animalsData, loading, refetch } = useAdminData();
   const { success, error } = useAdminNotifications();
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedAnimal, setSelectedAnimal] = useState<Animal | null>(null);
+  const [selectedAnimal, setSelectedAnimal] = useState<EnhancedAnimal | null>(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [formLoading, setFormLoading] = useState(false);
 
   console.log('[AnimalsPage] Rendering with animals:', animalsData.animals?.length || 0);
 
@@ -33,18 +37,18 @@ export function AnimalsPage() {
     {
       key: 'photo',
       title: 'Photo',
-      dataIndex: 'imageUrl',
+      dataIndex: 'featuredImage',
       sortable: false,
-      render: (imageUrl: string, animal: Animal) => (
-        imageUrl ? (
+      render: (featuredImage: string, animal: Animal) => (
+        featuredImage ? (
           <img 
-            src={imageUrl} 
+            src={featuredImage} 
             alt={animal.name}
             className="h-12 w-12 object-cover rounded-lg"
           />
         ) : (
           <div className="h-12 w-12 bg-gray-200 rounded-lg flex items-center justify-center">
-            <span className="text-gray-400 text-xs">No photo</span>
+            <Camera className="w-4 h-4 text-gray-400" />
           </div>
         )
       )
@@ -75,13 +79,25 @@ export function AnimalsPage() {
     },
     {
       key: 'status',
-      title: 'Status',
+      title: 'Health Status',
       dataIndex: 'status',
       render: (status: string) => (
         <AdminStatusBadge 
-          variant={status === 'adopted' ? 'success' : status === 'available' ? 'info' : 'neutral'}
+          variant={status === 'healthy' ? 'success' : status === 'recovering' ? 'warning' : status === 'special-needs' ? 'info' : 'neutral'}
         >
-          {status}
+          {status.replace('-', ' ')}
+        </AdminStatusBadge>
+      )
+    },
+    {
+      key: 'careLevel',
+      title: 'Care Level',
+      dataIndex: 'careLevel',
+      render: (careLevel: string) => (
+        <AdminStatusBadge 
+          variant={careLevel === 'easy' ? 'success' : careLevel === 'moderate' ? 'warning' : 'error'}
+        >
+          {careLevel}
         </AdminStatusBadge>
       )
     },
@@ -110,83 +126,86 @@ export function AnimalsPage() {
     }
   ];
 
-  // Form fields
-  const formFields: AdminFormField[] = [
-    {
-      name: 'name',
-      label: 'Animal Name',
-      type: 'text',
-      required: true,
-      placeholder: 'Enter animal name'
-    },
-    {
-      name: 'species',
-      label: 'Species',
-      type: 'select',
-      required: true,
-      options: [
-        { value: 'dog', label: 'Dog' },
-        { value: 'cat', label: 'Cat' },
-        { value: 'horse', label: 'Horse' },
-        { value: 'cow', label: 'Cow' },
-        { value: 'pig', label: 'Pig' },
-        { value: 'sheep', label: 'Sheep' },
-        { value: 'goat', label: 'Goat' },
-        { value: 'chicken', label: 'Chicken' },
-        { value: 'duck', label: 'Duck' },
-        { value: 'rabbit', label: 'Rabbit' },
-        { value: 'other', label: 'Other' }
-      ]
-    },
-    {
-      name: 'breed',
-      label: 'Breed',
-      type: 'text',
-      placeholder: 'Enter breed (optional)'
-    },
-    {
-      name: 'age',
-      label: 'Age (years)',
-      type: 'number',
-      validation: {
-        min: 0,
-        max: 50
-      }
-    },
-    {
-      name: 'status',
-      label: 'Status',
-      type: 'select',
-      required: true,
-      options: [
-        { value: 'available', label: 'Available for Adoption' },
-        { value: 'adopted', label: 'Adopted' },
-        { value: 'sponsored', label: 'Sponsored' },
-        { value: 'medical_care', label: 'Medical Care' },
-        { value: 'quarantine', label: 'Quarantine' },
-        { value: 'permanent_resident', label: 'Permanent Resident' }
-      ]
-    },
-    {
-      name: 'description',
-      label: 'Description',
-      type: 'textarea',
-      rows: 4,
-      placeholder: 'Tell us about this animal...'
-    },
-    {
-      name: 'isSponsored',
-      label: 'Currently Sponsored',
-      type: 'checkbox'
-    },
-    {
-      name: 'imageUrl',
-      label: 'Photo URL',
-      type: 'text',
-      placeholder: 'https://example.com/animal-photo.jpg',
-      description: 'URL to animal photo (optional)'
-    }
-  ];
+  // Convert basic Animal to EnhancedAnimal for editing
+  const convertToEnhancedAnimal = (animal: Animal): EnhancedAnimal => {
+    return {
+      ...animal,
+      photos: animal.images?.map((url, index) => ({
+        id: `existing_${index}`,
+        url,
+        thumbnailUrl: url,
+        caption: '',
+        isPrimary: index === 0,
+        uploadedBy: 'system',
+        uploadedAt: new Date(),
+        altText: `${animal.name} photo ${index + 1}`,
+        tags: [],
+        metadata: {
+          filename: `${animal.name}_${index + 1}.jpg`,
+          size: 0,
+          dimensions: { width: 800, height: 600 },
+          format: 'image/jpeg'
+        }
+      })) || [],
+      medicalHistory: [],
+      currentMedications: [],
+      vaccinations: [],
+      sponsors: [],
+      sponsorshipGoals: {
+        monthlyTarget: animal.sponsorshipCost?.monthly || 50,
+        currentAmount: 0,
+        goalDescription: 'Help cover monthly care costs'
+      },
+      careNotes: [],
+      careSchedule: {
+        feeding: { times: ['8:00 AM', '6:00 PM'], diet: 'Standard diet', notes: '' },
+        exercise: { frequency: 'Daily', duration: '2 hours', activities: ['Pasture time'] },
+        grooming: { frequency: 'Weekly', notes: '' },
+        enrichment: { activities: ['Social interaction'], frequency: 'Daily', preferences: [] }
+      },
+      analytics: {
+        animalId: animal.id,
+        careStats: {
+          totalCareNotes: 0,
+          recentCareNotes: 0,
+          careFrequency: {},
+          averageCareInterval: 0
+        },
+        medicalStats: {
+          totalMedicalRecords: 0,
+          recentMedicalRecords: 0,
+          totalMedicalCost: 0,
+          yearlyMedicalCost: 0,
+          vaccinationStatus: 'up_to_date',
+          ongoingMedications: 0
+        },
+        sponsorshipStats: {
+          totalSponsors: animal.sponsorCount || 0,
+          activeSponsors: animal.isSponsored ? 1 : 0,
+          monthlyRevenue: animal.isSponsored ? (animal.sponsorshipCost?.monthly || 0) : 0,
+          yearlyRevenue: animal.isSponsored ? (animal.sponsorshipCost?.annually || 0) : 0,
+          sponsorshipGoal: animal.sponsorshipCost?.monthly || 50,
+          sponsorshipPercentage: animal.isSponsored ? 100 : 0,
+          averageSponsorshipDuration: 12,
+          renewalRate: 85
+        },
+        engagementStats: {
+          pageViews: 0,
+          profileViews: 0,
+          photoViews: 0,
+          sponsorshipInquiries: 0,
+          socialShares: 0,
+          lastUpdated: new Date()
+        }
+      },
+      adminNotes: '',
+      internalStatus: 'active',
+      lastUpdated: new Date(),
+      updatedBy: 'admin',
+      publicProfile: true,
+      needsContentUpdate: false
+    };
+  };
 
   // Breadcrumbs
   const breadcrumbs: BreadcrumbItem[] = [
@@ -200,7 +219,7 @@ export function AnimalsPage() {
   };
 
   const handleEdit = (animal: Animal) => {
-    setSelectedAnimal(animal);
+    setSelectedAnimal(convertToEnhancedAnimal(animal));
     setIsEditModalOpen(true);
   };
 
@@ -216,20 +235,63 @@ export function AnimalsPage() {
     }
   };
 
-  const handleSubmit = async (values: Record<string, any>) => {
+  const handleSubmit = async (formData: AnimalFormData & { photos: AnimalPhoto[] }) => {
+    setFormLoading(true);
     try {
+      // Convert form data back to Animal format for storage
+      const animalData: Partial<Animal> = {
+        name: formData.basic.name,
+        species: formData.basic.species,
+        breed: formData.basic.breed,
+        gender: formData.basic.gender,
+        age: formData.basic.age,
+        weight: formData.basic.weight,
+        color: formData.basic.color,
+        story: formData.story.story,
+        rescueStory: formData.story.rescueStory,
+        personalityDescription: formData.story.personalityDescription,
+        careLevel: formData.care.careLevel,
+        specialNeeds: formData.care.specialNeeds,
+        housingType: formData.care.housingType,
+        companionAnimals: formData.care.companionAnimals,
+        medicalNeeds: formData.medical.medicalNeeds,
+        specialDiet: formData.medical.specialDiet,
+        medications: formData.medical.medications,
+        sponsorshipCost: formData.sponsorship.sponsorshipCost,
+        maxSponsors: formData.sponsorship.maxSponsors,
+        sponsorshipBenefits: formData.sponsorship.sponsorshipBenefits,
+        images: formData.photos.map(photo => photo.url),
+        featuredImage: formData.photos.find(p => p.isPrimary)?.url || formData.photos[0]?.url || '',
+        // Set defaults for required fields
+        personality: ['friendly'],
+        socialLevel: 'social',
+        energyLevel: 'moderate',
+        goodWithKids: true,
+        goodWithOtherAnimals: true,
+        isSponsored: false,
+        sponsorCount: 0,
+        adoptionEligible: true,
+        featuredAnimal: false,
+        arrivalDate: new Date().toISOString().split('T')[0],
+        status: 'healthy'
+      };
+
       if (selectedAnimal) {
         // TODO: Implement update in data manager
-        success(`${values.name} has been updated`);
+        success(`${formData.basic.name} has been updated with enhanced profile`);
       } else {
         // TODO: Implement create in data manager
-        success(`${values.name} has been added`);
+        success(`${formData.basic.name} has been added with complete profile`);
       }
+      
       setIsEditModalOpen(false);
       setIsAddModalOpen(false);
       refetch();
     } catch (err) {
-      error('Failed to save animal');
+      error('Failed to save animal profile');
+      console.error('Save error:', err);
+    } finally {
+      setFormLoading(false);
     }
   };
 
@@ -265,13 +327,12 @@ export function AnimalsPage() {
         isOpen={isAddModalOpen}
         onClose={() => setIsAddModalOpen(false)}
         title="Add New Animal"
-        size="lg"
+        size="full"
       >
-        <AdminForm
-          fields={formFields}
+        <EnhancedAnimalForm
           onSubmit={handleSubmit}
           onCancel={() => setIsAddModalOpen(false)}
-          submitText="Add Animal"
+          loading={formLoading}
         />
       </AdminModal>
 
@@ -280,14 +341,13 @@ export function AnimalsPage() {
         isOpen={isEditModalOpen}
         onClose={() => setIsEditModalOpen(false)}
         title={`Edit ${selectedAnimal?.name || 'Animal'}`}
-        size="lg"
+        size="full"
       >
-        <AdminForm
-          fields={formFields}
-          initialValues={selectedAnimal || {}}
+        <EnhancedAnimalForm
+          animal={selectedAnimal || undefined}
           onSubmit={handleSubmit}
           onCancel={() => setIsEditModalOpen(false)}
-          submitText="Save Changes"
+          loading={formLoading}
         />
       </AdminModal>
     </>
