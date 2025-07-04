@@ -1,31 +1,283 @@
 import React, { useState, useMemo } from 'react';
+import { Settings, BarChart3, FolderTree, Plus } from 'lucide-react';
 import { AdminListPage } from '../../components/admin/templates/AdminListPage';
-import { AdminModal, AdminForm, AdminStatusBadge, StandardActions } from '../../components/admin/common';
+import { AdminModal, AdminForm, AdminStatusBadge, StandardActions, AdminButton } from '../../components/admin/common';
+import { FAQCategoryManager } from '../../components/admin/faq/FAQCategoryManager';
+import { EnhancedFAQForm } from '../../components/admin/faq/EnhancedFAQForm';
+import { FAQAnalytics } from '../../components/admin/faq/FAQAnalytics';
+import { FAQBulkActions } from '../../components/admin/faq/FAQBulkActions';
 import { useAdminData } from '../../hooks/useAdminData';
 import { useAdminNotifications } from '../../hooks/useAdminNotifications';
 import { AdminSearchEngine, createFAQSearchConfig } from '../../utils/adminSearch';
 import type { AdminTableColumn, AdminFormField, BreadcrumbItem } from '../../components/admin/common';
-import type { FAQ } from '../../types/admin';
+import type { FAQ, FAQCategory, FAQTag, FAQBulkOperation, FAQHelpfulness } from '../../types/faq';
 
 export function FAQPage() {
-  const { data: adminData, loading, refetch } = useAdminData();
+  const { data: adminData, loading } = useAdminData();
   const { success, error } = useAdminNotifications();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedFAQ, setSelectedFAQ] = useState<FAQ | null>(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [activeView, setActiveView] = useState('list');
+  const [selectedFAQs, setSelectedFAQs] = useState<string[]>([]);
 
   console.log('[FAQPage] Rendering with FAQs:', adminData.faqs?.length || 0);
 
+  // Enhanced FAQ mock data
+  const faqCategories: FAQCategory[] = [
+    {
+      id: 'visiting',
+      name: 'Visiting',
+      description: 'Information about tours and visits',
+      slug: 'visiting',
+      icon: 'MapPin',
+      color: '#3B82F6',
+      questionCount: 12,
+      priority: 1,
+      depth: 0,
+      path: 'Visiting',
+      isActive: true,
+      createdAt: '2024-01-15T10:00:00Z',
+      updatedAt: '2024-01-15T10:00:00Z'
+    },
+    {
+      id: 'visiting-tours',
+      name: 'Tours',
+      description: 'Guided tour information',
+      slug: 'tours',
+      icon: 'Users',
+      color: '#3B82F6',
+      questionCount: 8,
+      priority: 1,
+      parentId: 'visiting',
+      depth: 1,
+      path: 'Visiting > Tours',
+      isActive: true,
+      createdAt: '2024-01-15T10:05:00Z',
+      updatedAt: '2024-01-15T10:05:00Z'
+    },
+    {
+      id: 'animal-care',
+      name: 'Animal Care',
+      description: 'Information about animal welfare and care',
+      slug: 'animal-care',
+      icon: 'Heart',
+      color: '#10B981',
+      questionCount: 18,
+      priority: 2,
+      depth: 0,
+      path: 'Animal Care',
+      isActive: true,
+      createdAt: '2024-01-15T10:10:00Z',
+      updatedAt: '2024-01-15T10:10:00Z'
+    },
+    {
+      id: 'volunteering',
+      name: 'Volunteering',
+      description: 'How to get involved and volunteer',
+      slug: 'volunteering',
+      icon: 'Users',
+      color: '#F59E0B',
+      questionCount: 15,
+      priority: 3,
+      depth: 0,
+      path: 'Volunteering',
+      isActive: true,
+      createdAt: '2024-01-15T10:15:00Z',
+      updatedAt: '2024-01-15T10:15:00Z'
+    },
+    {
+      id: 'donations',
+      name: 'Donations',
+      description: 'Support and funding information',
+      slug: 'donations',
+      icon: 'Gift',
+      color: '#8B5CF6',
+      questionCount: 9,
+      priority: 4,
+      depth: 0,
+      path: 'Donations',
+      isActive: true,
+      createdAt: '2024-01-15T10:20:00Z',
+      updatedAt: '2024-01-15T10:20:00Z'
+    }
+  ];
+
+  const faqTags: FAQTag[] = [
+    { id: 'beginner', name: 'Beginner Friendly', slug: 'beginner', count: 25 },
+    { id: 'scheduling', name: 'Scheduling', slug: 'scheduling', count: 12 },
+    { id: 'requirements', name: 'Requirements', slug: 'requirements', count: 18 },
+    { id: 'safety', name: 'Safety', slug: 'safety', count: 14 },
+    { id: 'educational', name: 'Educational', slug: 'educational', count: 16 },
+    { id: 'group-visits', name: 'Group Visits', slug: 'group-visits', count: 8 },
+    { id: 'children', name: 'Children', slug: 'children', count: 11 },
+    { id: 'medical', name: 'Medical', slug: 'medical', count: 9 },
+    { id: 'feeding', name: 'Feeding', slug: 'feeding', count: 7 },
+    { id: 'housing', name: 'Housing', slug: 'housing', count: 6 }
+  ];
+
+  const enhancedFAQs: FAQ[] = (adminData || []).map((faq: any, index: number) => ({
+    ...faq,
+    category: faqCategories[index % faqCategories.length],
+    tags: [faqTags[index % faqTags.length], faqTags[(index + 1) % faqTags.length]],
+    status: ['published', 'published', 'published', 'pending_review', 'draft'][index % 5] as any,
+    version: 1,
+    seoScore: 70 + Math.floor(Math.random() * 30),
+    readabilityScore: 60 + Math.floor(Math.random() * 40),
+    createdAt: new Date(Date.now() - Math.random() * 90 * 24 * 60 * 60 * 1000).toISOString(),
+    publishedAt: new Date(Date.now() - Math.random() * 60 * 24 * 60 * 60 * 1000).toISOString()
+  }));
+
+  const faqHelpfulness: FAQHelpfulness[] = enhancedFAQs.map(faq => ({
+    faqId: faq.id,
+    helpful: faq.helpful,
+    notHelpful: faq.notHelpful,
+    comments: [],
+    improvementSuggestions: [
+      'Add more visual content',
+      'Break down into steps',
+      'Include video explanation'
+    ].slice(0, Math.floor(Math.random() * 3) + 1),
+    lastAnalyzed: new Date().toISOString()
+  }));
+
+  // Enhanced handlers
+  const handleCategoryCreate = (category: Omit<FAQCategory, 'id'>) => {
+    console.log('Creating category:', category);
+    success('Category created successfully');
+  };
+
+  const handleCategoryUpdate = (id: string, category: Partial<FAQCategory>) => {
+    console.log('Updating category:', id, category);
+    success('Category updated successfully');
+  };
+
+  const handleCategoryDelete = (id: string) => {
+    console.log('Deleting category:', id);
+    success('Category deleted successfully');
+  };
+
+  const handleCategoryMove = (categoryId: string, newParentId?: string) => {
+    console.log('Moving category:', categoryId, 'to parent:', newParentId);
+    success('Category moved successfully');
+  };
+
+  const handleFAQSubmit = (faq: Omit<FAQ, 'id'>) => {
+    console.log('FAQ submitted:', faq);
+    success(selectedFAQ ? 'FAQ updated successfully' : 'FAQ created successfully');
+    setIsAddModalOpen(false);
+    setIsEditModalOpen(false);
+    setSelectedFAQ(null);
+  };
+
+  const handleBulkOperation = (operation: FAQBulkOperation) => {
+    console.log('Bulk operation:', operation);
+    success(`Bulk operation "${operation.type}" completed successfully`);
+    setSelectedFAQs([]);
+  };
+
   // Search engine
   const searchEngine = useMemo(() => {
-    return new AdminSearchEngine(adminData.faqs || [], createFAQSearchConfig());
-  }, [adminData.faqs]);
+    return new AdminSearchEngine(enhancedFAQs || [], createFAQSearchConfig());
+  }, [enhancedFAQs]);
 
   // Filtered FAQs
   const filteredFAQs = useMemo(() => {
     return searchEngine.search(searchTerm).data;
   }, [searchEngine, searchTerm]);
+
+  // View navigation
+  const views = [
+    { id: 'list', label: 'FAQ List', icon: 'List' },
+    { id: 'categories', label: 'Categories', icon: 'FolderTree' },
+    { id: 'analytics', label: 'Analytics', icon: 'BarChart3' }
+  ];
+
+  const renderViewContent = () => {
+    switch (activeView) {
+      case 'categories':
+        return (
+          <FAQCategoryManager
+            categories={faqCategories}
+            onCategoryCreate={handleCategoryCreate}
+            onCategoryUpdate={handleCategoryUpdate}
+            onCategoryDelete={handleCategoryDelete}
+            onCategoryMove={handleCategoryMove}
+          />
+        );
+
+      case 'analytics':
+        return (
+          <FAQAnalytics
+            faqs={enhancedFAQs}
+            categories={faqCategories}
+            helpfulness={faqHelpfulness}
+          />
+        );
+
+      case 'list':
+      default:
+        return (
+          <div className="space-y-6">
+            <FAQBulkActions
+              faqs={filteredFAQs}
+              categories={faqCategories}
+              tags={faqTags}
+              selectedFAQs={selectedFAQs}
+              onSelectionChange={setSelectedFAQs}
+              onBulkOperation={handleBulkOperation}
+            />
+            
+            <div className="bg-white border border-gray-200 rounded-lg">
+              <div className="p-6 border-b border-gray-200">
+                <h3 className="text-lg font-semibold text-gray-900">FAQ List</h3>
+                <p className="text-sm text-gray-600">Manage your frequently asked questions</p>
+              </div>
+              <div className="p-6">
+                <div className="space-y-4">
+                  {filteredFAQs.map((faq) => (
+                    <div key={faq.id} className="flex items-start justify-between p-4 border border-gray-200 rounded-lg hover:bg-gray-50">
+                      <div className="flex-1 min-w-0">
+                        <h4 className="font-medium text-gray-900 line-clamp-2">{faq.question}</h4>
+                        <p className="text-sm text-gray-600 mt-1 line-clamp-2">
+                          {faq.answer.length > 100 ? `${faq.answer.substring(0, 100)}...` : faq.answer}
+                        </p>
+                        <div className="flex items-center gap-2 mt-2">
+                          <span className={`inline-flex items-center px-2 py-1 text-xs font-medium rounded-full ${
+                            faq.status === 'published' ? 'bg-green-100 text-green-800' :
+                            faq.status === 'draft' ? 'bg-gray-100 text-gray-800' :
+                            faq.status === 'pending_review' ? 'bg-yellow-100 text-yellow-800' :
+                            'bg-blue-100 text-blue-800'
+                          }`}>
+                            {faq.status.replace('_', ' ')}
+                          </span>
+                          <span className="text-xs text-gray-500">{faq.category.name}</span>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2 ml-4">
+                        <button
+                          onClick={() => handleEdit(faq)}
+                          className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+                        >
+                          Edit
+                        </button>
+                        <button
+                          onClick={() => handleDelete(faq)}
+                          className="text-red-600 hover:text-red-800 text-sm font-medium"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+    }
+  };
 
   // Table columns
   const columns: AdminTableColumn<FAQ>[] = [
@@ -171,12 +423,16 @@ export function FAQPage() {
     setIsEditModalOpen(true);
   };
 
+  const handleView = (faq: FAQ) => {
+    setSelectedFAQ(faq);
+    setIsEditModalOpen(true);
+  };
+
   const handleDelete = async (faq: FAQ) => {
     if (window.confirm(`Are you sure you want to delete this FAQ?\n\n"${faq.question}"`)) {
       try {
         // TODO: Implement delete in data manager
         success('FAQ has been deleted');
-        refetch();
       } catch (err) {
         error('Failed to delete FAQ');
       }
@@ -287,54 +543,83 @@ export function FAQPage() {
   );
 
   return (
-    <>
-      <AdminListPage
-        title="FAQ Management"
-        description="Manage frequently asked questions and their categories"
-        breadcrumbs={breadcrumbs}
-        data={filteredFAQs}
-        columns={columns}
-        loading={loading}
-        searchPlaceholder="Search FAQs by question, answer, category..."
-        onSearch={setSearchTerm}
-        onAdd={handleAdd}
-        onRefresh={handleRefresh}
-        onExport={handleExport}
-        addButtonText="Add FAQ"
-        filters={categoryFilter}
-      />
+    <div className="space-y-6">
+      {/* Enhanced Header with View Navigation */}
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900">Enhanced FAQ Management</h1>
+          <p className="text-gray-600">Comprehensive FAQ management with analytics and categorization</p>
+        </div>
+        <div className="flex items-center gap-3">
+          {activeView === 'list' && (
+            <AdminButton
+              variant="primary"
+              icon={Plus}
+              onClick={() => setIsAddModalOpen(true)}
+            >
+              Add FAQ
+            </AdminButton>
+          )}
+        </div>
+      </div>
+
+      {/* View Navigation */}
+      <div className="border-b border-gray-200">
+        <nav className="-mb-px flex space-x-8">
+          {views.map(view => (
+            <button
+              key={view.id}
+              onClick={() => setActiveView(view.id)}
+              className={`flex items-center gap-2 py-2 px-1 border-b-2 font-medium text-sm ${
+                activeView === view.id
+                  ? 'border-blue-500 text-blue-600'
+                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+              }`}
+            >
+              {view.icon === 'List' && <Settings className="w-4 h-4" />}
+              {view.icon === 'FolderTree' && <FolderTree className="w-4 h-4" />}
+              {view.icon === 'BarChart3' && <BarChart3 className="w-4 h-4" />}
+              {view.label}
+            </button>
+          ))}
+        </nav>
+      </div>
+
+      {/* View Content */}
+      {renderViewContent()}
 
       {/* Add FAQ Modal */}
-      <AdminModal
-        isOpen={isAddModalOpen}
-        onClose={() => setIsAddModalOpen(false)}
-        title="Add New FAQ"
-        size="lg"
-      >
-        <AdminForm
-          fields={formFields}
-          initialValues={getInitialValues(null)}
-          onSubmit={handleSubmit}
-          onCancel={() => setIsAddModalOpen(false)}
-          submitText="Add FAQ"
-        />
-      </AdminModal>
+      {isAddModalOpen && (
+        <AdminModal
+          title="Create New FAQ"
+          onClose={() => setIsAddModalOpen(false)}
+          size="xl"
+        >
+          <EnhancedFAQForm
+            categories={faqCategories}
+            tags={faqTags}
+            onSubmit={handleFAQSubmit}
+            onCancel={() => setIsAddModalOpen(false)}
+          />
+        </AdminModal>
+      )}
 
       {/* Edit FAQ Modal */}
-      <AdminModal
-        isOpen={isEditModalOpen}
-        onClose={() => setIsEditModalOpen(false)}
-        title="Edit FAQ"
-        size="lg"
-      >
-        <AdminForm
-          fields={formFields}
-          initialValues={getInitialValues(selectedFAQ)}
-          onSubmit={handleSubmit}
-          onCancel={() => setIsEditModalOpen(false)}
-          submitText="Save Changes"
-        />
-      </AdminModal>
-    </>
+      {isEditModalOpen && selectedFAQ && (
+        <AdminModal
+          title="Edit FAQ"
+          onClose={() => setIsEditModalOpen(false)}
+          size="xl"
+        >
+          <EnhancedFAQForm
+            faq={selectedFAQ}
+            categories={faqCategories}
+            tags={faqTags}
+            onSubmit={handleFAQSubmit}
+            onCancel={() => setIsEditModalOpen(false)}
+          />
+        </AdminModal>
+      )}
+    </div>
   );
 }

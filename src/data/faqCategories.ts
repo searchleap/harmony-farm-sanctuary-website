@@ -10,9 +10,14 @@ export const faqCategories: FAQCategory[] = [
     description: 'Information about tours, hours, and what to expect during your visit',
     slug: 'visiting',
     icon: 'MapPin',
-    color: 'sanctuary',
-    questionCount: 0, // Will be calculated
-    priority: 1
+    color: '#3B82F6',
+    questionCount: 0,
+    priority: 1,
+    depth: 0,
+    path: 'Visiting the Sanctuary',
+    isActive: true,
+    createdAt: '2024-01-15T10:00:00Z',
+    updatedAt: '2024-01-15T10:00:00Z'
   },
   {
     id: 'animals',
@@ -20,9 +25,14 @@ export const faqCategories: FAQCategory[] = [
     description: 'Learn about the animals we care for and their individual stories',
     slug: 'animals',
     icon: 'Heart',
-    color: 'earth',
+    color: '#10B981',
     questionCount: 0,
-    priority: 2
+    priority: 2,
+    depth: 0,
+    path: 'Our Animals',
+    isActive: true,
+    createdAt: '2024-01-15T10:05:00Z',
+    updatedAt: '2024-01-15T10:05:00Z'
   },
   {
     id: 'volunteering',
@@ -30,9 +40,14 @@ export const faqCategories: FAQCategory[] = [
     description: 'How to get involved and make a difference at the sanctuary',
     slug: 'volunteering',
     icon: 'Users',
-    color: 'green',
+    color: '#F59E0B',
     questionCount: 0,
-    priority: 3
+    priority: 3,
+    depth: 0,
+    path: 'Volunteering',
+    isActive: true,
+    createdAt: '2024-01-15T10:10:00Z',
+    updatedAt: '2024-01-15T10:10:00Z'
   },
   {
     id: 'donations',
@@ -40,9 +55,14 @@ export const faqCategories: FAQCategory[] = [
     description: 'Ways to financially support our mission and animals',
     slug: 'donations',
     icon: 'DollarSign',
-    color: 'sanctuary',
+    color: '#8B5CF6',
     questionCount: 0,
-    priority: 4
+    priority: 4,
+    depth: 0,
+    path: 'Donations & Support',
+    isActive: true,
+    createdAt: '2024-01-15T10:15:00Z',
+    updatedAt: '2024-01-15T10:15:00Z'
   },
   {
     id: 'adoption-sponsorship',
@@ -50,9 +70,14 @@ export const faqCategories: FAQCategory[] = [
     description: 'Programs for adopting or sponsoring sanctuary animals',
     slug: 'adoption-sponsorship',
     icon: 'Gift',
-    color: 'earth',
+    color: '#EC4899',
     questionCount: 0,
-    priority: 5
+    priority: 5,
+    depth: 0,
+    path: 'Adoption & Sponsorship',
+    isActive: true,
+    createdAt: '2024-01-15T10:20:00Z',
+    updatedAt: '2024-01-15T10:20:00Z'
   },
   {
     id: 'animal-care',
@@ -60,9 +85,14 @@ export const faqCategories: FAQCategory[] = [
     description: 'Our approach to animal care, veterinary services, and wellbeing',
     slug: 'animal-care',
     icon: 'Stethoscope',
-    color: 'green',
+    color: '#06B6D4',
     questionCount: 0,
-    priority: 6
+    priority: 6,
+    depth: 0,
+    path: 'Animal Care & Welfare',
+    isActive: true,
+    createdAt: '2024-01-15T10:25:00Z',
+    updatedAt: '2024-01-15T10:25:00Z'
   },
   {
     id: 'education',
@@ -70,9 +100,14 @@ export const faqCategories: FAQCategory[] = [
     description: 'Educational programs, resources, and learning opportunities',
     slug: 'education',
     icon: 'BookOpen',
-    color: 'sanctuary',
+    color: '#84CC16',
     questionCount: 0,
-    priority: 7
+    priority: 7,
+    depth: 0,
+    path: 'Education & Learning',
+    isActive: true,
+    createdAt: '2024-01-15T10:30:00Z',
+    updatedAt: '2024-01-15T10:30:00Z'
   },
   {
     id: 'general',
@@ -80,9 +115,14 @@ export const faqCategories: FAQCategory[] = [
     description: 'Basic information about the sanctuary, mission, and operations',
     slug: 'general',
     icon: 'Info',
-    color: 'earth',
+    color: '#6366F1',
     questionCount: 0,
-    priority: 8
+    priority: 8,
+    depth: 0,
+    path: 'General Information',
+    isActive: true,
+    createdAt: '2024-01-15T10:35:00Z',
+    updatedAt: '2024-01-15T10:35:00Z'
   }
 ];
 

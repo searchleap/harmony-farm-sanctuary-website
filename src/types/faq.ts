@@ -10,6 +10,12 @@ export interface FAQCategory {
   color: string;
   questionCount: number;
   priority: number; // Display order
+  parentId?: string; // For hierarchical categories
+  depth: number; // Hierarchy depth (0 = root)
+  path: string; // Full category path for breadcrumbs
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface FAQTag {
@@ -48,6 +54,56 @@ export interface FAQ {
   keywords: string[]; // For search optimization
   isPopular: boolean; // Trending FAQ
   isFeatured: boolean; // Featured on homepage
+  
+  // Enhanced features
+  status: 'draft' | 'pending_review' | 'approved' | 'published' | 'archived';
+  version: number;
+  seoScore?: number; // SEO optimization score 0-100
+  readabilityScore?: number; // Content readability score 0-100
+  createdAt: string;
+  publishedAt?: string;
+  archivedAt?: string;
+}
+
+// New interfaces for enhanced features
+export interface FAQVersion {
+  id: string;
+  faqId: string;
+  version: number;
+  question: string;
+  answer: string;
+  changelog: string;
+  author: string;
+  createdAt: string;
+  status: 'draft' | 'pending_review' | 'approved' | 'published';
+}
+
+export interface FAQHelpfulness {
+  faqId: string;
+  helpful: number;
+  notHelpful: number;
+  comments: FAQFeedback[];
+  improvementSuggestions: string[];
+  lastAnalyzed: string;
+}
+
+export interface FAQFeedback {
+  id: string;
+  faqId: string;
+  helpful: boolean;
+  comment?: string;
+  userAgent?: string;
+  createdAt: string;
+}
+
+export interface FAQBulkOperation {
+  type: 'categorize' | 'tag' | 'status_change' | 'delete' | 'export';
+  faqIds: string[];
+  data: Record<string, any>;
+  createdBy: string;
+  createdAt: string;
+  status: 'pending' | 'processing' | 'completed' | 'failed';
+  result?: string;
 }
 
 export interface ResourceCategory {
