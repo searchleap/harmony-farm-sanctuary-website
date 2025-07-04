@@ -29,6 +29,7 @@ import AdminPage from './pages/admin/AdminPage'
 import AnalyticsPage from './pages/admin/AnalyticsPage'
 import SettingsPage from './pages/admin/SettingsPage'
 import BackupPage from './pages/admin/BackupPage'
+import AdminTestingPage from './pages/admin/AdminTestingPage'
 import { AnimalsPage as AdminAnimalsPage } from './pages/admin/AnimalsPage'
 import { BlogPage as AdminBlogPage } from './pages/admin/BlogPage'
 import { FAQPage as AdminFAQPage } from './pages/admin/FAQPage'
@@ -84,6 +85,11 @@ function App() {
               <Route path="backup" element={
                 <ProtectedRoute resource="settings" action="read">
                   <BackupPage />
+                </ProtectedRoute>
+              } />
+              <Route path="testing" element={
+                <ProtectedRoute resource="admin" action="read">
+                  <AdminTestingPage />
                 </ProtectedRoute>
               } />
               <Route path="animals" element={

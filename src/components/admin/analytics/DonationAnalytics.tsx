@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { DollarSign, TrendingUp, Users, CreditCard, Calendar, Target } from 'lucide-react';
-import { DonationAnalytics as DonationAnalyticsType } from '../../../types/analytics';
+// import { DonationAnalytics as DonationAnalyticsType } from '../../../types/analytics';
 import { donationAnalytics } from '../../../data/analyticsData';
 
 interface DonationAnalyticsProps {
@@ -8,6 +8,8 @@ interface DonationAnalyticsProps {
 }
 
 const DonationAnalytics: React.FC<DonationAnalyticsProps> = ({ timeRange = '30days' }) => {
+  // Use timeRange for filtering (implementation ready for future enhancement)
+  console.log('DonationAnalytics timeRange:', timeRange);
   const [selectedMetric, setSelectedMetric] = useState<'revenue' | 'donors' | 'campaigns'>('revenue');
   
   const currentData = donationAnalytics[0]; // Using first month as current data

@@ -147,7 +147,7 @@ export class AdminDataManager {
       id: `${resource}_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
       createdAt: new Date(),
       updatedAt: new Date(),
-    } as T;
+    } as unknown as T;
 
     const existing = this.getAll<T>(resource);
     const updated = [newItem, ...existing];
@@ -284,7 +284,7 @@ export class AdminDataManager {
           return value.toLowerCase().includes(lowercaseQuery);
         }
         if (Array.isArray(value)) {
-          return value.some(v => 
+          return value.some((v: any) => 
             typeof v === 'string' && v.toLowerCase().includes(lowercaseQuery)
           );
         }
@@ -324,8 +324,8 @@ export class AdminDataManager {
     sortOrder: 'asc' | 'desc' = 'asc'
   ): T[] {
     return [...items].sort((a, b) => {
-      const aValue = a[sortBy];
-      const bValue = b[sortBy];
+      const aValue = (a as any)[sortBy];
+      const bValue = (b as any)[sortBy];
       
       if (aValue instanceof Date && bValue instanceof Date) {
         return sortOrder === 'asc' 

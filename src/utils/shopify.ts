@@ -16,15 +16,16 @@ import {
 
 // Configuration
 const SHOPIFY_CONFIG: ShopifyConfig = {
-  domain: import.meta.env.VITE_SHOPIFY_DOMAIN || 'harmony-farm.myshopify.com',
-  storefrontAccessToken: import.meta.env.VITE_SHOPIFY_STOREFRONT_ACCESS_TOKEN || '',
+  domain: (import.meta as any).env.VITE_SHOPIFY_DOMAIN || 'harmony-farm.myshopify.com',
+  storefrontAccessToken: (import.meta as any).env.VITE_SHOPIFY_STOREFRONT_ACCESS_TOKEN || '',
   apiVersion: '2024-01'
 }
 
 // Shopify Buy SDK Client
 export const shopifyClient = Client.buildClient({
   domain: SHOPIFY_CONFIG.domain,
-  storefrontAccessToken: SHOPIFY_CONFIG.storefrontAccessToken
+  storefrontAccessToken: SHOPIFY_CONFIG.storefrontAccessToken,
+  apiVersion: SHOPIFY_CONFIG.apiVersion
 })
 
 // Storefront API Client for GraphQL queries

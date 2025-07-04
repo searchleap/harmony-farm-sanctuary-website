@@ -17,7 +17,7 @@ import {
 } from 'lucide-react';
 import { AdminButton } from '../common/AdminButton';
 import { AdminBreadcrumbs } from '../common/AdminBreadcrumbs';
-import { AdminBadge } from '../common/AdminBadge';
+import { AdminStatusBadge } from '../common/AdminStatusBadge';
 import BackupScheduler from './BackupScheduler';
 import DataExportTool from './DataExportTool';
 import DataImportTool from './DataImportTool';
@@ -27,13 +27,11 @@ import DataMigration from './DataMigration';
 import { 
   sampleBackupStats, 
   sampleBackupHealthCheck, 
-  sampleBackupJobs, 
   getRecentBackupFiles,
   getActiveBackupJobs,
-  getFailedBackupJobs,
-  formatFileSize
+  getFailedBackupJobs
 } from '../../../data/backupData';
-import { getStatusColor, formatDuration } from '../../../utils/backupService';
+import { formatDuration } from '../../../utils/backupService';
 
 type BackupTab = 'overview' | 'scheduler' | 'export' | 'import' | 'history' | 'verification' | 'migration';
 
@@ -56,7 +54,6 @@ const BackupDashboard: React.FC = () => {
   const healthCheck = sampleBackupHealthCheck;
   const recentBackups = getRecentBackupFiles(5);
   const activeJobs = getActiveBackupJobs();
-  const failedJobs = getFailedBackupJobs();
 
   const tabs: BackupTabInfo[] = [
     {
@@ -254,9 +251,9 @@ const BackupDashboard: React.FC = () => {
               <div key={job.id} className="bg-gray-50 dark:bg-gray-900 rounded-lg p-4">
                 <div className="flex items-center justify-between mb-3">
                   <h4 className="font-medium text-gray-900 dark:text-white">{job.name}</h4>
-                  <AdminBadge color={getStatusColor(job.status as any)}>
+                  <AdminStatusBadge variant={job.status === 'completed' ? 'success' : job.status === 'error' ? 'error' : 'warning'}>
                     {job.status}
-                  </AdminBadge>
+                  </AdminStatusBadge>
                 </div>
                 <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
                   {job.description}
@@ -314,7 +311,7 @@ const BackupDashboard: React.FC = () => {
                 </div>
               </div>
               <div className="flex items-center gap-2">
-                <AdminBadge color="blue">{backup.format.toUpperCase()}</AdminBadge>
+                <AdminStatusBadge variant="success">{backup.format.toUpperCase()}</AdminStatusBadge>
                 <AdminButton
                   size="sm"
                   variant="outline"

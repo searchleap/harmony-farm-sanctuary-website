@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FileText, Eye, Clock, Share2, TrendingUp, ExternalLink } from 'lucide-react';
+import { Eye, Clock, Share2, TrendingUp, ExternalLink } from 'lucide-react';
 import { ContentAnalytics as ContentAnalyticsType } from '../../../types/analytics';
 import { topContent } from '../../../data/analyticsData';
 import { AdminButton } from '../common/AdminButton';
@@ -13,6 +13,8 @@ const ContentAnalytics: React.FC<ContentAnalyticsProps> = ({
   timeRange = '30days', 
   category = [] 
 }) => {
+  // Use timeRange and category for filtering (implementation ready for future enhancement)
+  console.log('ContentAnalytics filters:', { timeRange, category });
   const [sortBy, setSortBy] = useState<'views' | 'engagement' | 'recent'>('views');
   const [filterType, setFilterType] = useState<'all' | 'blog' | 'faq' | 'resource' | 'page'>('all');
 

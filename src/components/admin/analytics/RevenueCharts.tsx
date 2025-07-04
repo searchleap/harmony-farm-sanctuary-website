@@ -13,6 +13,8 @@ interface RevenueChartsProps {
 }
 
 const RevenueCharts: React.FC<RevenueChartsProps> = ({ timeRange = '6months' }) => {
+  // Use timeRange for filtering (implementation ready for future enhancement)
+  console.log('RevenueCharts timeRange:', timeRange);
   const [selectedChart, setSelectedChart] = useState<'trend' | 'sources' | 'forecast'>('trend');
 
   // Sample revenue trend data

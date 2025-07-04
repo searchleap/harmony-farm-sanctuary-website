@@ -15,7 +15,8 @@ import {
   Calendar,
   ShoppingBag,
   DollarSign,
-  Database
+  Database,
+  TestTube2
 } from 'lucide-react';
 import { useAdminAuth } from '../../contexts/AdminAuthContext';
 import { AdminResource, AdminAction } from '../../types/admin';
@@ -126,18 +127,18 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ isOpen, onClose }) => {
       permission: { resource: 'donations', action: 'read' }
     },
     {
-      title: 'Analytics',
-      icon: <BarChart3 className="h-5 w-5" />,
-      path: '/admin/analytics',
-      description: 'Site analytics',
-      permission: { resource: 'analytics', action: 'read' }
-    },
-    {
       title: 'Backup & Export',
       icon: <Database className="h-5 w-5" />,
       path: '/admin/backup',
       description: 'Data backup and export',
       permission: { resource: 'settings', action: 'read' }
+    },
+    {
+      title: 'Testing',
+      icon: <TestTube2 className="h-5 w-5" />,
+      path: '/admin/testing',
+      description: 'System testing tools',
+      permission: { resource: 'admin', action: 'read' }
     },
     {
       title: 'Settings',

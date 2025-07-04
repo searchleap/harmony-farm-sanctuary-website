@@ -30,7 +30,7 @@ export const adaptShopifyProduct = (shopifyProduct: ShopifyProductNode): Adapted
     id: edge.node.id,
     name: edge.node.title,
     type: 'variant', // Shopify doesn't have explicit variant types
-    price: parseFloat(edge.node.price.amount),
+    price: parseFloat(edge.node.price.amount as string),
     stockCount: edge.node.quantityAvailable,
     sku: edge.node.sku || undefined,
     isAvailable: edge.node.available
@@ -142,6 +142,8 @@ export const adaptShopifyCollectionsToCategories = (
   collections: any[],
   products: AdaptedProduct[]
 ): CategoryData[] => {
+  // Use collections for future enhancement (currently using product-based categorization)
+  console.log('Available Shopify collections:', collections.length);
   // Create base categories based on our product categories
   const baseCategories: CategoryData[] = [
     {
@@ -201,7 +203,10 @@ export const adaptShopifyCollectionsToCategories = (
   }
 
   products.forEach(product => {
-    categoryCounts[product.category]++
+    const category = product.category as ProductCategory;
+    if (category in categoryCounts) {
+      categoryCounts[category]++;
+    }
   })
 
   // Update category counts

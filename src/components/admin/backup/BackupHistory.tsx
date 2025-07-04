@@ -3,25 +3,20 @@ import {
   Clock, 
   Download, 
   Trash2, 
-  RefreshCw,
   Shield,
   Search,
-  Filter,
   Archive,
-  Eye,
   AlertTriangle,
   CheckCircle
 } from 'lucide-react';
 import { AdminButton } from '../common/AdminButton';
 import { AdminFormField } from '../common/AdminFormField';
-import { AdminBadge } from '../common/AdminBadge';
-import { BackupFile, BackupJob } from '../../../types/backup';
+import { AdminStatusBadge } from '../common/AdminStatusBadge';
+import { BackupFile } from '../../../types/backup';
 import { 
   sampleBackupFiles, 
-  sampleBackupJobs, 
   formatFileSize 
 } from '../../../data/backupData';
-import { formatDuration } from '../../../utils/backupService';
 
 const BackupHistory: React.FC = () => {
   const [backupFiles, setBackupFiles] = useState<BackupFile[]>(sampleBackupFiles);
@@ -29,8 +24,6 @@ const BackupHistory: React.FC = () => {
   const [filterType, setFilterType] = useState<string>('all');
   const [sortBy, setSortBy] = useState<'date' | 'size' | 'name'>('date');
   const [selectedFiles, setSelectedFiles] = useState<Set<string>>(new Set());
-
-  const jobs = sampleBackupJobs;
 
   const filteredFiles = backupFiles
     .filter(file => {
@@ -87,15 +80,23 @@ const BackupHistory: React.FC = () => {
   };
 
   const getJobName = (jobId: string) => {
-    const job = jobs.find(j => j.id === jobId);
-    return job?.name || 'Unknown Job';
+    // Return a placeholder name based on jobId (can be enhanced with actual job lookup)
+    return `Backup Job ${jobId.slice(-4)}`;
   };
 
   const getVerificationIcon = (file: BackupFile) => {
     if (file.verified) {
-      return <CheckCircle className="h-4 w-4 text-green-500" title="Verified" />;
+      return (
+        <div title="Verified">
+          <CheckCircle className="h-4 w-4 text-green-500" />
+        </div>
+      );
     } else {
-      return <AlertTriangle className="h-4 w-4 text-yellow-500" title="Not verified" />;
+      return (
+        <div title="Not verified">
+          <AlertTriangle className="h-4 w-4 text-yellow-500" />
+        </div>
+      );
     }
   };
 
@@ -196,31 +197,27 @@ const BackupHistory: React.FC = () => {
             </div>
           </div>
           
-          <AdminFormField
-            label=""
-            type="select"
+          <select
             value={filterType}
-            onChange={setFilterType}
-            options={[
-              { value: 'all', label: 'All Types' },
-              { value: 'full', label: 'Full Backups' },
-              { value: 'content', label: 'Content Only' },
-              { value: 'settings', label: 'Settings' },
-              { value: 'users', label: 'User Data' }
-            ]}
-          />
+            onChange={(e) => setFilterType(e.target.value)}
+            className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm"
+          >
+            <option value="all">All Types</option>
+            <option value="full">Full Backups</option>
+            <option value="content">Content Only</option>
+            <option value="settings">Settings</option>
+            <option value="users">User Data</option>
+          </select>
           
-          <AdminFormField
-            label=""
-            type="select"
+          <select
             value={sortBy}
-            onChange={(value) => setSortBy(value as 'date' | 'size' | 'name')}
-            options={[
-              { value: 'date', label: 'Sort by Date' },
-              { value: 'size', label: 'Sort by Size' },
-              { value: 'name', label: 'Sort by Name' }
-            ]}
-          />
+            onChange={(e) => setSortBy(e.target.value as 'date' | 'size' | 'name')}
+            className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm"
+          >
+            <option value="date">Sort by Date</option>
+            <option value="size">Sort by Size</option>
+            <option value="name">Sort by Name</option>
+          </select>
         </div>
       </div>
 
@@ -264,10 +261,10 @@ const BackupHistory: React.FC = () => {
                           {file.name}
                         </h5>
                         {getVerificationIcon(file)}
-                        <AdminBadge color="blue">{file.type}</AdminBadge>
-                        <AdminBadge color="green">{file.format.toUpperCase()}</AdminBadge>
-                        {file.encrypted && <AdminBadge color="purple">Encrypted</AdminBadge>}
-                        {file.compressed && <AdminBadge color="yellow">Compressed</AdminBadge>}
+                        <AdminStatusBadge variant="primary">{file.type}</AdminStatusBadge>
+                        <AdminStatusBadge variant="success">{file.format.toUpperCase()}</AdminStatusBadge>
+                        {file.encrypted && <AdminStatusBadge variant="warning">Encrypted</AdminStatusBadge>}
+                        {file.compressed && <AdminStatusBadge variant="info">Compressed</AdminStatusBadge>}
                       </div>
                       
                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 text-sm text-gray-600 dark:text-gray-400">
