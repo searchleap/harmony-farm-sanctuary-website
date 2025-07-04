@@ -60,7 +60,7 @@ export interface BlogPost {
   gallery?: BlogMedia[];
   publishedAt: string;
   updatedAt?: string;
-  status: 'draft' | 'published' | 'archived';
+  status: 'draft' | 'published' | 'scheduled' | 'archived';
   featured: boolean;
   readTime: number; // estimated reading time in minutes
   views: number;

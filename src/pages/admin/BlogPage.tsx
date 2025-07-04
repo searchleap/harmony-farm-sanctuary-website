@@ -1,12 +1,14 @@
 import React, { useState, useMemo } from 'react';
 import { AdminListPage } from '../../components/admin/templates/AdminListPage';
-import { AdminModal, AdminForm, AdminStatusBadge, StandardActions } from '../../components/admin/common';
+import { AdminModal, AdminStatusBadge, StandardActions } from '../../components/admin/common';
+import { EnhancedBlogForm } from '../../components/admin/blog/EnhancedBlogForm';
 import { useAdminData } from '../../hooks/useAdminData';
 import { useAdminNotifications } from '../../hooks/useAdminNotifications';
 import { AdminSearchEngine, createBlogSearchConfig } from '../../utils/adminSearch';
 import { exportBlogPosts } from '../../utils/adminExport';
-import type { AdminTableColumn, AdminFormField, BreadcrumbItem } from '../../components/admin/common';
-import type { BlogPost } from '../../types/admin';
+import { Eye, Calendar, Users, Tag } from 'lucide-react';
+import type { AdminTableColumn, BreadcrumbItem } from '../../components/admin/common';
+import type { BlogPost, Author, BlogCategory, BlogTag, BlogMedia } from '../../types/blog';
 
 export function BlogPage() {
   const { data: adminData, loading, refetch } = useAdminData();
@@ -15,8 +17,99 @@ export function BlogPage() {
   const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [formLoading, setFormLoading] = useState(false);
 
   console.log('[BlogPage] Rendering with blog posts:', adminData.blogPosts?.length || 0);
+
+  // Mock data for enhanced blog management
+  const mockAuthors: Author[] = [
+    {
+      id: 'author_1',
+      name: 'Sarah Thompson',
+      role: 'Sanctuary Director',
+      bio: 'Founder and director of Harmony Farm Sanctuary',
+      image: '/images/team/sarah.jpg',
+      email: 'sarah@harmonyfarm.org',
+      yearsAtSanctuary: 8,
+      specialties: ['Animal Welfare', 'Sanctuary Management', 'Education']
+    },
+    {
+      id: 'author_2',
+      name: 'Mike Thompson',
+      role: 'Head of Animal Care',
+      bio: 'Veterinary specialist and animal care coordinator',
+      image: '/images/team/mike.jpg',
+      yearsAtSanctuary: 8,
+      specialties: ['Veterinary Care', 'Animal Behavior', 'Rescue Operations']
+    }
+  ];
+
+  const mockCategories: BlogCategory[] = [
+    {
+      id: 'cat_1',
+      name: 'Animal Stories',
+      description: 'Stories about our rescued animals',
+      slug: 'animal-stories',
+      color: '#10B981',
+      icon: '🐄',
+      postCount: 15
+    },
+    {
+      id: 'cat_2',
+      name: 'Sanctuary Life',
+      description: 'Daily life and operations at the sanctuary',
+      slug: 'sanctuary-life',
+      color: '#3B82F6',
+      icon: '🏡',
+      postCount: 12
+    },
+    {
+      id: 'cat_3',
+      name: 'Education',
+      description: 'Educational content about animal welfare',
+      slug: 'education',
+      color: '#8B5CF6',
+      icon: '📚',
+      postCount: 8
+    }
+  ];
+
+  const mockTags: BlogTag[] = [
+    { id: 'tag_1', name: 'Rescue', slug: 'rescue', count: 25 },
+    { id: 'tag_2', name: 'Veterinary Care', slug: 'veterinary-care', count: 18 },
+    { id: 'tag_3', name: 'Animal Behavior', slug: 'animal-behavior', count: 15 },
+    { id: 'tag_4', name: 'Volunteers', slug: 'volunteers', count: 12 },
+    { id: 'tag_5', name: 'Donations', slug: 'donations', count: 10 },
+    { id: 'tag_6', name: 'Events', slug: 'events', count: 8 }
+  ];
+
+  const mockMedia: BlogMedia[] = [
+    {
+      type: 'image',
+      url: '/images/animals/bella-1.jpg',
+      alt: 'Bella the cow in the pasture',
+      caption: 'Bella enjoying a sunny day',
+      thumbnail: '/images/animals/bella-1-thumb.jpg',
+      size: 245760
+    },
+    {
+      type: 'image',
+      url: '/images/sanctuary/barn-exterior.jpg',
+      alt: 'Main barn exterior',
+      caption: 'Our newly renovated barn',
+      thumbnail: '/images/sanctuary/barn-exterior-thumb.jpg',
+      size: 189440
+    },
+    {
+      type: 'video',
+      url: '/videos/daily-feeding.mp4',
+      alt: 'Daily feeding routine',
+      caption: 'Morning feeding time at the sanctuary',
+      thumbnail: '/videos/daily-feeding-thumb.jpg',
+      duration: 120,
+      size: 15728640
+    }
+  ];
 
   // Search engine
   const searchEngine = useMemo(() => {
@@ -73,24 +166,24 @@ export function BlogPage() {
       render: (date: string) => date ? new Date(date).toLocaleDateString() : 'Not published'
     },
     {
-      key: 'tags',
-      title: 'Tags',
-      dataIndex: 'tags',
-      render: (tags: string[]) => (
-        <div className="flex flex-wrap gap-1">
-          {tags?.slice(0, 2).map((tag, index) => (
-            <span 
-              key={index}
-              className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-gray-100 text-gray-800"
-            >
-              {tag}
-            </span>
-          ))}
-          {tags && tags.length > 2 && (
-            <span className="text-xs text-gray-500">+{tags.length - 2} more</span>
-          )}
-        </div>
+      key: 'category',
+      title: 'Category',
+      dataIndex: 'category',
+      render: (category: string) => (
+        <span className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-blue-100 text-blue-800">
+          {category || 'Uncategorized'}
+        </span>
       )
+    },
+    {
+      key: 'readTime',
+      title: 'Read Time',
+      dataIndex: 'content',
+      render: (content: string) => {
+        const words = content ? content.split(' ').length : 0;
+        const readTime = Math.ceil(words / 200);
+        return <span className="text-sm text-gray-500">{readTime} min</span>;
+      }
     },
     {
       key: 'actions',
@@ -107,70 +200,7 @@ export function BlogPage() {
     }
   ];
 
-  // Form fields
-  const formFields: AdminFormField[] = [
-    {
-      name: 'title',
-      label: 'Post Title',
-      type: 'text',
-      required: true,
-      placeholder: 'Enter blog post title'
-    },
-    {
-      name: 'excerpt',
-      label: 'Excerpt',
-      type: 'textarea',
-      rows: 2,
-      placeholder: 'Brief description of the post...',
-      description: 'Short summary that appears in post previews'
-    },
-    {
-      name: 'content',
-      label: 'Content',
-      type: 'textarea',
-      rows: 8,
-      required: true,
-      placeholder: 'Write your blog post content here...'
-    },
-    {
-      name: 'author',
-      label: 'Author',
-      type: 'text',
-      required: true,
-      placeholder: 'Author name'
-    },
-    {
-      name: 'status',
-      label: 'Status',
-      type: 'select',
-      required: true,
-      options: [
-        { value: 'draft', label: 'Draft' },
-        { value: 'published', label: 'Published' },
-        { value: 'scheduled', label: 'Scheduled' }
-      ]
-    },
-    {
-      name: 'featuredImage',
-      label: 'Featured Image URL',
-      type: 'text',
-      placeholder: 'https://example.com/image.jpg',
-      description: 'URL to the main image for this post'
-    },
-    {
-      name: 'tags',
-      label: 'Tags',
-      type: 'text',
-      placeholder: 'animals, rescue, care (comma-separated)',
-      description: 'Separate tags with commas'
-    },
-    {
-      name: 'publishedAt',
-      label: 'Publish Date',
-      type: 'date',
-      description: 'Leave empty for immediate publication'
-    }
-  ];
+
 
   // Breadcrumbs
   const breadcrumbs: BreadcrumbItem[] = [
@@ -183,8 +213,8 @@ export function BlogPage() {
     setIsAddModalOpen(true);
   };
 
-  const handleEdit = (post: BlogPost) => {
-    setSelectedPost(post);
+  const handleEdit = (post: any) => {
+    setSelectedPost(convertToFullBlogPost(post));
     setIsEditModalOpen(true);
   };
 
@@ -200,25 +230,24 @@ export function BlogPage() {
     }
   };
 
-  const handleSubmit = async (values: Record<string, any>) => {
+  const handleSubmit = async (postData: Partial<BlogPost>) => {
+    setFormLoading(true);
     try {
-      // Process tags
-      if (values.tags && typeof values.tags === 'string') {
-        values.tags = values.tags.split(',').map((tag: string) => tag.trim()).filter(Boolean);
-      }
-
       if (selectedPost) {
         // TODO: Implement update in data manager
-        success(`Blog post "${values.title}" has been updated`);
+        success(`Blog post "${postData.title}" has been updated with enhanced content`);
       } else {
         // TODO: Implement create in data manager
-        success(`Blog post "${values.title}" has been created`);
+        success(`Blog post "${postData.title}" has been created with rich content`);
       }
       setIsEditModalOpen(false);
       setIsAddModalOpen(false);
       refetch();
     } catch (err) {
       error('Failed to save blog post');
+      console.error('Save error:', err);
+    } finally {
+      setFormLoading(false);
     }
   };
 
@@ -232,16 +261,34 @@ export function BlogPage() {
     success('Blog posts data refreshed');
   };
 
-  // Prepare initial values for edit form
-  const getInitialValues = (post: BlogPost | null) => {
-    if (!post) return {};
-    
-    const values = { ...post };
-    // Convert tags array to comma-separated string for the form
-    if (values.tags && Array.isArray(values.tags)) {
-      values.tags = values.tags.join(', ');
-    }
-    return values;
+  // Convert admin BlogPost to full BlogPost for enhanced form
+  const convertToFullBlogPost = (adminPost: any): BlogPost => {
+    return {
+      id: adminPost.id,
+      title: adminPost.title,
+      slug: adminPost.slug || adminPost.title.toLowerCase().replace(/\s+/g, '-'),
+      excerpt: adminPost.excerpt,
+      content: adminPost.content,
+      author: mockAuthors[0], // Default to first author
+      category: mockCategories[0], // Default to first category
+      tags: mockTags.slice(0, 2), // Default to first two tags
+      featuredImage: adminPost.featuredImage || '',
+      featuredImageAlt: '',
+      gallery: [],
+      publishedAt: adminPost.publishedAt || new Date().toISOString(),
+      status: adminPost.status || 'draft',
+      featured: false,
+      readTime: Math.ceil((adminPost.content || '').split(' ').length / 200),
+      views: 0,
+      likes: 0,
+      shares: 0,
+      seo: {
+        keywords: []
+      },
+      allowComments: true,
+      commentCount: 0,
+      includeInNewsletter: false
+    };
   };
 
   return (
@@ -266,13 +313,16 @@ export function BlogPage() {
         isOpen={isAddModalOpen}
         onClose={() => setIsAddModalOpen(false)}
         title="Create New Blog Post"
-        size="xl"
+        size="full"
       >
-        <AdminForm
-          fields={formFields}
+        <EnhancedBlogForm
+          authors={mockAuthors}
+          categories={mockCategories}
+          tags={mockTags}
+          media={mockMedia}
           onSubmit={handleSubmit}
           onCancel={() => setIsAddModalOpen(false)}
-          submitText="Create Post"
+          loading={formLoading}
         />
       </AdminModal>
 
@@ -281,14 +331,17 @@ export function BlogPage() {
         isOpen={isEditModalOpen}
         onClose={() => setIsEditModalOpen(false)}
         title={`Edit "${selectedPost?.title || 'Blog Post'}"`}
-        size="xl"
+        size="full"
       >
-        <AdminForm
-          fields={formFields}
-          initialValues={getInitialValues(selectedPost)}
+        <EnhancedBlogForm
+          post={selectedPost || undefined}
+          authors={mockAuthors}
+          categories={mockCategories}
+          tags={mockTags}
+          media={mockMedia}
           onSubmit={handleSubmit}
           onCancel={() => setIsEditModalOpen(false)}
-          submitText="Save Changes"
+          loading={formLoading}
         />
       </AdminModal>
     </>
