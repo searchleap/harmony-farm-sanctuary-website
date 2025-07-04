@@ -27,6 +27,7 @@ import ShopifyTestPage from './components/store/ShopifyTestPage'
 import AdminLoginPage from './pages/admin/AdminLoginPage'
 import AdminPage from './pages/admin/AdminPage'
 import AnalyticsPage from './pages/admin/AnalyticsPage'
+import SettingsPage from './pages/admin/SettingsPage'
 import { AnimalsPage as AdminAnimalsPage } from './pages/admin/AnimalsPage'
 import { BlogPage as AdminBlogPage } from './pages/admin/BlogPage'
 import { FAQPage as AdminFAQPage } from './pages/admin/FAQPage'
@@ -72,6 +73,11 @@ function App() {
               <Route path="analytics" element={
                 <ProtectedRoute resource="analytics" action="read">
                   <AnalyticsPage />
+                </ProtectedRoute>
+              } />
+              <Route path="settings" element={
+                <ProtectedRoute resource="settings" action="read">
+                  <SettingsPage />
                 </ProtectedRoute>
               } />
               <Route path="animals" element={
