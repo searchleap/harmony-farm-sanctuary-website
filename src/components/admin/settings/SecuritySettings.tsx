@@ -15,7 +15,7 @@ import {
 } from 'lucide-react';
 import { AdminFormField } from '../common/AdminFormField';
 import { AdminButton } from '../common/AdminButton';
-import { AdminBadge } from '../common/AdminBadge';
+import { AdminStatusBadge } from '../common/AdminStatusBadge';
 import { SecuritySettings as SecuritySettingsType } from '../../../types/settings';
 import { sampleSettings } from '../../../data/settingsData';
 
@@ -136,9 +136,9 @@ const SecuritySettings: React.FC<SecuritySettingsProps> = ({ onChange }) => {
               Password Policy
             </h3>
           </div>
-          <AdminBadge color={passwordStrength.color}>
+          <AdminStatusBadge color={passwordStrength.color}>
             {passwordStrength.level} Policy
-          </AdminBadge>
+          </AdminStatusBadge>
         </div>
         
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -257,9 +257,9 @@ const SecuritySettings: React.FC<SecuritySettingsProps> = ({ onChange }) => {
               Two-Factor Authentication
             </h3>
           </div>
-          <AdminBadge color={settings.twoFactorAuth.enabled ? 'green' : 'red'}>
+          <AdminStatusBadge color={settings.twoFactorAuth.enabled ? 'green' : 'red'}>
             {settings.twoFactorAuth.enabled ? 'Enabled' : 'Disabled'}
-          </AdminBadge>
+          </AdminStatusBadge>
         </div>
         
         <div className="space-y-6">

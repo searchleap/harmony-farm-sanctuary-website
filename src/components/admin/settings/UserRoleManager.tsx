@@ -16,7 +16,7 @@ import {
 import { AdminButton } from '../common/AdminButton';
 import { AdminFormField } from '../common/AdminFormField';
 import { AdminModal } from '../common/AdminModal';
-import { AdminBadge } from '../common/AdminBadge';
+import { AdminStatusBadge } from '../common/AdminStatusBadge';
 import { UserRole, Permission } from '../../../types/settings';
 import { sampleUserRoles, samplePermissions } from '../../../data/settingsData';
 
@@ -174,9 +174,9 @@ const EditRoleModal: React.FC<EditRoleModalProps> = ({ role, isOpen, onClose, on
                           {permission.description}
                         </p>
                       </div>
-                      <AdminBadge color="blue" size="sm">
+                      <AdminStatusBadge color="blue" size="sm">
                         {permission.action}
-                      </AdminBadge>
+                      </AdminStatusBadge>
                     </div>
                   ))}
                 </div>
@@ -338,9 +338,9 @@ const UserRoleManager: React.FC<UserRoleManagerProps> = ({ onChange }) => {
                     <h5 className="text-lg font-medium text-gray-900 dark:text-white">
                       {role.name}
                     </h5>
-                    <AdminBadge color={getRoleBadgeColor(role)}>
+                    <AdminStatusBadge color={getRoleBadgeColor(role)}>
                       {role.isSystemRole ? 'System' : 'Custom'}
-                    </AdminBadge>
+                    </AdminStatusBadge>
                     {role.isSystemRole && <Crown className="h-4 w-4 text-yellow-500" />}
                   </div>
                   <p className="text-gray-600 dark:text-gray-400 mb-3">
@@ -398,9 +398,9 @@ const UserRoleManager: React.FC<UserRoleManagerProps> = ({ onChange }) => {
                             </h7>
                             <div className="flex flex-wrap gap-1">
                               {permissions.map((permission) => (
-                                <AdminBadge key={permission.id} color="blue" size="sm">
+                                <AdminStatusBadge key={permission.id} color="blue" size="sm">
                                   {permission.action}
-                                </AdminBadge>
+                                </AdminStatusBadge>
                               ))}
                             </div>
                           </div>

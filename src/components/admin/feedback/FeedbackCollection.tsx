@@ -284,7 +284,7 @@ export const FeedbackCollection: React.FC<FeedbackCollectionProps> = ({
           label="Your feedback"
           type="textarea"
           value={formData.comment}
-          onChange={(e) => setFormData(prev => ({ ...prev, comment: e.target.value }))}
+          onChange={(value) => setFormData(prev => ({ ...prev, comment: value }))}
           placeholder="Share your thoughts or suggestions..."
           rows={3}
         />
@@ -297,7 +297,7 @@ export const FeedbackCollection: React.FC<FeedbackCollectionProps> = ({
               label="Email (optional)"
               type="email"
               value={formData.email}
-              onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
+              onChange={(value) => setFormData(prev => ({ ...prev, email: value }))}
               placeholder="your@email.com"
             />
           )}
@@ -396,9 +396,10 @@ export const FeedbackCollection: React.FC<FeedbackCollectionProps> = ({
             {feedbackType === 'comment' && (
               <div className="mt-3">
                 <AdminFormField
+                  label="Comments"
                   type="textarea"
                   value={formData.comment}
-                  onChange={(e) => setFormData(prev => ({ ...prev, comment: e.target.value }))}
+                  onChange={(value) => setFormData(prev => ({ ...prev, comment: value }))}
                   placeholder="How can we improve this?"
                   rows={2}
                 />

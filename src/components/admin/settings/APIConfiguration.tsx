@@ -20,7 +20,7 @@ import {
 } from 'lucide-react';
 import { AdminFormField } from '../common/AdminFormField';
 import { AdminButton } from '../common/AdminButton';
-import { AdminBadge } from '../common/AdminBadge';
+import { AdminStatusBadge } from '../common/AdminStatusBadge';
 import { AdminModal } from '../common/AdminModal';
 import { APIConfiguration as APIConfigurationType, APIEndpoint } from '../../../types/settings';
 import { sampleSettings } from '../../../data/settingsData';
@@ -84,7 +84,7 @@ const EditEndpointModal: React.FC<EditEndpointModalProps> = ({ endpoint, isOpen,
       isOpen={isOpen}
       onClose={onClose}
       title={endpoint ? 'Edit API Endpoint' : 'Add New Endpoint'}
-      size="large"
+      size="xl"
     >
       <div className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -556,13 +556,13 @@ const APIConfiguration: React.FC<APIConfigurationProps> = ({ onChange }) => {
                       <h5 className="text-lg font-medium text-gray-900 dark:text-white">
                         {endpoint.name}
                       </h5>
-                      <AdminBadge color="blue">{endpoint.method}</AdminBadge>
-                      <AdminBadge color={getStatusColor(endpoint.status)}>
+                      <AdminStatusBadge color="blue">{endpoint.method}</AdminStatusBadge>
+                      <AdminStatusBadge color={getStatusColor(endpoint.status)}>
                         <StatusIcon className="h-3 w-3 mr-1" />
                         {endpoint.status}
-                      </AdminBadge>
+                      </AdminStatusBadge>
                       {!endpoint.enabled && (
-                        <AdminBadge color="gray">Disabled</AdminBadge>
+                        <AdminStatusBadge color="gray">Disabled</AdminStatusBadge>
                       )}
                     </div>
                     

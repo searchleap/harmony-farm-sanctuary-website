@@ -443,7 +443,7 @@ export function MediaLibrary({
                 ) : (
                   <div className="w-full h-48 flex items-center justify-center bg-gray-100 rounded-lg">
                     <div className="text-center">
-                      <Icon className="w-12 h-12 text-gray-400 mx-auto mb-2" />
+                      <FileText className="w-12 h-12 text-gray-400 mx-auto mb-2" />
                       <p className="text-sm text-gray-600">{selectedItem.type.toUpperCase()} file</p>
                     </div>
                   </div>

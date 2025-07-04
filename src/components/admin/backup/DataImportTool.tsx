@@ -558,16 +558,16 @@ const DataImportTool: React.FC = () => {
                     <div className="flex-1 min-w-0">
                       <h5 className="font-medium text-gray-900 dark:text-white truncate">{job.name}</h5>
                       <div className="flex items-center gap-2 mt-1">
-                        <AdminBadge color={getStatusColor(job.status)} size="sm">
+                        <AdminStatusBadge color={getStatusColor(job.status)} size="sm">
                           {job.status}
-                        </AdminBadge>
-                        <AdminBadge color="blue" size="sm">
+                        </AdminStatusBadge>
+                        <AdminStatusBadge color="blue" size="sm">
                           {job.format.toUpperCase()}
-                        </AdminBadge>
+                        </AdminStatusBadge>
                         {job.dryRun && (
-                          <AdminBadge color="yellow" size="sm">
+                          <AdminStatusBadge color="yellow" size="sm">
                             Dry Run
-                          </AdminBadge>
+                          </AdminStatusBadge>
                         )}
                       </div>
                       

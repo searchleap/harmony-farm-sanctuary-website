@@ -16,7 +16,7 @@ import {
 } from 'lucide-react';
 import { AdminFormField } from '../common/AdminFormField';
 import { AdminButton } from '../common/AdminButton';
-import { AdminBadge } from '../common/AdminBadge';
+import { AdminStatusBadge } from '../common/AdminStatusBadge';
 import { IntegrationSettings as IntegrationSettingsType } from '../../../types/settings';
 import { sampleSettings } from '../../../data/settingsData';
 
@@ -186,10 +186,10 @@ const IntegrationSettings: React.FC<IntegrationSettingsProps> = ({ onChange }) =
                   <h5 className="font-medium text-gray-900 dark:text-white">
                     {integration.name}
                   </h5>
-                  <AdminBadge color={getStatusColor(integration.status)}>
+                  <AdminStatusBadge color={getStatusColor(integration.status)}>
                     <StatusIcon className="h-3 w-3 mr-1" />
                     {integration.status}
-                  </AdminBadge>
+                  </AdminStatusBadge>
                 </div>
                 <p className="text-xs text-gray-500 dark:text-gray-400">
                   Last checked: {integration.lastChecked.toLocaleString()}

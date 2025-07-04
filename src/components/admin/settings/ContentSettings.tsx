@@ -15,7 +15,7 @@ import {
 } from 'lucide-react';
 import { AdminFormField } from '../common/AdminFormField';
 import { AdminButton } from '../common/AdminButton';
-import { AdminBadge } from '../common/AdminBadge';
+import { AdminStatusBadge } from '../common/AdminStatusBadge';
 import { ContentSettings as ContentSettingsType } from '../../../types/settings';
 import { sampleSettings } from '../../../data/settingsData';
 
@@ -126,9 +126,9 @@ const ContentSettings: React.FC<ContentSettingsProps> = ({ onChange }) => {
               </p>
             </div>
           </div>
-          <AdminBadge color={contentScore.color}>
+          <AdminStatusBadge color={contentScore.color}>
             {contentScore.level} Setup
-          </AdminBadge>
+          </AdminStatusBadge>
         </div>
       </div>
 
