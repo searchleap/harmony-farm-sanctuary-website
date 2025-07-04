@@ -51,6 +51,13 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ isOpen, onClose }) => {
       description: 'Overview and statistics'
     },
     {
+      title: 'Analytics',
+      icon: <BarChart3 className="h-5 w-5" />,
+      path: '/admin/analytics',
+      description: 'Performance insights',
+      permission: { resource: 'analytics', action: 'read' }
+    },
+    {
       title: 'Animals',
       icon: <Heart className="h-5 w-5" />,
       path: '/admin/animals',

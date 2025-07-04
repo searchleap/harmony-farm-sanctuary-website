@@ -26,6 +26,7 @@ import StoreTestPage from './components/store/StoreTestPage'
 import ShopifyTestPage from './components/store/ShopifyTestPage'
 import AdminLoginPage from './pages/admin/AdminLoginPage'
 import AdminPage from './pages/admin/AdminPage'
+import AnalyticsPage from './pages/admin/AnalyticsPage'
 import { AnimalsPage as AdminAnimalsPage } from './pages/admin/AnimalsPage'
 import { BlogPage as AdminBlogPage } from './pages/admin/BlogPage'
 import { FAQPage as AdminFAQPage } from './pages/admin/FAQPage'
@@ -68,6 +69,11 @@ function App() {
               </ProtectedRoute>
             }>
               <Route index element={<AdminPage />} />
+              <Route path="analytics" element={
+                <ProtectedRoute resource="analytics" action="read">
+                  <AnalyticsPage />
+                </ProtectedRoute>
+              } />
               <Route path="animals" element={
                 <ProtectedRoute resource="animals" action="read">
                   <AdminAnimalsPage />
